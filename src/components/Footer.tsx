@@ -1,23 +1,25 @@
 import { Link } from "react-router-dom";
 
 const footerLinks = {
-  "Shop": [
-    { name: "Laptops", path: "/category/laptops" },
-    { name: "Desktops", path: "/category/desktops" },
-    { name: "Gaming", path: "/category/gaming" },
-    { name: "Accessories", path: "/category/accessories" },
+  "Products": [
+    { name: "CPU | Desktop Setup", path: "/category/cpu-desktop" },
+    { name: "Dell Laptop", path: "/category/dell-laptop" },
+    { name: "HP Laptop", path: "/category/hp-laptop" },
+    { name: "Lenovo Laptop", path: "/category/lenovo-laptop" },
+    { name: "MacBook", path: "/category/macbook" },
+    { name: "Printers", path: "/category/printers" },
+  ],
+  "Services": [
+    { name: "Laptop Repair", path: "/services" },
+    { name: "Printer Repair", path: "/services" },
+    { name: "CPU Repair", path: "/services" },
+    { name: "CCTV Installation", path: "/services" },
   ],
   "Company": [
-    { name: "About Us", path: "#" },
-    { name: "Blog", path: "#" },
-    { name: "Careers", path: "#" },
-    { name: "Contact", path: "#" },
-  ],
-  "Support": [
-    { name: "Help Center", path: "#" },
-    { name: "Returns", path: "#" },
-    { name: "Warranty", path: "#" },
-    { name: "Shipping", path: "#" },
+    { name: "About Us", path: "/about" },
+    { name: "Blog", path: "/blog" },
+    { name: "Careers", path: "/careers" },
+    { name: "Contact", path: "/contact" },
   ],
 };
 
@@ -32,7 +34,7 @@ export function Footer() {
               <span className="text-xl font-light opacity-60">Computers</span>
             </div>
             <p className="text-sm opacity-50 leading-relaxed max-w-xs">
-              Your Trusted Tech Partner. Precision-engineered hardware for those who build the future.
+              Your Trusted Tech Partner. Precision-engineered hardware and expert repair services for those who build the future.
             </p>
           </div>
 
