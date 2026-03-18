@@ -4,7 +4,7 @@ import { SlidersHorizontal, ChevronDown } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ProductCard } from "@/components/ProductCard";
 import { AnimatedSection } from "@/components/AnimatedSection";
-import { products } from "@/lib/data";
+import { products, categories } from "@/lib/data";
 
 const sortOptions = ["Featured", "Price: Low to High", "Price: High to Low", "Newest"];
 const priceRanges = ["All", "Under ₹1,000", "₹1,000 – ₹2,000", "₹2,000 – ₹3,000", "Over ₹3,000"];
