@@ -4,7 +4,7 @@ import { SlidersHorizontal, ChevronDown } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ProductCard } from "@/components/ProductCard";
 import { AnimatedSection } from "@/components/AnimatedSection";
-import { products } from "@/lib/data";
+import { products, categories } from "@/lib/data";
 
 const sortOptions = ["Featured", "Price: Low to High", "Price: High to Low", "Newest"];
 const priceRanges = ["All", "Under ₹1,000", "₹1,000 – ₹2,000", "₹2,000 – ₹3,000", "Over ₹3,000"];
@@ -19,7 +19,8 @@ export default function Category() {
   const [storageFilter, setStorageFilter] = useState("All");
   const [filtersOpen, setFiltersOpen] = useState(false);
 
-  const categoryName = slug ? slug.charAt(0).toUpperCase() + slug.slice(1) : "All Products";
+  const category = categories.find((c) => c.slug === slug);
+  const categoryName = category?.name || (slug ? slug.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase()) : "All Products");
 
   const filtered = useMemo(() => {
     let result = slug ? products.filter((p) => p.category === slug) : products;

@@ -41,7 +41,7 @@ export default function ProductDetail() {
         <div className="text-sm text-muted-foreground mb-8">
           <Link to="/" className="hover:text-foreground transition-colors">Home</Link>
           {" / "}
-          <Link to={`/category/${product.category}`} className="hover:text-foreground transition-colors capitalize">{product.category}</Link>
+          <Link to={`/category/${product.category}`} className="hover:text-foreground transition-colors capitalize">{product.category.replace(/-/g, ' ')}</Link>
           {" / "}
           <span className="text-foreground">{product.name}</span>
         </div>
@@ -54,10 +54,21 @@ export default function ProductDetail() {
             transition={{ duration: 0.6, ease: [0.23, 1, 0.32, 1] }}
             className="bg-surface rounded-3xl p-12 md:p-16 flex items-center justify-center aspect-square"
           >
-            <div className="w-48 h-48 md:w-64 md:h-64 bg-muted rounded-3xl" />
+            {product.image ? (
+              <motion.img
+                src={product.image}
+                alt={product.name}
+                className="w-48 h-48 md:w-64 md:h-64 object-contain drop-shadow-2xl"
+                whileHover={{ scale: 1.05, rotateY: 10 }}
+                transition={{ duration: 0.4 }}
+                style={{ perspective: "1000px" }}
+              />
+            ) : (
+              <div className="w-48 h-48 md:w-64 md:h-64 bg-muted rounded-3xl" />
+            )}
           </motion.div>
 
-          {/* Info - sticky on desktop */}
+          {/* Info */}
           <motion.div
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
@@ -80,6 +91,7 @@ export default function ProductDetail() {
                 <span className="text-sm font-medium text-foreground">{product.rating}</span>
               </div>
               <span className="text-sm text-muted-foreground">({product.reviews} reviews)</span>
+              <span className="text-sm text-muted-foreground">· {product.brand}</span>
             </div>
 
             <div className="flex items-baseline gap-3 mb-6">
@@ -97,7 +109,6 @@ export default function ProductDetail() {
               {product.description}
             </p>
 
-            {/* Specs grid */}
             {product.specs.length > 0 && (
               <div className="grid grid-cols-2 gap-3 mb-8">
                 {product.specs.map((spec, i) => {
@@ -112,7 +123,6 @@ export default function ProductDetail() {
               </div>
             )}
 
-            {/* Actions */}
             <div className="flex gap-3">
               <button
                 onClick={handleAdd}
@@ -128,7 +138,6 @@ export default function ProductDetail() {
           </motion.div>
         </div>
 
-        {/* Related */}
         {related.length > 0 && (
           <section className="mt-24">
             <AnimatedSection>
