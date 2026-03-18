@@ -19,7 +19,8 @@ export default function Category() {
   const [storageFilter, setStorageFilter] = useState("All");
   const [filtersOpen, setFiltersOpen] = useState(false);
 
-  const categoryName = slug ? slug.charAt(0).toUpperCase() + slug.slice(1) : "All Products";
+  const category = categories.find((c) => c.slug === slug);
+  const categoryName = category?.name || (slug ? slug.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase()) : "All Products");
 
   const filtered = useMemo(() => {
     let result = slug ? products.filter((p) => p.category === slug) : products;
