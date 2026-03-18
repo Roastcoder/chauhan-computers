@@ -4,21 +4,32 @@ import { Search, ShoppingBag, Heart, Menu, X, ChevronDown } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useCart } from "@/lib/cart";
 import { SearchOverlay } from "./SearchOverlay";
-import { categories, products } from "@/lib/data";
+import { categories, products, services } from "@/lib/data";
+
+const accessories = [
+  { name: "Keyboards", slug: "keyboards" },
+  { name: "Mouse & Trackpads", slug: "mouse" },
+  { name: "Monitors", slug: "monitors" },
+  { name: "Headsets & Audio", slug: "headsets" },
+  { name: "Cables & Adapters", slug: "cables" },
+  { name: "Storage Devices", slug: "storage" },
+];
 
 const navLinks = [
   { name: "Home", path: "/" },
-  { name: "Products", path: "#", hasDropdown: true },
-  { name: "Services", path: "/services" },
+  { name: "Products", path: "#", dropdown: "products" },
+  { name: "Accessories", path: "#", dropdown: "accessories" },
+  { name: "Services", path: "#", dropdown: "services" },
   { name: "About Us", path: "/about" },
   { name: "Blog", path: "/blog" },
+  { name: "Careers", path: "/careers" },
   { name: "Contact", path: "/contact" },
 ];
 
 export function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
-  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
   const location = useLocation();
   const { items } = useCart();
@@ -27,6 +38,106 @@ export function Navbar() {
   const categoryProducts = activeCategory
     ? products.filter((p) => p.category === activeCategory).slice(0, 4)
     : products.slice(0, 4);
+
+  const renderDropdown = (type: string) => {
+    if (type === "products") {
+      return (
+        <div className="bg-background rounded-2xl shadow-elevated border border-foreground/[0.05] p-6 w-[700px] flex gap-6">
+          <div className="w-48 shrink-0 space-y-1">
+            <p className="text-xs font-medium tracking-wide uppercase text-muted-foreground mb-3">Categories</p>
+            {categories.map((cat) => (
+              <Link
+                key={cat.slug}
+                to={`/category/${cat.slug}`}
+                onMouseEnter={() => setActiveCategory(cat.slug)}
+                onClick={() => setActiveDropdown(null)}
+                className={`block text-sm py-2 px-3 rounded-lg transition-colors ${
+                  activeCategory === cat.slug
+                    ? "bg-surface text-foreground font-medium"
+                    : "text-muted-foreground hover:text-foreground hover:bg-surface"
+                }`}
+              >
+                {cat.name}
+              </Link>
+            ))}
+          </div>
+          <div className="flex-1">
+            <p className="text-xs font-medium tracking-wide uppercase text-muted-foreground mb-3">Popular Products</p>
+            <div className="grid grid-cols-2 gap-3">
+              {categoryProducts.map((product) => (
+                <Link
+                  key={product.id}
+                  to={`/product/${product.id}`}
+                  onClick={() => setActiveDropdown(null)}
+                  className="flex items-center gap-3 p-2 rounded-xl hover:bg-surface transition-colors group"
+                >
+                  <img
+                    src={product.image}
+                    alt={product.name}
+                    className="w-12 h-12 object-contain rounded-lg bg-surface p-1 group-hover:scale-105 transition-transform"
+                  />
+                  <div className="min-w-0">
+                    <p className="text-xs font-medium text-foreground truncate">{product.name}</p>
+                    <p className="text-xs text-primary font-medium">₹{product.price.toLocaleString()}</p>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    if (type === "accessories") {
+      return (
+        <div className="bg-background rounded-2xl shadow-elevated border border-foreground/[0.05] p-6 w-[360px]">
+          <p className="text-xs font-medium tracking-wide uppercase text-muted-foreground mb-3">Accessories</p>
+          <div className="grid grid-cols-2 gap-1">
+            {accessories.map((item) => (
+              <Link
+                key={item.slug}
+                to={`/category/${item.slug}`}
+                onClick={() => setActiveDropdown(null)}
+                className="text-sm py-2.5 px-3 rounded-lg text-muted-foreground hover:text-foreground hover:bg-surface transition-colors"
+              >
+                {item.name}
+              </Link>
+            ))}
+          </div>
+        </div>
+      );
+    }
+
+    if (type === "services") {
+      return (
+        <div className="bg-background rounded-2xl shadow-elevated border border-foreground/[0.05] p-6 w-[400px]">
+          <p className="text-xs font-medium tracking-wide uppercase text-muted-foreground mb-3">Our Services</p>
+          <div className="space-y-1">
+            {services.map((service) => (
+              <Link
+                key={service.id}
+                to="/services"
+                onClick={() => setActiveDropdown(null)}
+                className="flex items-center gap-3 p-3 rounded-xl hover:bg-surface transition-colors group"
+              >
+                <img
+                  src={service.image}
+                  alt={service.name}
+                  className="w-10 h-10 object-cover rounded-lg group-hover:scale-105 transition-transform"
+                />
+                <div className="min-w-0">
+                  <p className="text-sm font-medium text-foreground">{service.name}</p>
+                  <p className="text-xs text-muted-foreground truncate">{service.description.slice(0, 50)}…</p>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      );
+    }
+
+    return null;
+  };
 
   return (
     <>
@@ -37,87 +148,44 @@ export function Navbar() {
             <span className="text-xl font-light tracking-tight text-muted-foreground">Computers</span>
           </Link>
 
-          <div className="hidden lg:flex items-center gap-7">
+          <div className="hidden lg:flex items-center gap-6">
             {navLinks.map((link) =>
-              link.hasDropdown ? (
+              link.dropdown ? (
                 <div
                   key={link.name}
                   className="relative"
                   onMouseEnter={() => {
-                    setDropdownOpen(true);
-                    if (!activeCategory) setActiveCategory(categories[0]?.slug || null);
+                    setActiveDropdown(link.dropdown!);
+                    if (link.dropdown === "products" && !activeCategory)
+                      setActiveCategory(categories[0]?.slug || null);
                   }}
-                  onMouseLeave={() => setDropdownOpen(false)}
+                  onMouseLeave={() => setActiveDropdown(null)}
                 >
-                  <button
-                    className="text-sm font-medium transition-colors hover:text-foreground text-muted-foreground flex items-center gap-1"
-                  >
+                  <button className="text-sm font-medium transition-colors hover:text-foreground text-muted-foreground flex items-center gap-1">
                     {link.name}
-                    <ChevronDown className={`w-3.5 h-3.5 transition-transform ${dropdownOpen ? "rotate-180" : ""}`} />
+                    <ChevronDown
+                      className={`w-3.5 h-3.5 transition-transform ${activeDropdown === link.dropdown ? "rotate-180" : ""}`}
+                    />
                   </button>
 
                   <AnimatePresence>
-                    {dropdownOpen && (
+                    {activeDropdown === link.dropdown && (
                       <motion.div
                         initial={{ opacity: 0, y: 8 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: 8 }}
                         transition={{ duration: 0.2 }}
-                        className="absolute top-full left-1/2 -translate-x-1/2 pt-4"
+                        className="fixed left-1/2 -translate-x-1/2 pt-4"
+                        style={{ top: "64px" }}
                       >
-                        <div className="bg-background rounded-2xl shadow-elevated border border-foreground/[0.05] p-6 w-[700px] flex gap-6">
-                          {/* Category List */}
-                          <div className="w-48 shrink-0 space-y-1">
-                            <p className="text-xs font-medium tracking-wide uppercase text-muted-foreground mb-3">Categories</p>
-                            {categories.map((cat) => (
-                              <Link
-                                key={cat.slug}
-                                to={`/category/${cat.slug}`}
-                                onMouseEnter={() => setActiveCategory(cat.slug)}
-                                onClick={() => setDropdownOpen(false)}
-                                className={`block text-sm py-2 px-3 rounded-lg transition-colors ${
-                                  activeCategory === cat.slug
-                                    ? "bg-surface text-foreground font-medium"
-                                    : "text-muted-foreground hover:text-foreground hover:bg-surface"
-                                }`}
-                              >
-                                {cat.name}
-                              </Link>
-                            ))}
-                          </div>
-
-                          {/* Products Preview */}
-                          <div className="flex-1">
-                            <p className="text-xs font-medium tracking-wide uppercase text-muted-foreground mb-3">Popular Products</p>
-                            <div className="grid grid-cols-2 gap-3">
-                              {categoryProducts.map((product) => (
-                                <Link
-                                  key={product.id}
-                                  to={`/product/${product.id}`}
-                                  onClick={() => setDropdownOpen(false)}
-                                  className="flex items-center gap-3 p-2 rounded-xl hover:bg-surface transition-colors group"
-                                >
-                                  <img
-                                    src={product.image}
-                                    alt={product.name}
-                                    className="w-12 h-12 object-contain rounded-lg bg-surface p-1 group-hover:scale-105 transition-transform"
-                                  />
-                                  <div className="min-w-0">
-                                    <p className="text-xs font-medium text-foreground truncate">{product.name}</p>
-                                    <p className="text-xs text-primary font-medium">₹{product.price.toLocaleString()}</p>
-                                  </div>
-                                </Link>
-                              ))}
-                            </div>
-                          </div>
-                        </div>
+                        {renderDropdown(link.dropdown!)}
                       </motion.div>
                     )}
                   </AnimatePresence>
                 </div>
               ) : (
                 <Link
-                  key={link.path}
+                  key={link.path + link.name}
                   to={link.path}
                   className={`text-sm font-medium transition-colors hover:text-foreground ${
                     location.pathname === link.path ? "text-foreground" : "text-muted-foreground"
@@ -160,18 +228,20 @@ export function Navbar() {
               className="lg:hidden bg-background/95 backdrop-blur-xl border-b border-foreground/[0.05] overflow-hidden"
             >
               <div className="px-6 py-4 flex flex-col gap-1">
-                {navLinks.filter(l => !l.hasDropdown).map((link) => (
-                  <Link
-                    key={link.path}
-                    to={link.path}
-                    onClick={() => setMobileOpen(false)}
-                    className={`text-base font-medium py-2 ${
-                      location.pathname === link.path ? "text-foreground" : "text-muted-foreground"
-                    }`}
-                  >
-                    {link.name}
-                  </Link>
-                ))}
+                {navLinks
+                  .filter((l) => !l.dropdown)
+                  .map((link) => (
+                    <Link
+                      key={link.path}
+                      to={link.path}
+                      onClick={() => setMobileOpen(false)}
+                      className={`text-base font-medium py-2 ${
+                        location.pathname === link.path ? "text-foreground" : "text-muted-foreground"
+                      }`}
+                    >
+                      {link.name}
+                    </Link>
+                  ))}
                 <p className="text-xs font-medium tracking-wide uppercase text-muted-foreground mt-4 mb-2">Products</p>
                 {categories.map((cat) => (
                   <Link
@@ -181,6 +251,17 @@ export function Navbar() {
                     className="text-sm font-medium py-1.5 text-muted-foreground hover:text-foreground transition-colors pl-2"
                   >
                     {cat.name}
+                  </Link>
+                ))}
+                <p className="text-xs font-medium tracking-wide uppercase text-muted-foreground mt-4 mb-2">Services</p>
+                {services.map((s) => (
+                  <Link
+                    key={s.id}
+                    to="/services"
+                    onClick={() => setMobileOpen(false)}
+                    className="text-sm font-medium py-1.5 text-muted-foreground hover:text-foreground transition-colors pl-2"
+                  >
+                    {s.name}
                   </Link>
                 ))}
               </div>
