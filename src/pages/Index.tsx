@@ -7,8 +7,8 @@ import { ProductCarousel } from "@/components/ProductCarousel";
 import { CategoryCarousel } from "@/components/CategoryCarousel";
 import { FeatureBanner } from "@/components/FeatureBanner";
 import { HeroProductShowcase } from "@/components/HeroProductShowcase";
+import { PremiumHeroBanner } from "@/components/PremiumHeroBanner";
 import { products, categories, testimonials, services } from "@/lib/data";
-import heroImg from "@/assets/hero-pc.png";
 
 const iconMap: Record<string, any> = { laptop: Laptop, printer: Printer, cpu: Cpu, camera: Camera };
 const bestSellers = products.filter((p) => p.badge).slice(0, 4);
@@ -18,38 +18,8 @@ const showcaseProducts = products.filter((p) => p.badge && p.originalPrice).slic
 export default function Index() {
   return (
     <div>
-      {/* Hero */}
-      <section className="relative min-h-[90vh] flex flex-col items-center justify-center pt-20 overflow-hidden bg-background">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: [0.23, 1, 0.32, 1] }}
-          className="z-10 text-center space-y-6 px-6"
-        >
-          <h1 className="text-5xl sm:text-7xl md:text-8xl font-semibold tracking-tighter text-foreground leading-[1.05]">
-            Power Your <br /> Digital World.
-          </h1>
-          <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto font-medium">
-            Precision-engineered hardware & expert services for those who build the future.
-          </p>
-          <div className="flex gap-4 justify-center pt-4">
-            <Link to="/category/macbook" className="px-8 py-4 bg-primary text-primary-foreground rounded-full font-medium hover:opacity-90 transition-opacity">
-              Shop Now
-            </Link>
-            <Link to="/services" className="px-8 py-4 text-primary rounded-full font-medium hover:underline underline-offset-4">
-              Our Services →
-            </Link>
-          </div>
-        </motion.div>
-        <motion.img
-          src={heroImg}
-          alt="Premium PC Setup"
-          className="w-full max-w-5xl mt-12 object-contain px-6"
-          initial={{ scale: 0.9, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ delay: 0.2, duration: 1, ease: [0.23, 1, 0.32, 1] }}
-        />
-      </section>
+      {/* Premium Hero Banner */}
+      <PremiumHeroBanner />
 
       {/* Feature Banner */}
       <FeatureBanner />
