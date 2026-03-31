@@ -1,6 +1,9 @@
 import { motion } from "framer-motion";
 import { AnimatedSection } from "@/components/AnimatedSection";
+import { PromoBanner } from "@/components/PromoBanner";
 import { Users, Award, MapPin, Clock } from "lucide-react";
+import bannerBusiness from "@/assets/banner-business.jpg";
+import bannerServices from "@/assets/banner-services.jpg";
 
 const stats = [
   { icon: Users, label: "Happy Customers", value: "10,000+" },
