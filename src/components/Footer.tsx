@@ -78,6 +78,14 @@ export function Footer() {
             <a href="#" className="text-xs text-muted-foreground hover:text-foreground transition-colors">Terms</a>
           </div>
         </div>
+        <div className="mt-6 pt-4 border-t border-border text-center">
+          <p className="text-[11px] text-muted-foreground">
+            Designed by{" "}
+            <a href="https://marketvry.com" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline font-medium">
+              marketvry.com
+            </a>
+          </p>
+        </div>
       </div>
     </footer>
   );
