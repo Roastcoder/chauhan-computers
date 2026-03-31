@@ -3,15 +3,18 @@ import { useParams, Link } from "react-router-dom";
 import { SlidersHorizontal, ChevronDown } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ProductCard } from "@/components/ProductCard";
-import { products, categories } from "@/lib/data";
+import { useProducts } from "@/hooks/use-products";
+import { categories } from "@/lib/data";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const sortOptions = ["Featured", "Price: Low to High", "Price: High to Low", "Newest"];
-const priceRanges = ["All", "Under ₹1,000", "₹1,000 – ₹2,000", "₹2,000 – ₹3,000", "Over ₹3,000"];
-const ramOptions = ["All", "16GB", "32GB", "64GB"];
-const storageOptions = ["All", "512GB SSD", "1TB SSD", "2TB SSD"];
+const priceRanges = ["All", "Under ₹25,000", "₹25,000 – ₹50,000", "₹50,000 – ₹1,00,000", "Over ₹1,00,000"];
+const ramOptions = ["All", "8GB", "16GB", "32GB", "64GB"];
+const storageOptions = ["All", "256GB SSD", "512GB SSD", "1TB SSD", "2TB SSD"];
 
 export default function Category() {
   const { slug } = useParams<{ slug: string }>();
+  const { data: products = [], isLoading } = useProducts();
   const [sort, setSort] = useState("Featured");
   const [priceFilter, setPriceFilter] = useState("All");
   const [ramFilter, setRamFilter] = useState("All");
@@ -22,13 +25,13 @@ export default function Category() {
   const categoryName = category?.name || (slug ? slug.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase()) : "All Products");
 
   const filtered = useMemo(() => {
-    let result = slug ? products.filter((p) => p.category === slug) : products;
+    let result = slug ? products.filter((p) => p.category === slug) : [...products];
     if (priceFilter !== "All") {
       result = result.filter((p) => {
-        if (priceFilter === "Under ₹1,000") return p.price < 1000;
-        if (priceFilter === "₹1,000 – ₹2,000") return p.price >= 1000 && p.price <= 2000;
-        if (priceFilter === "₹2,000 – ₹3,000") return p.price >= 2000 && p.price <= 3000;
-        if (priceFilter === "Over ₹3,000") return p.price > 3000;
+        if (priceFilter === "Under ₹25,000") return p.price < 25000;
+        if (priceFilter === "₹25,000 – ₹50,000") return p.price >= 25000 && p.price <= 50000;
+        if (priceFilter === "₹50,000 – ₹1,00,000") return p.price >= 50000 && p.price <= 100000;
+        if (priceFilter === "Over ₹1,00,000") return p.price > 100000;
         return true;
       });
     }
@@ -37,14 +40,12 @@ export default function Category() {
     if (sort === "Price: Low to High") result.sort((a, b) => a.price - b.price);
     if (sort === "Price: High to Low") result.sort((a, b) => b.price - a.price);
     return result;
-  }, [slug, sort, priceFilter, ramFilter, storageFilter]);
+  }, [slug, products, sort, priceFilter, ramFilter, storageFilter]);
 
   return (
     <div className="bg-background">
-      {/* Header */}
       <section className="py-6 sm:py-8">
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6">
-          {/* Breadcrumb */}
           <div className="flex items-center gap-2 text-xs text-muted-foreground mb-4">
             <Link to="/" className="hover:text-foreground">Home</Link>
             <span>/</span>
@@ -71,7 +72,6 @@ export default function Category() {
             </div>
           </div>
 
-          {/* Filters */}
           <AnimatePresence>
             {filtersOpen && (
               <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }} className="overflow-hidden mb-4">
@@ -84,14 +84,26 @@ export default function Category() {
             )}
           </AnimatePresence>
 
-          {/* Product Grid */}
-          <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4">
-            {filtered.map((product, i) => (
-              <ProductCard key={product.id} product={product} index={i} />
-            ))}
-          </div>
+          {isLoading ? (
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+              {Array.from({ length: 8 }).map((_, i) => (
+                <div key={i} className="bg-card rounded-xl border border-border p-3 sm:p-4">
+                  <Skeleton className="w-full aspect-square rounded-lg mb-3" />
+                  <Skeleton className="h-4 w-3/4 mb-2" />
+                  <Skeleton className="h-3 w-1/2 mb-2" />
+                  <Skeleton className="h-5 w-1/3" />
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4">
+              {filtered.map((product, i) => (
+                <ProductCard key={product.id} product={product} index={i} />
+              ))}
+            </div>
+          )}
 
-          {filtered.length === 0 && (
+          {!isLoading && filtered.length === 0 && (
             <div className="text-center py-16 text-muted-foreground text-sm">No products match your filters.</div>
           )}
         </div>
