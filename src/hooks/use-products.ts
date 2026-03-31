@@ -12,7 +12,7 @@ function mapDbProduct(row: any): Product {
     category: row.category?.toLowerCase().replace(/\s+/g, "-") || "other",
     price: Number(row.price) || 0,
     originalPrice: specs.originalPrice ? Number(specs.originalPrice) : undefined,
-    image: row.images?.[0] || "",
+    image: row.images?.[0] || getProductFallbackImage(row.name),
     brand: row.brand || "",
     ram: specs.ram || undefined,
     storage: specs.storage || undefined,
