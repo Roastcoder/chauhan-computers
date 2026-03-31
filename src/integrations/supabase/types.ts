@@ -14,6 +14,51 @@ export type Database = {
   }
   public: {
     Tables: {
+      banners: {
+        Row: {
+          banner_type: string
+          created_at: string
+          cta_link: string | null
+          cta_text: string | null
+          id: string
+          image_url: string
+          is_active: boolean
+          page: string
+          position: number
+          subtitle: string | null
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          banner_type?: string
+          created_at?: string
+          cta_link?: string | null
+          cta_text?: string | null
+          id?: string
+          image_url?: string
+          is_active?: boolean
+          page?: string
+          position?: number
+          subtitle?: string | null
+          title?: string
+          updated_at?: string
+        }
+        Update: {
+          banner_type?: string
+          created_at?: string
+          cta_link?: string | null
+          cta_text?: string | null
+          id?: string
+          image_url?: string
+          is_active?: boolean
+          page?: string
+          position?: number
+          subtitle?: string | null
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       call_history: {
         Row: {
           created_at: string
