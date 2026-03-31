@@ -123,7 +123,7 @@ export default function Login() {
         >
           {/* Mobile logo */}
           <div className="lg:hidden flex items-center gap-2 mb-8">
-            <Zap className="w-6 h-6 text-primary" />
+            <img src={logoIcon} alt="Chauhaan Computers" className="w-8 h-8" />
             <span className="text-xl font-bold text-foreground">Chauhaan Computers</span>
           </div>
 
