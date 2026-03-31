@@ -92,9 +92,9 @@ export default function Login() {
         />
         <div className="absolute inset-0 bg-gradient-to-t from-foreground/70 via-foreground/30 to-transparent" />
         <div className="relative z-10 flex flex-col justify-end p-10 text-white">
-          <div className="flex items-center gap-2 mb-4">
-            <Zap className="w-8 h-8 text-blue-400" />
-            <span className="text-2xl font-bold tracking-tight" style={{ fontFamily: 'Syne, sans-serif' }}>
+           <div className="flex items-center gap-3 mb-4">
+            <img src={logoIcon} alt="Chauhaan Computers" className="w-10 h-10" />
+            <span className="text-2xl font-bold tracking-tight text-white">
               Chauhaan Computers
             </span>
           </div>
