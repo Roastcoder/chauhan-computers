@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import type { Product } from "@/lib/data";
+import { getProductFallbackImage } from "@/lib/product-images";
 
 function mapDbProduct(row: any): Product {
   const specs = row.specs || {};
@@ -11,7 +12,7 @@ function mapDbProduct(row: any): Product {
     category: row.category?.toLowerCase().replace(/\s+/g, "-") || "other",
     price: Number(row.price) || 0,
     originalPrice: specs.originalPrice ? Number(specs.originalPrice) : undefined,
-    image: row.images?.[0] || "",
+    image: row.images?.[0] || getProductFallbackImage(row.name),
     brand: row.brand || "",
     ram: specs.ram || undefined,
     storage: specs.storage || undefined,

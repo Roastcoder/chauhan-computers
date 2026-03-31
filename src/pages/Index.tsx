@@ -7,6 +7,7 @@ import { AnimatedSection } from "@/components/AnimatedSection";
 import { ProductCard } from "@/components/ProductCard";
 import { PremiumHeroBanner } from "@/components/PremiumHeroBanner";
 import { ContactSection } from "@/components/ContactSection";
+import { InfiniteServiceCarousel } from "@/components/InfiniteServiceCarousel";
 import { useBanners } from "@/hooks/use-banners";
 import { useProducts } from "@/hooks/use-products";
 import { categories, services } from "@/lib/data";
@@ -106,30 +107,7 @@ export default function Index() {
             <h2 className="text-lg sm:text-2xl font-bold text-foreground">Our Services</h2>
             <Link to="/services" className="text-primary text-xs sm:text-sm font-medium hover:underline">View All →</Link>
           </div>
-          <div className="overflow-x-auto scrollbar-hide -mx-4 px-4 sm:mx-0 sm:px-0">
-            <motion.div
-              className="flex gap-3 sm:gap-4 w-max"
-              animate={{ x: ["0%", "-50%"] }}
-              transition={{ x: { duration: 20, repeat: Infinity, ease: "linear" } }}
-              drag="x"
-              dragConstraints={{ left: -1000, right: 0 }}
-              style={{ touchAction: "pan-x" }}
-            >
-              {[...serviceCards, ...serviceCards].map((s, i) => (
-                <div key={`${s.label}-${i}`} className="shrink-0 w-[140px] sm:w-[170px]">
-                  <Link to={s.link}
-                    className="block rounded-xl bg-card border border-border hover:shadow-lg hover:border-primary/20 transition-all group overflow-hidden">
-                    <div className="h-24 sm:h-28 overflow-hidden">
-                      <img src={s.image} alt={s.label} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300" loading="lazy" draggable={false} />
-                    </div>
-                    <div className="p-2.5 sm:p-3 text-center">
-                      <span className="text-xs sm:text-sm font-semibold text-foreground">{s.label}</span>
-                    </div>
-                  </Link>
-                </div>
-              ))}
-            </motion.div>
-          </div>
+          <InfiniteServiceCarousel cards={serviceCards} />
         </div>
       </section>
 
