@@ -86,6 +86,18 @@ export default function About() {
         </div>
       </section>
 
+      {/* Banner */}
+      <div className="py-8 bg-background">
+        <PromoBanner
+          image={bannerBusiness}
+          title="Enterprise Solutions for Your Business"
+          subtitle="Bulk Orders Welcome"
+          cta="Get in Touch"
+          ctaLink="/contact"
+          overlay="gradient"
+        />
+      </div>
+
       {/* Team */}
       <section className="py-24 bg-surface">
         <div className="max-w-[1440px] mx-auto px-6">
