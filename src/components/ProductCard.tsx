@@ -72,7 +72,7 @@ export function ProductCard({ product, index = 0 }: Props) {
         <button
           onClick={(e) => {
             e.preventDefault();
-            addItem({ id: product.id, name: product.name, price: product.price, image: product.image, quantity: 1 });
+            addItem(product);
           }}
           className="mt-4 w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-primary text-primary-foreground rounded-xl text-xs font-semibold hover:opacity-90 transition-opacity"
         >
