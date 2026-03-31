@@ -93,8 +93,8 @@ export function InfiniteServiceCarousel({ cards }: Props) {
   return (
     <div
       ref={scrollRef}
-      className="flex gap-3 sm:gap-4 overflow-x-auto touch-pan-x cursor-grab active:cursor-grabbing select-none" 
-      style={{ WebkitOverflowScrolling: 'touch', touchAction: 'pan-x' }}
+      className="flex gap-3 sm:gap-4 overflow-x-hidden touch-pan-y cursor-grab active:cursor-grabbing select-none"
+      style={{ WebkitOverflowScrolling: 'touch', touchAction: 'pan-y' }}
       onMouseDown={handleMouseDown}
       onMouseUp={handleMouseUp}
       onMouseLeave={handleMouseUp}
