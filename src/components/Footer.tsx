@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
-import { Zap, Phone, MapPin } from "lucide-react";
+import { Phone, MapPin } from "lucide-react";
+import logoIcon from "@/assets/logo-icon.png";
 
 const footerLinks = {
   Products: [
@@ -28,8 +29,8 @@ export function Footer() {
       <div className="max-w-[1440px] mx-auto px-6 py-16">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
           <div className="col-span-2 md:col-span-1">
-            <div className="flex items-center gap-1.5 mb-4">
-              <Zap className="w-5 h-5 text-primary" />
+            <div className="flex items-center gap-2 mb-4">
+              <img src={logoIcon} alt="Chauhaan Computers" className="w-8 h-8" />
               <span className="text-lg font-bold text-foreground">Chauhaan</span>
               <span className="text-lg font-light text-muted-foreground">Computers</span>
             </div>
