@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Navigate } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Eye, EyeOff, LogIn, UserPlus, MapPin, Phone } from "lucide-react";
 import { useAuth } from "@/lib/auth";
@@ -155,6 +155,16 @@ export default function Login() {
           <div className="lg:hidden flex items-center gap-2 mb-8">
             <img src={logoIcon} alt="Chauhaan Computers" className="w-8 h-8" />
             <span className="text-xl font-bold text-foreground">Chauhaan Computers</span>
+          </div>
+
+          <div className="flex items-center justify-between mb-4">
+            <Link
+              to="/"
+              className="inline-flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-medium bg-muted text-muted-foreground hover:bg-muted/90"
+            >
+              Home
+            </Link>
+            <p className="text-xs text-muted-foreground">Already have account? Pick sign in</p>
           </div>
 
           {/* Tabs */}
