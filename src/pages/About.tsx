@@ -1,6 +1,9 @@
 import { motion } from "framer-motion";
 import { AnimatedSection } from "@/components/AnimatedSection";
+import { PromoBanner } from "@/components/PromoBanner";
 import { Users, Award, MapPin, Clock } from "lucide-react";
+import bannerBusiness from "@/assets/banner-business.jpg";
+import bannerServices from "@/assets/banner-services.jpg";
 
 const stats = [
   { icon: Users, label: "Happy Customers", value: "10,000+" },
@@ -83,6 +86,18 @@ export default function About() {
         </div>
       </section>
 
+      {/* Banner */}
+      <div className="py-8 bg-background">
+        <PromoBanner
+          image={bannerBusiness}
+          title="Enterprise Solutions for Your Business"
+          subtitle="Bulk Orders Welcome"
+          cta="Get in Touch"
+          ctaLink="/contact"
+          overlay="gradient"
+        />
+      </div>
+
       {/* Team */}
       <section className="py-24 bg-surface">
         <div className="max-w-[1440px] mx-auto px-6">
@@ -108,6 +123,18 @@ export default function About() {
           </div>
         </div>
       </section>
+
+      {/* Services Banner */}
+      <div className="py-8 bg-background">
+        <PromoBanner
+          image={bannerServices}
+          title="Expert Repair & IT Services"
+          subtitle="Certified Technicians"
+          cta="View Services"
+          ctaLink="/services"
+          overlay="dark"
+        />
+      </div>
     </div>
   );
 }

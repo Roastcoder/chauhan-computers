@@ -1,7 +1,9 @@
 import { motion } from "framer-motion";
 import { AnimatedSection } from "@/components/AnimatedSection";
+import { PromoBanner } from "@/components/PromoBanner";
 import { services } from "@/lib/data";
 import { Laptop, Printer, Cpu, Camera } from "lucide-react";
+import bannerEmi from "@/assets/banner-emi.jpg";
 
 const iconMap: Record<string, any> = {
   laptop: Laptop,
@@ -77,6 +79,18 @@ export default function Services() {
           </div>
         </div>
       </section>
+
+      {/* EMI Banner */}
+      <div className="py-8 bg-background">
+        <PromoBanner
+          image={bannerEmi}
+          title="0% EMI on All Services & Products"
+          subtitle="Easy Financing"
+          cta="Learn More"
+          ctaLink="/contact"
+          overlay="gradient"
+        />
+      </div>
 
       {/* CTA */}
       <section className="py-24 bg-surface">

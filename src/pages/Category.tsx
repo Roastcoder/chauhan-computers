@@ -4,7 +4,9 @@ import { SlidersHorizontal, ChevronDown } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ProductCard } from "@/components/ProductCard";
 import { AnimatedSection } from "@/components/AnimatedSection";
+import { PromoBanner } from "@/components/PromoBanner";
 import { products, categories } from "@/lib/data";
+import bannerAccessories from "@/assets/banner-accessories.jpg";
 
 const sortOptions = ["Featured", "Price: Low to High", "Price: High to Low", "Newest"];
 const priceRanges = ["All", "Under ₹1,000", "₹1,000 – ₹2,000", "₹2,000 – ₹3,000", "Over ₹3,000"];
@@ -108,6 +110,18 @@ export default function Category() {
             No products match your filters.
           </div>
         )}
+
+        {/* Banner */}
+        <div className="mt-12">
+          <PromoBanner
+            image={bannerAccessories}
+            title="Upgrade Your Setup Today"
+            subtitle="Accessories & Peripherals"
+            cta="Shop Now"
+            ctaLink="/category/keyboards"
+            overlay="dark"
+          />
+        </div>
       </div>
     </div>
   );

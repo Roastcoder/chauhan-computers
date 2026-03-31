@@ -10,7 +10,23 @@ import { HeroProductShowcase } from "@/components/HeroProductShowcase";
 import { PremiumHeroBanner } from "@/components/PremiumHeroBanner";
 import { DealsSection } from "@/components/DealsSection";
 import { ContactSection } from "@/components/ContactSection";
+import { HeroCarousel } from "@/components/HeroCarousel";
+import { PromoBanner } from "@/components/PromoBanner";
 import { products, categories, testimonials, services } from "@/lib/data";
+
+import bannerHero1 from "@/assets/banner-hero-1.jpg";
+import bannerHero2 from "@/assets/banner-hero-2.jpg";
+import bannerServices from "@/assets/banner-services.jpg";
+import bannerAccessories from "@/assets/banner-accessories.jpg";
+import bannerEmi from "@/assets/banner-emi.jpg";
+import bannerBusiness from "@/assets/banner-business.jpg";
+
+const heroSlides = [
+  { image: bannerHero1, title: "Mega Sale — Up to 40% Off", subtitle: "Limited Time Offer", cta: "Shop Now", ctaLink: "/category/macbook" },
+  { image: bannerHero2, title: "Premium Laptops\nfor Every Budget", subtitle: "New Arrivals", cta: "Explore Range", ctaLink: "/category/dell-laptop" },
+  { image: bannerServices, title: "Expert Repair &\nIT Services", subtitle: "Certified Technicians", cta: "Learn More", ctaLink: "/services" },
+  { image: bannerBusiness, title: "Enterprise IT\nSolutions", subtitle: "For Business", cta: "Get a Quote", ctaLink: "/contact" },
+];
 
 const iconMap: Record<string, any> = { laptop: Laptop, printer: Printer, cpu: Cpu, camera: Camera };
 const bestSellers = products.filter((p) => p.badge).slice(0, 4);
@@ -21,6 +37,10 @@ export default function Index() {
   return (
     <div>
       <PremiumHeroBanner />
+
+      {/* Hero Image Carousel */}
+      <HeroCarousel slides={heroSlides} autoPlay={4000} />
+
       <FeatureBanner />
 
       {/* Featured Products Carousel */}
@@ -33,6 +53,16 @@ export default function Index() {
           <ProductCarousel products={carouselProducts} />
         </div>
       </section>
+
+      {/* Accessories Banner */}
+      <PromoBanner
+        image={bannerAccessories}
+        title="Accessories Sale — Keyboards, Mice & More"
+        subtitle="Up to 30% Off"
+        cta="Shop Accessories"
+        ctaLink="/category/keyboards"
+        overlay="dark"
+      />
 
       <HeroProductShowcase products={showcaseProducts} />
 
@@ -47,8 +77,28 @@ export default function Index() {
         </div>
       </section>
 
+      {/* EMI Banner */}
+      <PromoBanner
+        image={bannerEmi}
+        title="0% EMI Available on All Laptops"
+        subtitle="Easy Financing"
+        cta="Learn More"
+        ctaLink="/contact"
+        overlay="gradient"
+      />
+
       {/* Hot Deals */}
       <DealsSection />
+
+      {/* Services Banner */}
+      <PromoBanner
+        image={bannerServices}
+        title="Computer Repair & IT Services"
+        subtitle="Expert Support"
+        cta="View Services"
+        ctaLink="/services"
+        overlay="gradient"
+      />
 
       {/* Best Sellers */}
       <section className="py-24 bg-surface">
@@ -65,6 +115,17 @@ export default function Index() {
         </div>
       </section>
 
+      {/* Business Banner */}
+      <PromoBanner
+        image={bannerBusiness}
+        title="Enterprise IT Solutions for Your Business"
+        subtitle="Bulk Orders Welcome"
+        cta="Contact Us"
+        ctaLink="/contact"
+        overlay="dark"
+        align="center"
+      />
+
       {/* Services */}
       <section className="py-24 bg-background">
         <div className="max-w-[1440px] mx-auto px-6">
@@ -80,7 +141,7 @@ export default function Index() {
                   <Link to="/services" className="group block">
                     <div className="glass-card rounded-2xl overflow-hidden hover:border-primary/30 transition-all duration-500 hover:glow-primary hover:-translate-y-1">
                       <div className="h-40 overflow-hidden">
-                        <img src={service.image} alt={service.name} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
+                        <img src={service.image} alt={service.name} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" loading="lazy" />
                       </div>
                       <div className="p-6">
                         <div className="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center mb-3 -mt-10 relative z-10">
@@ -98,19 +159,14 @@ export default function Index() {
         </div>
       </section>
 
-      {/* Promo */}
-      <section className="py-24 gradient-mesh">
-        <div className="max-w-[1440px] mx-auto px-6 text-center">
-          <AnimatedSection>
-            <p className="text-xs font-semibold tracking-widest uppercase text-primary mb-4">Limited Time</p>
-            <h2 className="text-4xl md:text-6xl font-bold tracking-tight text-foreground mb-4">0% Financing Available</h2>
-            <p className="text-lg text-muted-foreground max-w-xl mx-auto mb-8">Get the hardware you need today. Pay over 12 months with zero interest.</p>
-            <Link to="/category/macbook" className="inline-block px-8 py-4 bg-primary text-primary-foreground rounded-full font-semibold hover:opacity-90 transition-opacity glow-primary">
-              Shop Now
-            </Link>
-          </AnimatedSection>
-        </div>
-      </section>
+      {/* Second carousel with different slides */}
+      <HeroCarousel
+        slides={[
+          { image: bannerHero2, title: "Back to College Deals", subtitle: "Student Specials", cta: "Shop Now", ctaLink: "/category/hp-laptop" },
+          { image: bannerAccessories, title: "Gaming Setup Essentials", subtitle: "Level Up", cta: "Explore", ctaLink: "/category/keyboards" },
+        ]}
+        autoPlay={5000}
+      />
 
       {/* Testimonials */}
       <section className="py-24 bg-surface">
@@ -151,7 +207,7 @@ export default function Index() {
               <h2 className="text-3xl font-bold tracking-tight text-foreground mb-3">Stay Updated</h2>
               <p className="text-muted-foreground mb-8">Get notified about new products and exclusive offers.</p>
               <form className="flex gap-3 max-w-md mx-auto" onSubmit={(e) => e.preventDefault()}>
-                <input type="email" placeholder="Enter your email" className="flex-1 px-5 py-3 bg-surface rounded-full text-sm text-foreground placeholder:text-muted-foreground outline-none focus:ring-2 focus:ring-primary/20 border border-foreground/[0.05]" />
+                <input type="email" placeholder="Enter your email" className="flex-1 px-5 py-3 bg-card rounded-full text-sm text-foreground placeholder:text-muted-foreground outline-none focus:ring-2 focus:ring-primary/20 border border-border" />
                 <button type="submit" className="px-6 py-3 bg-primary text-primary-foreground rounded-full font-semibold text-sm hover:opacity-90 transition-opacity">Subscribe</button>
               </form>
             </div>
