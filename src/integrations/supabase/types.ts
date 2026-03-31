@@ -14,16 +14,281 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      call_history: {
+        Row: {
+          created_at: string
+          duration_seconds: number | null
+          follow_up_at: string | null
+          id: string
+          lead_id: string
+          outcome: Database["public"]["Enums"]["call_outcome"]
+          remarks: string | null
+          telecaller_id: string
+        }
+        Insert: {
+          created_at?: string
+          duration_seconds?: number | null
+          follow_up_at?: string | null
+          id?: string
+          lead_id: string
+          outcome: Database["public"]["Enums"]["call_outcome"]
+          remarks?: string | null
+          telecaller_id: string
+        }
+        Update: {
+          created_at?: string
+          duration_seconds?: number | null
+          follow_up_at?: string | null
+          id?: string
+          lead_id?: string
+          outcome?: Database["public"]["Enums"]["call_outcome"]
+          remarks?: string | null
+          telecaller_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "call_history_lead_id_fkey"
+            columns: ["lead_id"]
+            isOneToOne: false
+            referencedRelation: "leads"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      crm_products: {
+        Row: {
+          brand: string | null
+          category: string
+          created_at: string
+          description: string | null
+          id: string
+          images: string[] | null
+          is_active: boolean | null
+          name: string
+          price: number
+          specs: Json | null
+          stock_quantity: number | null
+          updated_at: string
+        }
+        Insert: {
+          brand?: string | null
+          category?: string
+          created_at?: string
+          description?: string | null
+          id?: string
+          images?: string[] | null
+          is_active?: boolean | null
+          name: string
+          price?: number
+          specs?: Json | null
+          stock_quantity?: number | null
+          updated_at?: string
+        }
+        Update: {
+          brand?: string | null
+          category?: string
+          created_at?: string
+          description?: string | null
+          id?: string
+          images?: string[] | null
+          is_active?: boolean | null
+          name?: string
+          price?: number
+          specs?: Json | null
+          stock_quantity?: number | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      crm_settings: {
+        Row: {
+          id: string
+          key: string
+          updated_at: string
+          value: Json
+        }
+        Insert: {
+          id?: string
+          key: string
+          updated_at?: string
+          value?: Json
+        }
+        Update: {
+          id?: string
+          key?: string
+          updated_at?: string
+          value?: Json
+        }
+        Relationships: []
+      }
+      lead_remarks: {
+        Row: {
+          created_at: string
+          id: string
+          lead_id: string
+          remark: string
+          remark_type: string | null
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          lead_id: string
+          remark: string
+          remark_type?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          lead_id?: string
+          remark?: string
+          remark_type?: string | null
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "lead_remarks_lead_id_fkey"
+            columns: ["lead_id"]
+            isOneToOne: false
+            referencedRelation: "leads"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      leads: {
+        Row: {
+          assigned_to: string | null
+          created_at: string
+          customer_user_id: string | null
+          email: string | null
+          follow_up_at: string | null
+          id: string
+          name: string
+          notes: string | null
+          phone: string
+          product_interest: string | null
+          source: Database["public"]["Enums"]["lead_source"]
+          status: Database["public"]["Enums"]["lead_status"]
+          updated_at: string
+        }
+        Insert: {
+          assigned_to?: string | null
+          created_at?: string
+          customer_user_id?: string | null
+          email?: string | null
+          follow_up_at?: string | null
+          id?: string
+          name: string
+          notes?: string | null
+          phone: string
+          product_interest?: string | null
+          source?: Database["public"]["Enums"]["lead_source"]
+          status?: Database["public"]["Enums"]["lead_status"]
+          updated_at?: string
+        }
+        Update: {
+          assigned_to?: string | null
+          created_at?: string
+          customer_user_id?: string | null
+          email?: string | null
+          follow_up_at?: string | null
+          id?: string
+          name?: string
+          notes?: string | null
+          phone?: string
+          product_interest?: string | null
+          source?: Database["public"]["Enums"]["lead_source"]
+          status?: Database["public"]["Enums"]["lead_status"]
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          address: string | null
+          avatar_url: string | null
+          created_at: string
+          email: string | null
+          full_name: string
+          id: string
+          is_active: boolean | null
+          phone: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          address?: string | null
+          avatar_url?: string | null
+          created_at?: string
+          email?: string | null
+          full_name?: string
+          id?: string
+          is_active?: boolean | null
+          phone?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          address?: string | null
+          avatar_url?: string | null
+          created_at?: string
+          email?: string | null
+          full_name?: string
+          id?: string
+          is_active?: boolean | null
+          phone?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "telecaller" | "customer"
+      call_outcome:
+        | "answered"
+        | "not_answered"
+        | "busy"
+        | "wrong_number"
+        | "callback"
+      lead_source: "meta" | "google" | "manual" | "website" | "whatsapp"
+      lead_status:
+        | "new"
+        | "contacted"
+        | "interested"
+        | "converted"
+        | "not_interested"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +415,23 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "telecaller", "customer"],
+      call_outcome: [
+        "answered",
+        "not_answered",
+        "busy",
+        "wrong_number",
+        "callback",
+      ],
+      lead_source: ["meta", "google", "manual", "website", "whatsapp"],
+      lead_status: [
+        "new",
+        "contacted",
+        "interested",
+        "converted",
+        "not_interested",
+      ],
+    },
   },
 } as const
