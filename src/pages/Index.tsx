@@ -8,7 +8,9 @@ import { ProductCard } from "@/components/ProductCard";
 import { PremiumHeroBanner } from "@/components/PremiumHeroBanner";
 import { ContactSection } from "@/components/ContactSection";
 import { useBanners } from "@/hooks/use-banners";
-import { products, categories, testimonials, services } from "@/lib/data";
+import { useProducts } from "@/hooks/use-products";
+import { categories, services } from "@/lib/data";
+import { Skeleton } from "@/components/ui/skeleton";
 
 import bannerAccessories from "@/assets/banner-accessories.jpg";
 import bannerEmi from "@/assets/banner-emi.jpg";
@@ -23,9 +25,6 @@ import serviceRepair from "@/assets/service-repair.jpg";
 import servicePeripherals from "@/assets/service-peripherals.jpg";
 import serviceComponents from "@/assets/service-components.jpg";
 import serviceCctv from "@/assets/service-cctv.jpg";
-
-const bestSellers = products.filter((p) => p.badge).slice(0, 8);
-const featuredProducts = products.filter((p) => p.badge).slice(0, 4);
 
 const serviceCards = [
   { image: serviceLaptops, label: "Laptops", link: "/category/dell-laptop" },
@@ -45,7 +44,6 @@ const trustBadges = [
   { icon: MapPin, label: "Visit Store", desc: "Malviya Nagar, Jaipur" },
 ];
 
-// Fallback promo banners when DB has none
 const fallbackPromos = [
   { image: bannerAccessories, title: "Accessories Sale — Up to 30% Off", subtitle: "Keyboards, Mice, Headsets & More", link: "/category/keyboards" },
   { image: bannerEmi, title: "0% EMI on All Laptops", subtitle: "Easy financing — pay in monthly installments", link: "/contact" },
@@ -71,12 +69,31 @@ function PromoBannerCard({ image, title, subtitle, link }: { image: string; titl
   );
 }
 
+function ProductGridSkeleton({ count = 4 }: { count?: number }) {
+  return (
+    <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+      {Array.from({ length: count }).map((_, i) => (
+        <div key={i} className="bg-card rounded-xl border border-border p-3 sm:p-4">
+          <Skeleton className="w-full aspect-square rounded-lg mb-3" />
+          <Skeleton className="h-4 w-3/4 mb-2" />
+          <Skeleton className="h-3 w-1/2 mb-2" />
+          <Skeleton className="h-5 w-1/3" />
+        </div>
+      ))}
+    </div>
+  );
+}
+
 export default function Index() {
   const { data: dbPromos } = useBanners("home", "promo");
+  const { data: products = [], isLoading } = useProducts();
 
   const promos = dbPromos && dbPromos.length > 0
     ? dbPromos.map(b => ({ image: b.image_url, title: b.title, subtitle: b.subtitle || "", link: b.cta_link }))
     : fallbackPromos;
+
+  const featuredProducts = products.filter((p) => p.badge).slice(0, 4);
+  const bestSellers = products.filter((p) => p.badge).slice(0, 8);
 
   return (
     <div className="bg-background">
@@ -137,7 +154,6 @@ export default function Index() {
         </div>
       </section>
 
-      {/* Promo Banner 1 */}
       {promos[0] && <PromoBannerCard {...promos[0]} />}
 
       {/* Featured Products */}
@@ -147,11 +163,13 @@ export default function Index() {
             <h2 className="text-lg sm:text-2xl font-bold text-foreground">Featured Products</h2>
             <Link to="/category/dell-laptop" className="text-primary text-xs sm:text-sm font-medium hover:underline">View All →</Link>
           </div>
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
-            {featuredProducts.map((product, i) => (
-              <ProductCard key={product.id} product={product} index={i} />
-            ))}
-          </div>
+          {isLoading ? <ProductGridSkeleton /> : (
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+              {featuredProducts.map((product, i) => (
+                <ProductCard key={product.id} product={product} index={i} />
+              ))}
+            </div>
+          )}
         </div>
       </section>
 
@@ -176,7 +194,6 @@ export default function Index() {
         </div>
       </section>
 
-      {/* Promo Banner 2 */}
       {promos[1] && <PromoBannerCard {...promos[1]} />}
 
       {/* Best Sellers */}
@@ -186,15 +203,16 @@ export default function Index() {
             <h2 className="text-lg sm:text-2xl font-bold text-foreground">Best Sellers</h2>
             <Link to="/category/hp-laptop" className="text-primary text-xs sm:text-sm font-medium hover:underline">View All →</Link>
           </div>
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
-            {bestSellers.slice(0, 4).map((product, i) => (
-              <ProductCard key={product.id} product={product} index={i} />
-            ))}
-          </div>
+          {isLoading ? <ProductGridSkeleton /> : (
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+              {bestSellers.slice(0, 4).map((product, i) => (
+                <ProductCard key={product.id} product={product} index={i} />
+              ))}
+            </div>
+          )}
         </div>
       </section>
 
-      {/* Promo Banner 3 */}
       {promos[2] && <PromoBannerCard {...promos[2]} />}
 
       {/* Repair Services */}
@@ -221,7 +239,6 @@ export default function Index() {
         </div>
       </section>
 
-      {/* Promo Banner 4 */}
       {promos[3] && <PromoBannerCard {...promos[3]} />}
 
       {/* Testimonials */}
@@ -229,7 +246,11 @@ export default function Index() {
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6">
           <h2 className="text-lg sm:text-2xl font-bold text-foreground mb-5">What Our Customers Say</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-4">
-            {testimonials.map((t, i) => (
+            {([
+              { name: "Arjun Mehta", role: "Software Architect", text: "The Studio Tower Pro transformed my development workflow. Builds that took 20 minutes now finish in under 3. Chauhaan's attention to detail is unmatched.", rating: 5 },
+              { name: "Priya Sharma", role: "Digital Artist", text: "I've tried every brand. Chauhaan is the only one that delivers true professional-grade hardware with a premium experience from unboxing to daily use.", rating: 5 },
+              { name: "Karan Singh", role: "Business Owner", text: "From laptop purchases to CCTV installation, Chauhaan Computers handles everything for my office. Their service is outstanding.", rating: 5 },
+            ]).map((t, i) => (
               <AnimatedSection key={i} delay={i * 0.1}>
                 <div className="bg-card rounded-xl p-4 sm:p-6 border border-border">
                   <div className="flex gap-1 mb-3">

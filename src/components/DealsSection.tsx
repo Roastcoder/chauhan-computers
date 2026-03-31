@@ -2,10 +2,8 @@ import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { ChevronLeft, ChevronRight, Flame } from "lucide-react";
 import { ProductCard } from "./ProductCard";
-import { products } from "@/lib/data";
+import { useProducts } from "@/hooks/use-products";
 import { AnimatedSection } from "./AnimatedSection";
-
-const dealProducts = products.filter((p) => p.originalPrice);
 
 function useCountdown() {
   const getEnd = () => {
@@ -34,10 +32,15 @@ function useCountdown() {
 export function DealsSection() {
   const { h, m, s } = useCountdown();
   const scrollRef = useRef<HTMLDivElement>(null);
+  const { data: products = [] } = useProducts();
+
+  const dealProducts = products.filter((p) => p.originalPrice);
 
   const scroll = (dir: number) => {
     scrollRef.current?.scrollBy({ left: dir * 320, behavior: "smooth" });
   };
+
+  if (dealProducts.length === 0) return null;
 
   return (
     <section className="py-24 bg-background">
@@ -52,9 +55,7 @@ export function DealsSection() {
               <span className="text-xs text-muted-foreground uppercase tracking-widest">Ends in</span>
               <div className="flex gap-1.5">
                 {[h, m, s].map((v, i) => (
-                  <span key={i} className="glass-card px-3 py-2 rounded-lg text-lg font-bold text-primary tabular-nums">
-                    {v}
-                  </span>
+                  <span key={i} className="bg-card border border-border px-3 py-2 rounded-lg text-lg font-bold text-primary tabular-nums">{v}</span>
                 ))}
               </div>
             </div>
@@ -69,10 +70,10 @@ export function DealsSection() {
               </div>
             ))}
           </div>
-          <button onClick={() => scroll(-1)} className="absolute left-0 top-1/2 -translate-y-1/2 w-10 h-10 glass rounded-full flex items-center justify-center text-foreground hover:bg-surface-light transition-colors z-10">
+          <button onClick={() => scroll(-1)} className="absolute left-0 top-1/2 -translate-y-1/2 w-10 h-10 bg-card border border-border rounded-full flex items-center justify-center text-foreground hover:bg-muted transition-colors z-10">
             <ChevronLeft className="w-5 h-5" />
           </button>
-          <button onClick={() => scroll(1)} className="absolute right-0 top-1/2 -translate-y-1/2 w-10 h-10 glass rounded-full flex items-center justify-center text-foreground hover:bg-surface-light transition-colors z-10">
+          <button onClick={() => scroll(1)} className="absolute right-0 top-1/2 -translate-y-1/2 w-10 h-10 bg-card border border-border rounded-full flex items-center justify-center text-foreground hover:bg-muted transition-colors z-10">
             <ChevronRight className="w-5 h-5" />
           </button>
         </div>
