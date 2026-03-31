@@ -53,10 +53,29 @@ export function PremiumHeroBanner() {
 
   return (
     <section className="relative w-full overflow-hidden">
-      <div className={`relative bg-gradient-to-r ${slide.bg} transition-colors duration-700`}>
-        <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
-          <div className="flex flex-col md:flex-row items-center min-h-[280px] sm:min-h-[340px] md:min-h-[380px]">
-            {/* Left: Text */}
+      <div className="relative overflow-hidden">
+        {/* Full-bleed background image */}
+        <AnimatePresence mode="wait">
+          <motion.img
+            key={`bg-${current}`}
+            src={slide.image}
+            alt={slide.title}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.5 }}
+            className="absolute inset-0 w-full h-full object-cover"
+            width={1920}
+            height={640}
+          />
+        </AnimatePresence>
+
+        {/* Color overlay for text legibility */}
+        <div className={`absolute inset-0 bg-gradient-to-r ${slide.bg} opacity-70`} />
+
+        {/* Text content */}
+        <div className="relative z-10 max-w-[1200px] mx-auto px-6 sm:px-8">
+          <div className="min-h-[300px] sm:min-h-[360px] md:min-h-[400px] flex items-center">
             <AnimatePresence mode="wait">
               <motion.div
                 key={`text-${current}`}
@@ -64,40 +83,20 @@ export function PremiumHeroBanner() {
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: 30 }}
                 transition={{ duration: 0.4 }}
-                className="flex-1 py-8 md:py-12 z-10"
+                className="max-w-lg py-10"
               >
-                <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white leading-tight mb-3">
+                <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight mb-4">
                   {slide.title}
                 </h1>
-                <p className="text-white/90 text-sm sm:text-base md:text-lg mb-6 max-w-md">
+                <p className="text-white/90 text-base sm:text-lg mb-8">
                   {slide.subtitle}
                 </p>
                 <Link
                   to={slide.ctaLink}
-                  className="inline-block px-8 py-3 bg-white text-foreground rounded-lg font-semibold text-sm hover:bg-gray-100 transition-colors shadow-md"
+                  className="inline-block px-8 py-3.5 bg-white text-foreground rounded-lg font-semibold text-sm hover:bg-gray-100 transition-colors shadow-lg"
                 >
                   {slide.cta}
                 </Link>
-              </motion.div>
-            </AnimatePresence>
-
-            {/* Right: Image */}
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={`img-${current}`}
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.95 }}
-                transition={{ duration: 0.4 }}
-                className="flex-1 flex justify-center md:justify-end"
-              >
-                <img
-                  src={slide.image}
-                  alt={slide.title}
-                  className="w-full max-w-[500px] h-[200px] sm:h-[260px] md:h-[320px] object-cover rounded-xl"
-                  width={500}
-                  height={320}
-                />
               </motion.div>
             </AnimatePresence>
           </div>
