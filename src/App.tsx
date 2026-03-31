@@ -28,6 +28,7 @@ import AdminProducts from "./pages/admin/AdminProducts";
 import AdminTelecallers from "./pages/admin/AdminTelecallers";
 import AdminReports from "./pages/admin/AdminReports";
 import AdminSettings from "./pages/admin/AdminSettings";
+import AdminBanners from "./pages/admin/AdminBanners";
 import TelecallerLayout from "./pages/telecaller/TelecallerLayout";
 import TelecallerLeads from "./pages/telecaller/TelecallerLeads";
 import TelecallerCalls from "./pages/telecaller/TelecallerCalls";
