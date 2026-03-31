@@ -31,7 +31,7 @@ export default function AdminSettings() {
     <div className="space-y-6">
       <h1 className="text-2xl font-bold text-foreground">Settings</h1>
 
-      <div className="glass-card rounded-xl p-6">
+      <div className="bg-card border border-border rounded-xl p-6">
         <h3 className="text-sm font-semibold text-foreground mb-4">Lead Assignment</h3>
         <div className="flex items-center justify-between">
           <div>
@@ -40,14 +40,14 @@ export default function AdminSettings() {
           </div>
           <button
             onClick={() => toggleAutoAssign.mutate()}
-            className={`w-12 h-6 rounded-full transition-colors ${isAutoAssign ? "bg-primary" : "bg-surface"}`}
+            className={`w-12 h-6 rounded-full transition-colors ${isAutoAssign ? "bg-primary" : "bg-background"}`}
           >
             <div className={`w-5 h-5 rounded-full bg-foreground transition-transform ${isAutoAssign ? "translate-x-6" : "translate-x-0.5"}`} />
           </button>
         </div>
       </div>
 
-      <div className="glass-card rounded-xl p-6">
+      <div className="bg-card border border-border rounded-xl p-6">
         <h3 className="text-sm font-semibold text-foreground mb-4">Store Information</h3>
         {storeInfo && (
           <div className="space-y-3 text-sm">

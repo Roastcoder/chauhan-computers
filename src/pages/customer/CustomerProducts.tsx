@@ -52,9 +52,9 @@ export default function CustomerProducts() {
       <div className="flex gap-3">
         <div className="relative flex-1">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-          <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Search products..." className="w-full pl-9 pr-4 py-2.5 bg-surface rounded-xl text-sm text-foreground border border-foreground/[0.05] outline-none" />
+          <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Search products..." className="w-full pl-9 pr-4 py-2.5 bg-background rounded-xl text-sm text-foreground border border-border outline-none" />
         </div>
-        <select value={category} onChange={e => setCategory(e.target.value)} className="px-3 py-2.5 bg-surface rounded-xl text-sm text-foreground border border-foreground/[0.05] outline-none">
+        <select value={category} onChange={e => setCategory(e.target.value)} className="px-3 py-2.5 bg-background rounded-xl text-sm text-foreground border border-border outline-none">
           <option value="all">All Categories</option>
           {cats.map(c => <option key={c} value={c}>{c}</option>)}
         </select>
@@ -62,7 +62,7 @@ export default function CustomerProducts() {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {filtered.map(product => (
-          <div key={product.id} className="glass-card rounded-xl p-5">
+          <div key={product.id} className="bg-card border border-border rounded-xl p-5">
             {product.images?.[0] && <img src={product.images[0]} alt={product.name} className="w-full h-32 object-cover rounded-lg mb-3" />}
             <h3 className="text-sm font-semibold text-foreground">{product.name}</h3>
             <p className="text-xs text-muted-foreground mb-2">{product.brand} · {product.category}</p>

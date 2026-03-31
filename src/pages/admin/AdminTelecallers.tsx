@@ -51,10 +51,10 @@ export default function AdminTelecallers() {
         </button>
       </div>
 
-      <div className="glass-card rounded-xl overflow-hidden">
+      <div className="bg-card border border-border rounded-xl overflow-hidden">
         <table className="w-full text-sm">
           <thead>
-            <tr className="border-b border-foreground/[0.05]">
+            <tr className="border-b border-border">
               <th className="text-left px-4 py-3 text-xs font-semibold text-muted-foreground">Name</th>
               <th className="text-left px-4 py-3 text-xs font-semibold text-muted-foreground">Email</th>
               <th className="text-left px-4 py-3 text-xs font-semibold text-muted-foreground">Leads Assigned</th>
@@ -68,7 +68,7 @@ export default function AdminTelecallers() {
             {telecallers.map(tc => {
               const s = tcStats[tc.user_id] || { assigned: 0, callsToday: 0, converted: 0 };
               return (
-                <tr key={tc.user_id} className="border-b border-foreground/[0.03] hover:bg-surface/50 transition-colors cursor-pointer" onClick={() => setSelectedTc(tc.user_id)}>
+                <tr key={tc.user_id} className="border-b border-border/50 hover:bg-muted/50 transition-colors cursor-pointer" onClick={() => setSelectedTc(tc.user_id)}>
                   <td className="px-4 py-3 font-medium text-foreground">{tc.full_name || "—"}</td>
                   <td className="px-4 py-3 text-muted-foreground">{tc.email}</td>
                   <td className="px-4 py-3 text-foreground">{s.assigned}</td>
@@ -119,16 +119,16 @@ function AddTelecallerModal({ onClose }: { onClose: () => void }) {
 
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-6" onClick={onClose}>
-      <motion.div initial={{ scale: 0.95 }} animate={{ scale: 1 }} exit={{ scale: 0.95 }} className="glass-card rounded-2xl p-6 w-full max-w-md" onClick={e => e.stopPropagation()}>
+      <motion.div initial={{ scale: 0.95 }} animate={{ scale: 1 }} exit={{ scale: 0.95 }} className="bg-card border border-border rounded-2xl p-6 w-full max-w-md" onClick={e => e.stopPropagation()}>
         <h2 className="text-lg font-bold text-foreground mb-4">Add Telecaller</h2>
         <div className="space-y-3">
-          <input value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value }))} placeholder="Full Name" className="w-full px-4 py-2.5 bg-surface rounded-xl text-sm text-foreground border border-foreground/[0.05] outline-none" />
-          <input value={form.email} onChange={e => setForm(f => ({ ...f, email: e.target.value }))} placeholder="Email" type="email" className="w-full px-4 py-2.5 bg-surface rounded-xl text-sm text-foreground border border-foreground/[0.05] outline-none" />
-          <input value={form.phone} onChange={e => setForm(f => ({ ...f, phone: e.target.value }))} placeholder="Phone" className="w-full px-4 py-2.5 bg-surface rounded-xl text-sm text-foreground border border-foreground/[0.05] outline-none" />
-          <input value={form.password} onChange={e => setForm(f => ({ ...f, password: e.target.value }))} placeholder="Password" type="password" className="w-full px-4 py-2.5 bg-surface rounded-xl text-sm text-foreground border border-foreground/[0.05] outline-none" />
+          <input value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value }))} placeholder="Full Name" className="w-full px-4 py-2.5 bg-background rounded-xl text-sm text-foreground border border-border outline-none" />
+          <input value={form.email} onChange={e => setForm(f => ({ ...f, email: e.target.value }))} placeholder="Email" type="email" className="w-full px-4 py-2.5 bg-background rounded-xl text-sm text-foreground border border-border outline-none" />
+          <input value={form.phone} onChange={e => setForm(f => ({ ...f, phone: e.target.value }))} placeholder="Phone" className="w-full px-4 py-2.5 bg-background rounded-xl text-sm text-foreground border border-border outline-none" />
+          <input value={form.password} onChange={e => setForm(f => ({ ...f, password: e.target.value }))} placeholder="Password" type="password" className="w-full px-4 py-2.5 bg-background rounded-xl text-sm text-foreground border border-border outline-none" />
         </div>
         <div className="flex gap-3 mt-4">
-          <button onClick={onClose} className="flex-1 py-2.5 bg-surface text-foreground rounded-xl text-sm">Cancel</button>
+          <button onClick={onClose} className="flex-1 py-2.5 bg-background text-foreground rounded-xl text-sm">Cancel</button>
           <button onClick={handleSubmit} disabled={loading || !form.name || !form.email || !form.password} className="flex-1 py-2.5 bg-primary text-primary-foreground rounded-xl text-sm font-semibold disabled:opacity-50">
             {loading ? "Creating..." : "Create"}
           </button>

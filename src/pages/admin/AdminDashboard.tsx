@@ -60,7 +60,7 @@ export default function AdminDashboard() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: i * 0.05 }}
-            className="glass-card rounded-xl p-5"
+            className="bg-card border border-border rounded-xl p-5"
           >
             <kpi.icon className={`w-5 h-5 ${kpi.color} mb-2`} />
             <p className="text-2xl font-bold text-foreground">{kpi.value}</p>
@@ -71,19 +71,19 @@ export default function AdminDashboard() {
 
       {/* Charts */}
       <div className="grid lg:grid-cols-2 gap-6">
-        <div className="glass-card rounded-xl p-6">
+        <div className="bg-card border border-border rounded-xl p-6">
           <h3 className="text-sm font-semibold text-foreground mb-4">Leads by Source</h3>
           <ResponsiveContainer width="100%" height={250}>
             <BarChart data={sourceData}>
               <XAxis dataKey="name" tick={{ fill: "hsl(215,20%,55%)", fontSize: 11 }} axisLine={false} tickLine={false} />
               <YAxis tick={{ fill: "hsl(215,20%,55%)", fontSize: 11 }} axisLine={false} tickLine={false} />
-              <Tooltip contentStyle={{ background: "hsl(225,40%,10%)", border: "1px solid rgba(255,255,255,0.08)", borderRadius: 8, color: "#fff", fontSize: 12 }} />
+              <Tooltip contentStyle={{ background: "#fff", border: "1px solid #e5e7eb", borderRadius: 8, color: "#1f2937", fontSize: 12 }} />
               <Bar dataKey="count" fill="#2563EB" radius={[6, 6, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>
         </div>
 
-        <div className="glass-card rounded-xl p-6">
+        <div className="bg-card border border-border rounded-xl p-6">
           <h3 className="text-sm font-semibold text-foreground mb-4">Lead Status</h3>
           <ResponsiveContainer width="100%" height={250}>
             <PieChart>
@@ -92,19 +92,19 @@ export default function AdminDashboard() {
                   <Cell key={i} fill={entry.color} />
                 ))}
               </Pie>
-              <Tooltip contentStyle={{ background: "hsl(225,40%,10%)", border: "1px solid rgba(255,255,255,0.08)", borderRadius: 8, color: "#fff", fontSize: 12 }} />
+              <Tooltip contentStyle={{ background: "#fff", border: "1px solid #e5e7eb", borderRadius: 8, color: "#1f2937", fontSize: 12 }} />
             </PieChart>
           </ResponsiveContainer>
         </div>
       </div>
 
       {/* Live Feed */}
-      <div className="glass-card rounded-xl p-6">
+      <div className="bg-card border border-border rounded-xl p-6">
         <h3 className="text-sm font-semibold text-foreground mb-4">Recent Leads</h3>
         <div className="space-y-2">
           {recentLeads.length === 0 && <p className="text-xs text-muted-foreground">No leads yet.</p>}
           {recentLeads.map((lead) => (
-            <div key={lead.id} className="flex items-center justify-between py-2 border-b border-foreground/[0.03] last:border-0">
+            <div key={lead.id} className="flex items-center justify-between py-2 border-b border-border/50 last:border-0">
               <div>
                 <p className="text-sm font-medium text-foreground">{lead.name}</p>
                 <p className="text-xs text-muted-foreground">{lead.source} · {new Date(lead.created_at).toLocaleString()}</p>
@@ -112,7 +112,7 @@ export default function AdminDashboard() {
               <span className={`text-[10px] font-semibold px-2 py-1 rounded-full ${
                 lead.status === "new" ? "bg-primary/20 text-primary" :
                 lead.status === "converted" ? "bg-green-500/20 text-green-400" :
-                "bg-surface text-muted-foreground"
+                "bg-background text-muted-foreground"
               }`}>{lead.status}</span>
             </div>
           ))}

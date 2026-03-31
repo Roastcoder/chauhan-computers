@@ -26,14 +26,14 @@ export default function TelecallerFollowups() {
     <div className="space-y-6">
       <h1 className="text-2xl font-bold text-foreground">Follow-ups</h1>
 
-      <div className="glass-card rounded-xl p-6">
+      <div className="bg-card border border-border rounded-xl p-6">
         <h3 className="text-sm font-semibold text-foreground mb-4 flex items-center gap-2">
           <CalendarClock className="w-4 h-4 text-primary" /> Today ({todayFollowups.length})
         </h3>
         {todayFollowups.length === 0 && <p className="text-xs text-muted-foreground">No follow-ups today</p>}
         <div className="space-y-2">
           {todayFollowups.map(lead => (
-            <div key={lead.id} className="flex items-center justify-between bg-surface rounded-xl p-4">
+            <div key={lead.id} className="flex items-center justify-between bg-background rounded-xl p-4">
               <div>
                 <p className="text-sm font-medium text-foreground">{lead.name}</p>
                 <p className="text-xs text-muted-foreground">{lead.phone} · {lead.product_interest || "No product"}</p>
@@ -44,12 +44,12 @@ export default function TelecallerFollowups() {
         </div>
       </div>
 
-      <div className="glass-card rounded-xl p-6">
+      <div className="bg-card border border-border rounded-xl p-6">
         <h3 className="text-sm font-semibold text-foreground mb-4">Upcoming</h3>
         {upcoming.length === 0 && <p className="text-xs text-muted-foreground">No upcoming follow-ups</p>}
         <div className="space-y-2">
           {upcoming.map(lead => (
-            <div key={lead.id} className="flex items-center justify-between bg-surface rounded-xl p-4">
+            <div key={lead.id} className="flex items-center justify-between bg-background rounded-xl p-4">
               <div>
                 <p className="text-sm font-medium text-foreground">{lead.name}</p>
                 <p className="text-xs text-muted-foreground">{lead.phone}</p>

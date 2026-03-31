@@ -48,7 +48,7 @@ export default function TelecallerPerformance() {
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         {kpis.map(kpi => (
-          <div key={kpi.label} className="glass-card rounded-xl p-5">
+          <div key={kpi.label} className="bg-card border border-border rounded-xl p-5">
             <kpi.icon className={`w-5 h-5 ${kpi.color} mb-2`} />
             <p className="text-2xl font-bold text-foreground">{kpi.value}</p>
             <p className="text-xs text-muted-foreground">{kpi.label}</p>
@@ -56,11 +56,11 @@ export default function TelecallerPerformance() {
         ))}
       </div>
 
-      <div className="glass-card rounded-xl p-6">
+      <div className="bg-card border border-border rounded-xl p-6">
         <h3 className="text-sm font-semibold text-foreground mb-4">Lead Status Breakdown</h3>
         <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
           {["new", "contacted", "interested", "converted", "not_interested"].map(status => (
-            <div key={status} className="bg-surface rounded-xl p-3 text-center">
+            <div key={status} className="bg-background rounded-xl p-3 text-center">
               <p className="text-lg font-bold text-foreground">{leads.filter(l => l.status === status).length}</p>
               <p className="text-[10px] text-muted-foreground capitalize">{status.replace("_", " ")}</p>
             </div>
