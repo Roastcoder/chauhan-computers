@@ -81,7 +81,30 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen bg-background flex">
+    <div className="min-h-screen bg-background flex flex-col lg:flex-row">
+      {/* Mobile banner */}
+      <div className="lg:hidden w-full h-56 relative overflow-hidden">
+        <img
+          src={loginHero}
+          alt="Chauhaan Computers store"
+          className="absolute inset-0 w-full h-full object-cover"
+          width={960}
+          height={1280}
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/30 to-transparent" />
+        <div className="relative z-10 h-full px-4 py-3 flex flex-col justify-end">
+          <div className="flex items-center gap-2 mb-2">
+            <img src={logoIcon} alt="Chauhaan Computers" className="w-8 h-8 rounded-full border border-white/40" />
+            <h1 className="text-lg font-bold text-white">Chauhaan Computers</h1>
+          </div>
+          <p className="text-xs text-white/90 mb-3">Fast service, best deals on laptops and components</p>
+          <div className="grid grid-cols-3 gap-2">
+            <img src="/hero-slide-1.jpg" alt="Laptop sale" className="h-16 object-cover rounded-md border border-white/30" />
+            <img src="/hero-slide-2.jpg" alt="Components" className="h-16 object-cover rounded-md border border-white/30" />
+            <img src="/hero-slide-3.jpg" alt="Services" className="h-16 object-cover rounded-md border border-white/30" />
+          </div>
+        </div>
+      </div>
       {/* Left — Hero image */}
       <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden">
         <img
@@ -122,6 +145,12 @@ export default function Login() {
           animate={{ opacity: 1, x: 0 }}
           className="w-full max-w-md"
         >
+          {/* Desktop logo on left side */}
+          <div className="hidden lg:flex items-center gap-3 mb-8">
+            <img src={logoIcon} alt="Chauhaan Computers" className="w-10 h-10" />
+            <span className="text-2xl font-bold text-foreground">Chauhaan Computers</span>
+          </div>
+
           {/* Mobile logo */}
           <div className="lg:hidden flex items-center gap-2 mb-8">
             <img src={logoIcon} alt="Chauhaan Computers" className="w-8 h-8" />
