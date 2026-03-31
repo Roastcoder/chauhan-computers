@@ -80,6 +80,18 @@ export default function Services() {
         </div>
       </section>
 
+      {/* EMI Banner */}
+      <div className="py-8 bg-background">
+        <PromoBanner
+          image={bannerEmi}
+          title="0% EMI on All Services & Products"
+          subtitle="Easy Financing"
+          cta="Learn More"
+          ctaLink="/contact"
+          overlay="gradient"
+        />
+      </div>
+
       {/* CTA */}
       <section className="py-24 bg-surface">
         <div className="max-w-[1440px] mx-auto px-6 text-center">

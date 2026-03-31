@@ -110,6 +110,18 @@ export default function Category() {
             No products match your filters.
           </div>
         )}
+
+        {/* Banner */}
+        <div className="mt-12">
+          <PromoBanner
+            image={bannerAccessories}
+            title="Upgrade Your Setup Today"
+            subtitle="Accessories & Peripherals"
+            cta="Shop Now"
+            ctaLink="/category/keyboards"
+            overlay="dark"
+          />
+        </div>
       </div>
     </div>
   );

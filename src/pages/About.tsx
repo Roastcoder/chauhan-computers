@@ -123,6 +123,18 @@ export default function About() {
           </div>
         </div>
       </section>
+
+      {/* Services Banner */}
+      <div className="py-8 bg-background">
+        <PromoBanner
+          image={bannerServices}
+          title="Expert Repair & IT Services"
+          subtitle="Certified Technicians"
+          cta="View Services"
+          ctaLink="/services"
+          overlay="dark"
+        />
+      </div>
     </div>
   );
 }
