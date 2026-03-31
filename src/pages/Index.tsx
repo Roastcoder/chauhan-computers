@@ -74,20 +74,26 @@ export default function Index() {
     <div className="bg-background">
       <PremiumHeroBanner />
 
-      {/* Our Services */}
+      {/* Our Services — Horizontal Scroll */}
       <section className="py-8 sm:py-10 bg-background">
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6">
-          <h2 className="text-lg sm:text-2xl font-bold text-foreground mb-5">Our Services</h2>
-          <div className="grid grid-cols-4 md:grid-cols-8 gap-2 sm:gap-4">
+          <div className="flex items-center justify-between mb-5">
+            <h2 className="text-lg sm:text-2xl font-bold text-foreground">Our Services</h2>
+            <Link to="/services" className="text-primary text-xs sm:text-sm font-medium hover:underline">View All →</Link>
+          </div>
+          <div className="flex gap-3 sm:gap-4 overflow-x-auto pb-3 scrollbar-hide -mx-4 px-4 sm:mx-0 sm:px-0 snap-x snap-mandatory">
             {serviceCards.map((s, i) => (
-              <motion.div key={s.label} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }} transition={{ delay: i * 0.03 }}>
+              <motion.div key={s.label} initial={{ opacity: 0, x: 30 }} whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }} transition={{ delay: i * 0.04 }}
+                className="snap-start shrink-0 w-[140px] sm:w-[170px]">
                 <Link to={s.link}
-                  className="flex flex-col items-center gap-1.5 sm:gap-2 p-2 sm:p-4 rounded-xl bg-card border border-border hover:shadow-md hover:border-primary/20 transition-all group">
-                  <div className={`w-10 h-10 sm:w-14 sm:h-14 rounded-xl flex items-center justify-center ${s.color} group-hover:scale-110 transition-transform`}>
-                    <s.icon className="w-5 h-5 sm:w-7 sm:h-7" strokeWidth={1.5} />
+                  className="block rounded-xl bg-card border border-border hover:shadow-lg hover:border-primary/20 transition-all group overflow-hidden">
+                  <div className={`h-24 sm:h-28 flex items-center justify-center ${s.color}`}>
+                    <s.icon className="w-10 h-10 sm:w-12 sm:h-12 group-hover:scale-110 transition-transform" strokeWidth={1.2} />
                   </div>
-                  <span className="text-[10px] sm:text-xs font-medium text-foreground text-center leading-tight">{s.label}</span>
+                  <div className="p-2.5 sm:p-3 text-center">
+                    <span className="text-xs sm:text-sm font-semibold text-foreground">{s.label}</span>
+                  </div>
                 </Link>
               </motion.div>
             ))}
