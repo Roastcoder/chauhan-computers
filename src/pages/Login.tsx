@@ -90,7 +90,7 @@ export default function Login() {
           width={960}
           height={1280}
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-foreground/70 via-foreground/30 to-transparent" />
         <div className="relative z-10 flex flex-col justify-end p-10 text-white">
           <div className="flex items-center gap-2 mb-4">
             <Zap className="w-8 h-8 text-blue-400" />
