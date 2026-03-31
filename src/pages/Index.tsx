@@ -96,8 +96,8 @@ export default function Index() {
                 className="snap-start shrink-0 w-[140px] sm:w-[170px]">
                 <Link to={s.link}
                   className="block rounded-xl bg-card border border-border hover:shadow-lg hover:border-primary/20 transition-all group overflow-hidden">
-                  <div className={`h-24 sm:h-28 flex items-center justify-center ${s.color}`}>
-                    <s.icon className="w-10 h-10 sm:w-12 sm:h-12 group-hover:scale-110 transition-transform" strokeWidth={1.2} />
+                  <div className="h-24 sm:h-28 overflow-hidden">
+                    <img src={s.image} alt={s.label} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300" loading="lazy" />
                   </div>
                   <div className="p-2.5 sm:p-3 text-center">
                     <span className="text-xs sm:text-sm font-semibold text-foreground">{s.label}</span>
