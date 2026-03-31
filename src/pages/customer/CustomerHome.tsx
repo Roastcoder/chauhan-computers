@@ -26,17 +26,17 @@ export default function CustomerHome() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div className="glass-card rounded-xl p-5">
+        <div className="bg-card border border-border rounded-xl p-5">
           <FileText className="w-5 h-5 text-primary mb-2" />
           <p className="text-2xl font-bold text-foreground">{active}</p>
           <p className="text-xs text-muted-foreground">Active Enquiries</p>
         </div>
-        <div className="glass-card rounded-xl p-5">
+        <div className="bg-card border border-border rounded-xl p-5">
           <ShoppingBag className="w-5 h-5 text-green-400 mb-2" />
           <p className="text-2xl font-bold text-foreground">{converted}</p>
           <p className="text-xs text-muted-foreground">Orders</p>
         </div>
-        <div className="glass-card rounded-xl p-5">
+        <div className="bg-card border border-border rounded-xl p-5">
           <Clock className="w-5 h-5 text-cyan mb-2" />
           <p className="text-2xl font-bold text-foreground">{enquiries.length}</p>
           <p className="text-xs text-muted-foreground">Total Enquiries</p>

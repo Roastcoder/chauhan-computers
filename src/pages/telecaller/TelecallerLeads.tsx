@@ -45,16 +45,16 @@ export default function TelecallerLeads() {
           { key: "not_called", label: "Not Called" },
         ].map(f => (
           <button key={f.key} onClick={() => setFilter(f.key)}
-            className={`px-4 py-2 rounded-xl text-xs font-semibold transition-colors ${filter === f.key ? "bg-primary text-primary-foreground" : "bg-surface text-muted-foreground hover:text-foreground"}`}>
+            className={`px-4 py-2 rounded-xl text-xs font-semibold transition-colors ${filter === f.key ? "bg-primary text-primary-foreground" : "bg-background text-muted-foreground hover:text-foreground"}`}>
             {f.label}
           </button>
         ))}
       </div>
 
-      <div className="glass-card rounded-xl overflow-hidden">
+      <div className="bg-card border border-border rounded-xl overflow-hidden">
         <table className="w-full text-sm">
           <thead>
-            <tr className="border-b border-foreground/[0.05]">
+            <tr className="border-b border-border">
               <th className="text-left px-4 py-3 text-xs font-semibold text-muted-foreground">Name</th>
               <th className="text-left px-4 py-3 text-xs font-semibold text-muted-foreground">Phone</th>
               <th className="text-left px-4 py-3 text-xs font-semibold text-muted-foreground">Product</th>
@@ -66,7 +66,7 @@ export default function TelecallerLeads() {
           <tbody>
             {isLoading && <tr><td colSpan={6} className="px-4 py-8 text-center text-muted-foreground">Loading...</td></tr>}
             {filtered.map(lead => (
-              <tr key={lead.id} className="border-b border-foreground/[0.03] hover:bg-surface/50">
+              <tr key={lead.id} className="border-b border-border/50 hover:bg-muted/50">
                 <td className="px-4 py-3 font-medium text-foreground">{lead.name}</td>
                 <td className="px-4 py-3 text-muted-foreground">{lead.phone}</td>
                 <td className="px-4 py-3 text-muted-foreground">{lead.product_interest || "—"}</td>
@@ -142,7 +142,7 @@ function CallingModal({ lead, onClose }: { lead: Lead; onClose: () => void }) {
 
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-50 bg-black/60 flex items-center justify-center p-6" onClick={onClose}>
-      <motion.div initial={{ scale: 0.95, y: 20 }} animate={{ scale: 1, y: 0 }} exit={{ scale: 0.95 }} className="glass-card rounded-2xl p-6 w-full max-w-md" onClick={e => e.stopPropagation()}>
+      <motion.div initial={{ scale: 0.95, y: 20 }} animate={{ scale: 1, y: 0 }} exit={{ scale: 0.95 }} className="bg-card border border-border rounded-2xl p-6 w-full max-w-md" onClick={e => e.stopPropagation()}>
         <h2 className="text-lg font-bold text-foreground mb-1">{lead.name}</h2>
         <p className="text-2xl font-bold text-primary mb-4">{lead.phone}</p>
 
@@ -159,31 +159,31 @@ function CallingModal({ lead, onClose }: { lead: Lead; onClose: () => void }) {
         <div className="space-y-3">
           <div>
             <label className="text-xs font-medium text-muted-foreground mb-1 block">Call Outcome</label>
-            <select value={outcome} onChange={e => setOutcome(e.target.value)} className="w-full px-4 py-2.5 bg-surface rounded-xl text-sm text-foreground border border-foreground/[0.05] outline-none">
+            <select value={outcome} onChange={e => setOutcome(e.target.value)} className="w-full px-4 py-2.5 bg-background rounded-xl text-sm text-foreground border border-border outline-none">
               {OUTCOME_OPTIONS.map(o => <option key={o} value={o}>{o.replace("_", " ")}</option>)}
             </select>
           </div>
 
           <div>
             <label className="text-xs font-medium text-muted-foreground mb-1 block">Remarks</label>
-            <textarea value={remarks} onChange={e => setRemarks(e.target.value)} rows={3} className="w-full px-4 py-2.5 bg-surface rounded-xl text-sm text-foreground border border-foreground/[0.05] outline-none resize-none" placeholder="Notes from the call..." />
+            <textarea value={remarks} onChange={e => setRemarks(e.target.value)} rows={3} className="w-full px-4 py-2.5 bg-background rounded-xl text-sm text-foreground border border-border outline-none resize-none" placeholder="Notes from the call..." />
           </div>
 
           <div>
             <label className="text-xs font-medium text-muted-foreground mb-1 block">Follow-up Date</label>
-            <input type="datetime-local" value={followUp} onChange={e => setFollowUp(e.target.value)} className="w-full px-4 py-2.5 bg-surface rounded-xl text-sm text-foreground border border-foreground/[0.05] outline-none" />
+            <input type="datetime-local" value={followUp} onChange={e => setFollowUp(e.target.value)} className="w-full px-4 py-2.5 bg-background rounded-xl text-sm text-foreground border border-border outline-none" />
           </div>
 
           <div>
             <label className="text-xs font-medium text-muted-foreground mb-1 block">Update Status</label>
-            <select value={status} onChange={e => setStatus(e.target.value as any)} className="w-full px-4 py-2.5 bg-surface rounded-xl text-sm text-foreground border border-foreground/[0.05] outline-none">
+            <select value={status} onChange={e => setStatus(e.target.value as any)} className="w-full px-4 py-2.5 bg-background rounded-xl text-sm text-foreground border border-border outline-none">
               {STATUS_OPTIONS.map(s => <option key={s} value={s}>{s.replace("_", " ")}</option>)}
             </select>
           </div>
         </div>
 
         <div className="flex gap-3 mt-4">
-          <button onClick={onClose} className="flex-1 py-2.5 bg-surface text-foreground rounded-xl text-sm">Cancel</button>
+          <button onClick={onClose} className="flex-1 py-2.5 bg-background text-foreground rounded-xl text-sm">Cancel</button>
           <button onClick={handleSave} disabled={saving} className="flex-1 py-2.5 bg-primary text-primary-foreground rounded-xl text-sm font-semibold disabled:opacity-50">
             {saving ? "Saving..." : "Save"}
           </button>

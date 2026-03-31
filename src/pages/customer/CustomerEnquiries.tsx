@@ -26,10 +26,10 @@ export default function CustomerEnquiries() {
     <div className="space-y-6">
       <h1 className="text-2xl font-bold text-foreground">My Enquiries</h1>
 
-      <div className="glass-card rounded-xl overflow-hidden">
+      <div className="bg-card border border-border rounded-xl overflow-hidden">
         <table className="w-full text-sm">
           <thead>
-            <tr className="border-b border-foreground/[0.05]">
+            <tr className="border-b border-border">
               <th className="text-left px-4 py-3 text-xs font-semibold text-muted-foreground">Product</th>
               <th className="text-left px-4 py-3 text-xs font-semibold text-muted-foreground">Date</th>
               <th className="text-left px-4 py-3 text-xs font-semibold text-muted-foreground">Status</th>
@@ -39,11 +39,11 @@ export default function CustomerEnquiries() {
           <tbody>
             {enquiries.length === 0 && <tr><td colSpan={4} className="px-4 py-8 text-center text-muted-foreground">No enquiries yet</td></tr>}
             {enquiries.map(enq => (
-              <tr key={enq.id} className="border-b border-foreground/[0.03]">
+              <tr key={enq.id} className="border-b border-border/50">
                 <td className="px-4 py-3 font-medium text-foreground">{enq.product_interest || "General"}</td>
                 <td className="px-4 py-3 text-xs text-muted-foreground">{new Date(enq.created_at).toLocaleDateString()}</td>
                 <td className="px-4 py-3">
-                  <span className={`text-[10px] font-semibold px-2 py-1 rounded-full ${statusColors[enq.status] || "bg-surface text-muted-foreground"}`}>
+                  <span className={`text-[10px] font-semibold px-2 py-1 rounded-full ${statusColors[enq.status] || "bg-background text-muted-foreground"}`}>
                     {enq.status.replace("_", " ")}
                   </span>
                 </td>

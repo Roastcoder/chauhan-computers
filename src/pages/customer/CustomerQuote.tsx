@@ -59,7 +59,7 @@ export default function CustomerQuote() {
     <div className="space-y-6">
       <h1 className="text-2xl font-bold text-foreground">Get a Quote</h1>
 
-      <div className="glass-card rounded-xl p-6">
+      <div className="bg-card border border-border rounded-xl p-6">
         <h3 className="text-sm font-semibold text-foreground mb-3">Select Products</h3>
         <div className="grid grid-cols-2 md:grid-cols-3 gap-2 mb-6">
           {products.map(p => (
@@ -69,7 +69,7 @@ export default function CustomerQuote() {
               className={`text-left p-3 rounded-xl text-xs transition-colors ${
                 form.products.includes(p.id)
                   ? "bg-primary/20 border border-primary/30 text-primary"
-                  : "bg-surface border border-foreground/[0.05] text-foreground hover:bg-surface-light"
+                  : "bg-background border border-border text-foreground hover:bg-muted"
               }`}
             >
               <p className="font-medium">{p.name}</p>
@@ -79,10 +79,10 @@ export default function CustomerQuote() {
         </div>
 
         <div className="space-y-3">
-          <input value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value }))} placeholder="Name" className="w-full px-4 py-2.5 bg-surface rounded-xl text-sm text-foreground border border-foreground/[0.05] outline-none" />
-          <input value={form.email} onChange={e => setForm(f => ({ ...f, email: e.target.value }))} placeholder="Email" className="w-full px-4 py-2.5 bg-surface rounded-xl text-sm text-foreground border border-foreground/[0.05] outline-none" />
-          <input value={form.phone} onChange={e => setForm(f => ({ ...f, phone: e.target.value }))} placeholder="Phone" className="w-full px-4 py-2.5 bg-surface rounded-xl text-sm text-foreground border border-foreground/[0.05] outline-none" />
-          <textarea value={form.message} onChange={e => setForm(f => ({ ...f, message: e.target.value }))} placeholder="Message / Requirements" rows={3} className="w-full px-4 py-2.5 bg-surface rounded-xl text-sm text-foreground border border-foreground/[0.05] outline-none resize-none" />
+          <input value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value }))} placeholder="Name" className="w-full px-4 py-2.5 bg-background rounded-xl text-sm text-foreground border border-border outline-none" />
+          <input value={form.email} onChange={e => setForm(f => ({ ...f, email: e.target.value }))} placeholder="Email" className="w-full px-4 py-2.5 bg-background rounded-xl text-sm text-foreground border border-border outline-none" />
+          <input value={form.phone} onChange={e => setForm(f => ({ ...f, phone: e.target.value }))} placeholder="Phone" className="w-full px-4 py-2.5 bg-background rounded-xl text-sm text-foreground border border-border outline-none" />
+          <textarea value={form.message} onChange={e => setForm(f => ({ ...f, message: e.target.value }))} placeholder="Message / Requirements" rows={3} className="w-full px-4 py-2.5 bg-background rounded-xl text-sm text-foreground border border-border outline-none resize-none" />
         </div>
 
         <button

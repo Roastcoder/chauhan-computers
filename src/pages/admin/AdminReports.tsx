@@ -52,32 +52,32 @@ export default function AdminReports() {
       </div>
 
       <div className="flex gap-3">
-        <input type="date" value={dateFrom} onChange={e => setDateFrom(e.target.value)} className="px-4 py-2.5 bg-surface rounded-xl text-sm text-foreground border border-foreground/[0.05] outline-none" />
-        <input type="date" value={dateTo} onChange={e => setDateTo(e.target.value)} className="px-4 py-2.5 bg-surface rounded-xl text-sm text-foreground border border-foreground/[0.05] outline-none" />
+        <input type="date" value={dateFrom} onChange={e => setDateFrom(e.target.value)} className="px-4 py-2.5 bg-background rounded-xl text-sm text-foreground border border-border outline-none" />
+        <input type="date" value={dateTo} onChange={e => setDateTo(e.target.value)} className="px-4 py-2.5 bg-background rounded-xl text-sm text-foreground border border-border outline-none" />
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div className="glass-card rounded-xl p-5">
+        <div className="bg-card border border-border rounded-xl p-5">
           <p className="text-xs text-muted-foreground">Total Leads</p>
           <p className="text-3xl font-bold text-foreground">{leads.length}</p>
         </div>
-        <div className="glass-card rounded-xl p-5">
+        <div className="bg-card border border-border rounded-xl p-5">
           <p className="text-xs text-muted-foreground">Total Calls</p>
           <p className="text-3xl font-bold text-foreground">{calls.length}</p>
         </div>
-        <div className="glass-card rounded-xl p-5">
+        <div className="bg-card border border-border rounded-xl p-5">
           <p className="text-xs text-muted-foreground">Conversion Rate</p>
           <p className="text-3xl font-bold text-green-400">{conversionRate}%</p>
         </div>
       </div>
 
-      <div className="glass-card rounded-xl p-6">
+      <div className="bg-card border border-border rounded-xl p-6">
         <h3 className="text-sm font-semibold text-foreground mb-4">Leads by Source</h3>
         <table className="w-full text-sm">
-          <thead><tr className="border-b border-foreground/[0.05]"><th className="text-left px-4 py-2 text-xs text-muted-foreground">Source</th><th className="text-left px-4 py-2 text-xs text-muted-foreground">Count</th></tr></thead>
+          <thead><tr className="border-b border-border"><th className="text-left px-4 py-2 text-xs text-muted-foreground">Source</th><th className="text-left px-4 py-2 text-xs text-muted-foreground">Count</th></tr></thead>
           <tbody>
             {sourceBreakdown.map(s => (
-              <tr key={s.source} className="border-b border-foreground/[0.03]">
+              <tr key={s.source} className="border-b border-border/50">
                 <td className="px-4 py-2 text-foreground capitalize">{s.source}</td>
                 <td className="px-4 py-2 text-foreground">{s.count}</td>
               </tr>
