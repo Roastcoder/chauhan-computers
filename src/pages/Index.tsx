@@ -1,8 +1,7 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
-  Star, Mail, Laptop, Printer, Cpu, Camera, Monitor, Keyboard, Wrench,
-  Truck, Shield, CreditCard, MapPin, Headphones, HardDrive
+  Star, Mail, Truck, Shield, CreditCard, MapPin
 } from "lucide-react";
 import { AnimatedSection } from "@/components/AnimatedSection";
 import { ProductCard } from "@/components/ProductCard";
@@ -16,18 +15,27 @@ import bannerEmi from "@/assets/banner-emi.jpg";
 import bannerBusiness from "@/assets/banner-business.jpg";
 import bannerServices from "@/assets/banner-services.jpg";
 
+import serviceLaptops from "@/assets/service-laptops.jpg";
+import serviceDesktops from "@/assets/service-desktops.jpg";
+import servicePrinters from "@/assets/service-printers.jpg";
+import serviceAccessories from "@/assets/service-accessories.jpg";
+import serviceRepair from "@/assets/service-repair.jpg";
+import servicePeripherals from "@/assets/service-peripherals.jpg";
+import serviceComponents from "@/assets/service-components.jpg";
+import serviceCctv from "@/assets/service-cctv.jpg";
+
 const bestSellers = products.filter((p) => p.badge).slice(0, 8);
 const featuredProducts = products.filter((p) => p.badge).slice(0, 4);
 
 const serviceCards = [
-  { icon: Laptop, label: "Laptops", link: "/category/dell-laptop", color: "bg-blue-50 text-blue-600" },
-  { icon: Monitor, label: "Desktops", link: "/category/cpu-desktop", color: "bg-green-50 text-green-600" },
-  { icon: Printer, label: "Printers", link: "/category/printers", color: "bg-purple-50 text-purple-600" },
-  { icon: Keyboard, label: "Accessories", link: "/category/keyboards", color: "bg-orange-50 text-orange-600" },
-  { icon: Wrench, label: "Repair Services", link: "/services", color: "bg-red-50 text-red-600" },
-  { icon: Headphones, label: "Peripherals", link: "/category/keyboards", color: "bg-pink-50 text-pink-600" },
-  { icon: HardDrive, label: "Components", link: "/category/cpu-desktop", color: "bg-indigo-50 text-indigo-600" },
-  { icon: Camera, label: "CCTV & Security", link: "/services", color: "bg-teal-50 text-teal-600" },
+  { image: serviceLaptops, label: "Laptops", link: "/category/dell-laptop" },
+  { image: serviceDesktops, label: "Desktops", link: "/category/cpu-desktop" },
+  { image: servicePrinters, label: "Printers", link: "/category/printers" },
+  { image: serviceAccessories, label: "Accessories", link: "/category/keyboards" },
+  { image: serviceRepair, label: "Repair Services", link: "/services" },
+  { image: servicePeripherals, label: "Peripherals", link: "/category/keyboards" },
+  { image: serviceComponents, label: "Components", link: "/category/cpu-desktop" },
+  { image: serviceCctv, label: "CCTV & Security", link: "/services" },
 ];
 
 const trustBadges = [
