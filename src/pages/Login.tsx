@@ -5,6 +5,9 @@ import { Eye, EyeOff, LogIn, UserPlus, MapPin, Phone } from "lucide-react";
 import { useAuth } from "@/lib/auth";
 import loginHero from "@/assets/login-hero.jpg";
 import logoIcon from "@/assets/logo-icon.png";
+import serviceLaptops from "@/assets/service-laptops.jpg";
+import serviceCctv from "@/assets/service-cctv.jpg";
+import serviceRepair from "@/assets/service-repair.jpg";
 
 const DEMO_ACCOUNTS = [
   { label: "Admin", email: "admin@chauhaan.com", password: "admin123" },
@@ -99,9 +102,9 @@ export default function Login() {
           </div>
           <p className="text-xs text-white/90 mb-3">Fast service, best deals on laptops and components</p>
           <div className="grid grid-cols-3 gap-2">
-            <img src="/hero-slide-1.jpg" alt="Laptop sale" className="h-16 object-cover rounded-md border border-white/30" />
-            <img src="/hero-slide-2.jpg" alt="Components" className="h-16 object-cover rounded-md border border-white/30" />
-            <img src="/hero-slide-3.jpg" alt="Services" className="h-16 object-cover rounded-md border border-white/30" />
+            <img src={serviceLaptops} alt="Laptop sale" className="h-16 object-cover rounded-md border border-white/30" />
+            <img src={serviceRepair} alt="Repair" className="h-16 object-cover rounded-md border border-white/30" />
+            <img src={serviceCctv} alt="CCTV" className="h-16 object-cover rounded-md border border-white/30" />
           </div>
         </div>
       </div>
