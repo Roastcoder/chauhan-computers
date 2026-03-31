@@ -7,6 +7,7 @@ import { AnimatedSection } from "@/components/AnimatedSection";
 import { ProductCard } from "@/components/ProductCard";
 import { PremiumHeroBanner } from "@/components/PremiumHeroBanner";
 import { ContactSection } from "@/components/ContactSection";
+import { InfiniteServiceCarousel } from "@/components/InfiniteServiceCarousel";
 import { useBanners } from "@/hooks/use-banners";
 import { useProducts } from "@/hooks/use-products";
 import { categories, services } from "@/lib/data";
