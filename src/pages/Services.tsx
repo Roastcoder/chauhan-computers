@@ -1,7 +1,9 @@
 import { motion } from "framer-motion";
 import { AnimatedSection } from "@/components/AnimatedSection";
+import { PromoBanner } from "@/components/PromoBanner";
 import { services } from "@/lib/data";
 import { Laptop, Printer, Cpu, Camera } from "lucide-react";
+import bannerEmi from "@/assets/banner-emi.jpg";
 
 const iconMap: Record<string, any> = {
   laptop: Laptop,
