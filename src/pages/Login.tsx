@@ -214,7 +214,7 @@ export default function Login() {
                   </div>
 
                   {error && <p className="text-xs text-destructive">{error}</p>}
-                  {success && <p className="text-xs text-green-600">{success}</p>}
+                  {success && <p className="text-xs text-primary">{success}</p>}
 
                   <button
                     type="submit"
