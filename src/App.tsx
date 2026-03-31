@@ -4,8 +4,10 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { CartProvider } from "@/lib/cart";
+import { StoreInfoBar } from "@/components/StoreInfoBar";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
+import { WhatsAppButton } from "@/components/WhatsAppButton";
 import Index from "./pages/Index";
 import Category from "./pages/Category";
 import ProductDetail from "./pages/ProductDetail";
@@ -27,6 +29,7 @@ const App = () => (
       <BrowserRouter>
         <CartProvider>
           <div className="min-h-screen flex flex-col">
+            <StoreInfoBar />
             <Navbar />
             <main className="flex-1">
               <Routes>
@@ -43,6 +46,7 @@ const App = () => (
               </Routes>
             </main>
             <Footer />
+            <WhatsAppButton />
           </div>
         </CartProvider>
       </BrowserRouter>

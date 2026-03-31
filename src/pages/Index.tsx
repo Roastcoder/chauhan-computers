@@ -8,6 +8,8 @@ import { CategoryCarousel } from "@/components/CategoryCarousel";
 import { FeatureBanner } from "@/components/FeatureBanner";
 import { HeroProductShowcase } from "@/components/HeroProductShowcase";
 import { PremiumHeroBanner } from "@/components/PremiumHeroBanner";
+import { DealsSection } from "@/components/DealsSection";
+import { ContactSection } from "@/components/ContactSection";
 import { products, categories, testimonials, services } from "@/lib/data";
 
 const iconMap: Record<string, any> = { laptop: Laptop, printer: Printer, cpu: Cpu, camera: Camera };
@@ -18,43 +20,42 @@ const showcaseProducts = products.filter((p) => p.badge && p.originalPrice).slic
 export default function Index() {
   return (
     <div>
-      {/* Premium Hero Banner */}
       <PremiumHeroBanner />
-
-      {/* Feature Banner */}
       <FeatureBanner />
 
-      {/* Product Carousel */}
+      {/* Featured Products Carousel */}
       <section className="py-24 bg-background">
         <div className="max-w-[1440px] mx-auto px-6">
           <AnimatedSection>
-            <h2 className="text-3xl md:text-4xl font-semibold tracking-tight text-foreground text-center mb-4">Featured Products</h2>
+            <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-foreground text-center mb-4">Featured Products</h2>
             <p className="text-muted-foreground text-center mb-12">Handpicked products for every need.</p>
           </AnimatedSection>
           <ProductCarousel products={carouselProducts} />
         </div>
       </section>
 
-      {/* Hero Product Showcase - Large prominent display */}
       <HeroProductShowcase products={showcaseProducts} />
 
-      {/* Categories - Auto Carousel */}
+      {/* Categories */}
       <section className="py-24 bg-background">
         <div className="max-w-[1440px] mx-auto px-6">
           <AnimatedSection>
-            <h2 className="text-3xl md:text-4xl font-semibold tracking-tight text-foreground text-center mb-4">Shop by Category</h2>
-            <p className="text-muted-foreground text-center mb-12 max-w-lg mx-auto">Find exactly what you need from our curated collections.</p>
+            <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-foreground text-center mb-4">Shop by Category</h2>
+            <p className="text-muted-foreground text-center mb-12 max-w-lg mx-auto">Find exactly what you need.</p>
           </AnimatedSection>
           <CategoryCarousel categories={categories} />
         </div>
       </section>
 
+      {/* Hot Deals */}
+      <DealsSection />
+
       {/* Best Sellers */}
       <section className="py-24 bg-surface">
         <div className="max-w-[1440px] mx-auto px-6">
           <AnimatedSection>
-            <h2 className="text-3xl md:text-4xl font-semibold tracking-tight text-foreground text-center mb-4">Best Sellers</h2>
-            <p className="text-muted-foreground text-center mb-12">Our most loved products, chosen by professionals.</p>
+            <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-foreground text-center mb-4">Best Sellers</h2>
+            <p className="text-muted-foreground text-center mb-12">Our most loved products.</p>
           </AnimatedSection>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {bestSellers.map((product, i) => (
@@ -68,7 +69,7 @@ export default function Index() {
       <section className="py-24 bg-background">
         <div className="max-w-[1440px] mx-auto px-6">
           <AnimatedSection>
-            <h2 className="text-3xl md:text-4xl font-semibold tracking-tight text-foreground text-center mb-4">Our Services</h2>
+            <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-foreground text-center mb-4">Our Services</h2>
             <p className="text-muted-foreground text-center mb-12 max-w-lg mx-auto">Expert repair and installation by certified technicians.</p>
           </AnimatedSection>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -77,15 +78,15 @@ export default function Index() {
               return (
                 <AnimatedSection key={service.id} delay={i * 0.1}>
                   <Link to="/services" className="group block">
-                    <div className="bg-surface rounded-3xl overflow-hidden shadow-ambient hover:shadow-elevated transition-all duration-500 hover:-translate-y-1">
+                    <div className="glass-card rounded-2xl overflow-hidden hover:border-primary/30 transition-all duration-500 hover:glow-primary hover:-translate-y-1">
                       <div className="h-40 overflow-hidden">
                         <img src={service.image} alt={service.name} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
                       </div>
                       <div className="p-6">
-                        <div className="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center mb-3 -mt-10 relative z-10 shadow-ambient">
+                        <div className="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center mb-3 -mt-10 relative z-10">
                           <Icon className="w-5 h-5 text-primary" strokeWidth={1.5} />
                         </div>
-                        <h3 className="text-base font-semibold text-foreground mb-1">{service.name}</h3>
+                        <h3 className="text-sm font-semibold text-foreground mb-1">{service.name}</h3>
                         <p className="text-xs text-muted-foreground line-clamp-2">{service.description}</p>
                       </div>
                     </div>
@@ -97,14 +98,14 @@ export default function Index() {
         </div>
       </section>
 
-      {/* Promo Banner */}
-      <section className="py-24 bg-foreground text-background">
+      {/* Promo */}
+      <section className="py-24 gradient-mesh">
         <div className="max-w-[1440px] mx-auto px-6 text-center">
           <AnimatedSection>
-            <p className="text-xs font-medium tracking-widest uppercase opacity-40 mb-4">Limited Time</p>
-            <h2 className="text-4xl md:text-6xl font-semibold tracking-tight mb-4">0% Financing Available</h2>
-            <p className="text-lg opacity-60 max-w-xl mx-auto mb-8">Get the hardware you need today. Pay over 12 months with zero interest.</p>
-            <Link to="/category/macbook" className="inline-block px-8 py-4 bg-primary text-primary-foreground rounded-full font-medium hover:opacity-90 transition-opacity">
+            <p className="text-xs font-semibold tracking-widest uppercase text-primary mb-4">Limited Time</p>
+            <h2 className="text-4xl md:text-6xl font-bold tracking-tight text-foreground mb-4">0% Financing Available</h2>
+            <p className="text-lg text-muted-foreground max-w-xl mx-auto mb-8">Get the hardware you need today. Pay over 12 months with zero interest.</p>
+            <Link to="/category/macbook" className="inline-block px-8 py-4 bg-primary text-primary-foreground rounded-full font-semibold hover:opacity-90 transition-opacity glow-primary">
               Shop Now
             </Link>
           </AnimatedSection>
@@ -115,18 +116,18 @@ export default function Index() {
       <section className="py-24 bg-surface">
         <div className="max-w-[1440px] mx-auto px-6">
           <AnimatedSection>
-            <h2 className="text-3xl md:text-4xl font-semibold tracking-tight text-foreground text-center mb-12">What Our Customers Say</h2>
+            <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-foreground text-center mb-12">What Our Customers Say</h2>
           </AnimatedSection>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {testimonials.map((t, i) => (
               <AnimatedSection key={i} delay={i * 0.1}>
-                <div className="bg-background rounded-3xl p-8 shadow-ambient">
+                <div className="glass-card rounded-2xl p-8">
                   <div className="flex gap-1 mb-4">
                     {Array.from({ length: t.rating }).map((_, j) => (
-                      <Star key={j} className="w-4 h-4 fill-primary text-primary" />
+                      <Star key={j} className="w-4 h-4 fill-yellow-500 text-yellow-500" />
                     ))}
                   </div>
-                  <p className="text-prose text-[15px] leading-relaxed mb-6">"{t.text}"</p>
+                  <p className="text-prose text-sm leading-relaxed mb-6">"{t.text}"</p>
                   <div>
                     <p className="text-sm font-semibold text-foreground">{t.name}</p>
                     <p className="text-xs text-muted-foreground">{t.role}</p>
@@ -138,17 +139,20 @@ export default function Index() {
         </div>
       </section>
 
+      {/* Contact */}
+      <ContactSection />
+
       {/* Newsletter */}
       <section className="py-24 bg-background">
         <div className="max-w-[1440px] mx-auto px-6">
           <AnimatedSection>
             <div className="max-w-xl mx-auto text-center">
               <Mail className="w-8 h-8 text-primary mx-auto mb-4" />
-              <h2 className="text-3xl font-semibold tracking-tight text-foreground mb-3">Stay Updated</h2>
+              <h2 className="text-3xl font-bold tracking-tight text-foreground mb-3">Stay Updated</h2>
               <p className="text-muted-foreground mb-8">Get notified about new products and exclusive offers.</p>
               <form className="flex gap-3 max-w-md mx-auto" onSubmit={(e) => e.preventDefault()}>
-                <input type="email" placeholder="Enter your email" className="flex-1 px-5 py-3 bg-surface rounded-full text-sm text-foreground placeholder:text-muted-foreground outline-none focus:ring-2 focus:ring-primary/20" />
-                <button type="submit" className="px-6 py-3 bg-primary text-primary-foreground rounded-full font-medium text-sm hover:opacity-90 transition-opacity">Subscribe</button>
+                <input type="email" placeholder="Enter your email" className="flex-1 px-5 py-3 bg-surface rounded-full text-sm text-foreground placeholder:text-muted-foreground outline-none focus:ring-2 focus:ring-primary/20 border border-foreground/[0.05]" />
+                <button type="submit" className="px-6 py-3 bg-primary text-primary-foreground rounded-full font-semibold text-sm hover:opacity-90 transition-opacity">Subscribe</button>
               </form>
             </div>
           </AnimatedSection>
