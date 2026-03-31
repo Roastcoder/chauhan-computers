@@ -1,21 +1,20 @@
 import { Link } from "react-router-dom";
+import { Zap, Phone, MapPin } from "lucide-react";
 
 const footerLinks = {
-  "Products": [
-    { name: "CPU | Desktop Setup", path: "/category/cpu-desktop" },
-    { name: "Dell Laptop", path: "/category/dell-laptop" },
-    { name: "HP Laptop", path: "/category/hp-laptop" },
-    { name: "Lenovo Laptop", path: "/category/lenovo-laptop" },
-    { name: "MacBook", path: "/category/macbook" },
+  Products: [
+    { name: "Laptops", path: "/category/dell-laptop" },
+    { name: "Desktops", path: "/category/cpu-desktop" },
+    { name: "MacBooks", path: "/category/macbook" },
     { name: "Printers", path: "/category/printers" },
   ],
-  "Services": [
+  Services: [
     { name: "Laptop Repair", path: "/services" },
     { name: "Printer Repair", path: "/services" },
     { name: "CPU Repair", path: "/services" },
     { name: "CCTV Installation", path: "/services" },
   ],
-  "Company": [
+  Company: [
     { name: "About Us", path: "/about" },
     { name: "Blog", path: "/blog" },
     { name: "Careers", path: "/careers" },
@@ -25,26 +24,35 @@ const footerLinks = {
 
 export function Footer() {
   return (
-    <footer className="bg-foreground text-background">
+    <footer className="bg-surface border-t border-foreground/[0.05]">
       <div className="max-w-[1440px] mx-auto px-6 py-16">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
           <div className="col-span-2 md:col-span-1">
-            <div className="flex items-center gap-1 mb-4">
-              <span className="text-xl font-bold">Chauhaan</span>
-              <span className="text-xl font-light opacity-60">Computers</span>
+            <div className="flex items-center gap-1.5 mb-4">
+              <Zap className="w-5 h-5 text-primary" />
+              <span className="text-lg font-bold text-foreground">Chauhaan</span>
+              <span className="text-lg font-light text-muted-foreground">Computers</span>
             </div>
-            <p className="text-sm opacity-50 leading-relaxed max-w-xs">
-              Your Trusted Tech Partner. Precision-engineered hardware and expert repair services for those who build the future.
+            <p className="text-sm text-muted-foreground leading-relaxed max-w-xs mb-4">
+              Your Trusted Tech Partner in Jaipur. Premium hardware & expert services since 2010.
             </p>
+            <div className="flex items-center gap-2 text-xs text-muted-foreground mb-2">
+              <MapPin className="w-3 h-3 text-primary" />
+              Malviya Nagar, Jaipur
+            </div>
+            <a href="tel:09829721157" className="flex items-center gap-2 text-xs text-muted-foreground hover:text-foreground transition-colors">
+              <Phone className="w-3 h-3 text-primary" />
+              098297 21157
+            </a>
           </div>
 
           {Object.entries(footerLinks).map(([title, links]) => (
             <div key={title}>
-              <h4 className="text-xs font-medium tracking-wide uppercase opacity-40 mb-4">{title}</h4>
+              <h4 className="text-xs font-semibold tracking-widest uppercase text-muted-foreground mb-4">{title}</h4>
               <ul className="space-y-3">
                 {links.map((link) => (
                   <li key={link.name}>
-                    <Link to={link.path} className="text-sm opacity-60 hover:opacity-100 transition-opacity">
+                    <Link to={link.path} className="text-sm text-muted-foreground hover:text-foreground transition-colors">
                       {link.name}
                     </Link>
                   </li>
@@ -54,11 +62,19 @@ export function Footer() {
           ))}
         </div>
 
-        <div className="border-t border-background/10 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="text-xs opacity-40">© 2026 Chauhaan Computers. All rights reserved.</p>
-          <div className="flex gap-6">
-            <a href="#" className="text-xs opacity-40 hover:opacity-100 transition-opacity">Privacy</a>
-            <a href="#" className="text-xs opacity-40 hover:opacity-100 transition-opacity">Terms</a>
+        <div className="border-t border-foreground/[0.05] pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
+          <p className="text-xs text-muted-foreground">© 2025 Chauhaan Computers — Shop No B-5, Malviya Nagar, Jaipur 302017</p>
+          <div className="flex gap-4">
+            <a
+              href="https://wa.me/919829721157"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-xs text-green-500 hover:text-green-400 transition-colors font-medium"
+            >
+              WhatsApp
+            </a>
+            <a href="#" className="text-xs text-muted-foreground hover:text-foreground transition-colors">Privacy</a>
+            <a href="#" className="text-xs text-muted-foreground hover:text-foreground transition-colors">Terms</a>
           </div>
         </div>
       </div>
