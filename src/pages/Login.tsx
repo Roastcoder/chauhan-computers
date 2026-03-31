@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { Navigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { Zap, Eye, EyeOff, LogIn, UserPlus, MapPin, Phone } from "lucide-react";
+import { Eye, EyeOff, LogIn, UserPlus, MapPin, Phone } from "lucide-react";
 import { useAuth } from "@/lib/auth";
 import loginHero from "@/assets/login-hero.jpg";
+import logoIcon from "@/assets/logo-icon.png";
 
 const DEMO_ACCOUNTS = [
   { label: "Admin", email: "admin@chauhaan.com", password: "admin123" },
