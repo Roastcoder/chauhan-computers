@@ -48,7 +48,7 @@ const fallbackPromos = [
 function PromoBannerCard({ image, title, subtitle, link }: { image: string; title: string; subtitle: string; link: string }) {
   return (
     <section className="py-2">
-      <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
+      <div className="max-w-[1400px] mx-auto px-4 sm:px-6">
         <Link to={link} className="block rounded-xl overflow-hidden relative group">
           <img src={image} alt={title} className="w-full h-[120px] sm:h-[160px] md:h-[180px] object-cover group-hover:scale-[1.02] transition-transform duration-500" loading="lazy" />
           <div className="absolute inset-0 bg-gradient-to-r from-black/60 to-transparent flex items-center px-6 sm:px-8">
@@ -76,7 +76,7 @@ export default function Index() {
 
       {/* Our Services */}
       <section className="py-8 sm:py-10 bg-background">
-        <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
+        <div className="max-w-[1400px] mx-auto px-4 sm:px-6">
           <h2 className="text-lg sm:text-2xl font-bold text-foreground mb-5">Our Services</h2>
           <div className="grid grid-cols-4 md:grid-cols-8 gap-2 sm:gap-4">
             {serviceCards.map((s, i) => (
@@ -97,7 +97,7 @@ export default function Index() {
 
       {/* Categories */}
       <section className="py-8 sm:py-10 bg-muted/30">
-        <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
+        <div className="max-w-[1400px] mx-auto px-4 sm:px-6">
           <h2 className="text-lg sm:text-2xl font-bold text-foreground mb-5">Shop by Category</h2>
           <div className="grid grid-cols-3 md:grid-cols-6 gap-2 sm:gap-4">
             {categories.map((cat, i) => (
@@ -121,7 +121,7 @@ export default function Index() {
 
       {/* Featured Products */}
       <section className="py-8 sm:py-10 bg-background">
-        <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
+        <div className="max-w-[1400px] mx-auto px-4 sm:px-6">
           <div className="flex items-center justify-between mb-5">
             <h2 className="text-lg sm:text-2xl font-bold text-foreground">Featured Products</h2>
             <Link to="/category/dell-laptop" className="text-primary text-xs sm:text-sm font-medium hover:underline">View All →</Link>
@@ -136,7 +136,7 @@ export default function Index() {
 
       {/* Trust Badges */}
       <section className="py-6 sm:py-8 bg-muted/30">
-        <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
+        <div className="max-w-[1400px] mx-auto px-4 sm:px-6">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
             {trustBadges.map((b, i) => (
               <motion.div key={b.label} initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }}
@@ -160,7 +160,7 @@ export default function Index() {
 
       {/* Best Sellers */}
       <section className="py-8 sm:py-10 bg-background">
-        <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
+        <div className="max-w-[1400px] mx-auto px-4 sm:px-6">
           <div className="flex items-center justify-between mb-5">
             <h2 className="text-lg sm:text-2xl font-bold text-foreground">Best Sellers</h2>
             <Link to="/category/hp-laptop" className="text-primary text-xs sm:text-sm font-medium hover:underline">View All →</Link>
@@ -178,7 +178,7 @@ export default function Index() {
 
       {/* Repair Services */}
       <section className="py-8 sm:py-10 bg-muted/30">
-        <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
+        <div className="max-w-[1400px] mx-auto px-4 sm:px-6">
           <h2 className="text-lg sm:text-2xl font-bold text-foreground mb-5">Repair & IT Services</h2>
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
             {services.map((service, i) => (
@@ -205,7 +205,7 @@ export default function Index() {
 
       {/* Testimonials */}
       <section className="py-8 sm:py-10 bg-background">
-        <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
+        <div className="max-w-[1400px] mx-auto px-4 sm:px-6">
           <h2 className="text-lg sm:text-2xl font-bold text-foreground mb-5">What Our Customers Say</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-4">
             {testimonials.map((t, i) => (
@@ -232,7 +232,7 @@ export default function Index() {
 
       {/* Newsletter */}
       <section className="py-8 sm:py-10 bg-muted/30">
-        <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
+        <div className="max-w-[1400px] mx-auto px-4 sm:px-6">
           <div className="max-w-xl mx-auto text-center">
             <Mail className="w-6 h-6 sm:w-8 sm:h-8 text-primary mx-auto mb-3" />
             <h2 className="text-lg sm:text-2xl font-bold text-foreground mb-2">Stay Updated</h2>

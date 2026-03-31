@@ -43,7 +43,7 @@ export function PremiumHeroBanner() {
 
   return (
     <section className="w-full">
-      <div className="max-w-[1200px] mx-auto px-4 sm:px-6 py-3">
+      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 py-3">
         <div className="relative rounded-2xl overflow-hidden">
           <AnimatePresence mode="wait">
             <motion.div
