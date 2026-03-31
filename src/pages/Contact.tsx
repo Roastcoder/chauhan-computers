@@ -1,65 +1,71 @@
-import { motion } from "framer-motion";
 import { AnimatedSection } from "@/components/AnimatedSection";
 import { Phone, Mail, MapPin, Clock } from "lucide-react";
 
 const contactInfo = [
-  { icon: Phone, label: "Phone", value: "+91 98765 43210", href: "tel:+919876543210" },
+  { icon: Phone, label: "Phone", value: "098297 21157", href: "tel:09829721157" },
   { icon: Mail, label: "Email", value: "info@chauhaancomputers.com", href: "mailto:info@chauhaancomputers.com" },
-  { icon: MapPin, label: "Address", value: "Main Market Road, Near Bus Stand, Your City, India", href: "#" },
-  { icon: Clock, label: "Hours", value: "Mon – Sat: 10AM – 8PM", href: "#" },
+  { icon: MapPin, label: "Address", value: "Shop No B-5, Girdhar Marg, Malviya Nagar, Jaipur 302017", href: "#" },
+  { icon: Clock, label: "Hours", value: "Mon – Sun: Open until 9:00 PM", href: "#" },
 ];
 
 export default function Contact() {
   return (
-    <div className="min-h-screen bg-background">
-      <section className="py-24 md:py-32 bg-foreground text-background">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className="max-w-[1440px] mx-auto px-6 text-center"
-        >
-          <h1 className="text-4xl md:text-6xl font-semibold tracking-tight mb-6">Contact Us</h1>
-          <p className="text-lg opacity-60 max-w-2xl mx-auto">
-            Have a question or need assistance? We'd love to hear from you.
-          </p>
-        </motion.div>
+    <div className="bg-background">
+      {/* Header */}
+      <section className="py-8 sm:py-10">
+        <div className="max-w-[1400px] mx-auto px-4 sm:px-6">
+          <h1 className="text-xl sm:text-2xl font-bold text-foreground mb-1">Contact Us</h1>
+          <p className="text-sm text-muted-foreground">Have a question or need assistance? We'd love to hear from you.</p>
+        </div>
       </section>
 
-      <section className="py-24">
-        <div className="max-w-[1440px] mx-auto px-6">
-          <div className="grid md:grid-cols-2 gap-16">
-            {/* Contact Form */}
+      <section className="pb-10">
+        <div className="max-w-[1400px] mx-auto px-4 sm:px-6">
+          <div className="grid md:grid-cols-2 gap-6">
+            {/* Form */}
             <AnimatedSection>
-              <h2 className="text-2xl font-semibold tracking-tight text-foreground mb-6">Send us a Message</h2>
-              <form className="space-y-5" onSubmit={(e) => e.preventDefault()}>
-                <div className="grid sm:grid-cols-2 gap-5">
-                  <input type="text" placeholder="Your Name" className="px-5 py-3.5 bg-surface rounded-xl text-sm text-foreground placeholder:text-muted-foreground outline-none focus:ring-2 focus:ring-primary/20 w-full" />
-                  <input type="email" placeholder="Email Address" className="px-5 py-3.5 bg-surface rounded-xl text-sm text-foreground placeholder:text-muted-foreground outline-none focus:ring-2 focus:ring-primary/20 w-full" />
-                </div>
-                <input type="text" placeholder="Subject" className="px-5 py-3.5 bg-surface rounded-xl text-sm text-foreground placeholder:text-muted-foreground outline-none focus:ring-2 focus:ring-primary/20 w-full" />
-                <textarea rows={5} placeholder="Your Message" className="px-5 py-3.5 bg-surface rounded-xl text-sm text-foreground placeholder:text-muted-foreground outline-none focus:ring-2 focus:ring-primary/20 w-full resize-none" />
-                <button type="submit" className="px-8 py-3.5 bg-primary text-primary-foreground rounded-full font-medium text-sm hover:opacity-90 transition-opacity">
-                  Send Message
-                </button>
-              </form>
+              <div className="bg-card rounded-xl border border-border p-6">
+                <h2 className="text-lg font-semibold text-foreground mb-4">Send us a Message</h2>
+                <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
+                  <div className="grid sm:grid-cols-2 gap-3">
+                    <input type="text" placeholder="Your Name" className="px-4 py-2.5 bg-background rounded-lg text-sm text-foreground placeholder:text-muted-foreground outline-none focus:ring-2 focus:ring-primary/20 border border-border w-full" />
+                    <input type="email" placeholder="Email Address" className="px-4 py-2.5 bg-background rounded-lg text-sm text-foreground placeholder:text-muted-foreground outline-none focus:ring-2 focus:ring-primary/20 border border-border w-full" />
+                  </div>
+                  <input type="text" placeholder="Subject" className="px-4 py-2.5 bg-background rounded-lg text-sm text-foreground placeholder:text-muted-foreground outline-none focus:ring-2 focus:ring-primary/20 border border-border w-full" />
+                  <textarea rows={4} placeholder="Your Message" className="px-4 py-2.5 bg-background rounded-lg text-sm text-foreground placeholder:text-muted-foreground outline-none focus:ring-2 focus:ring-primary/20 border border-border w-full resize-none" />
+                  <button type="submit" className="px-6 py-2.5 bg-primary text-primary-foreground rounded-lg font-semibold text-sm hover:opacity-90 transition-opacity">
+                    Send Message
+                  </button>
+                </form>
+              </div>
             </AnimatedSection>
 
-            {/* Contact Info */}
+            {/* Info */}
             <AnimatedSection delay={0.2}>
-              <h2 className="text-2xl font-semibold tracking-tight text-foreground mb-6">Get in Touch</h2>
-              <div className="space-y-6">
-                {contactInfo.map((info, i) => (
-                  <a key={i} href={info.href} className="flex items-start gap-4 group">
-                    <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center shrink-0">
-                      <info.icon className="w-5 h-5 text-primary" />
-                    </div>
-                    <div>
-                      <p className="text-xs font-medium tracking-wide uppercase text-muted-foreground">{info.label}</p>
-                      <p className="text-foreground font-medium group-hover:text-primary transition-colors">{info.value}</p>
-                    </div>
-                  </a>
-                ))}
+              <div className="bg-card rounded-xl border border-border p-6">
+                <h2 className="text-lg font-semibold text-foreground mb-4">Get in Touch</h2>
+                <div className="space-y-4">
+                  {contactInfo.map((info, i) => (
+                    <a key={i} href={info.href} className="flex items-start gap-3 group">
+                      <div className="w-9 h-9 bg-primary/10 rounded-lg flex items-center justify-center shrink-0">
+                        <info.icon className="w-4 h-4 text-primary" />
+                      </div>
+                      <div>
+                        <p className="text-[10px] font-medium tracking-wide uppercase text-muted-foreground">{info.label}</p>
+                        <p className="text-sm text-foreground font-medium group-hover:text-primary transition-colors">{info.value}</p>
+                      </div>
+                    </a>
+                  ))}
+                </div>
+
+                {/* Map */}
+                <div className="mt-5 rounded-lg overflow-hidden h-48">
+                  <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3559.0!2d75.8!3d26.85!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjbCsDUxJzAwLjAiTiA3NcKwNDgnMDAuMCJF!5e0!3m2!1sen!2sin!4v1"
+                    width="100%" height="100%" style={{ border: 0 }} allowFullScreen loading="lazy"
+                    title="Chauhaan Computers Location"
+                  />
+                </div>
               </div>
             </AnimatedSection>
           </div>

@@ -25,8 +25,8 @@ const footerLinks = {
 
 export function Footer() {
   return (
-    <footer className="bg-surface border-t border-foreground/[0.05]">
-      <div className="max-w-[1440px] mx-auto px-6 py-16">
+    <footer className="bg-muted/30 border-t border-border">
+      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 py-10 sm:py-14">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
           <div className="col-span-2 md:col-span-1">
             <div className="flex items-center gap-2 mb-4">

@@ -1,76 +1,55 @@
-import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 import { AnimatedSection } from "@/components/AnimatedSection";
-import { PromoBanner } from "@/components/PromoBanner";
 import { services } from "@/lib/data";
 import { Laptop, Printer, Cpu, Camera } from "lucide-react";
-import bannerEmi from "@/assets/banner-emi.jpg";
+import bannerServices from "@/assets/banner-services.jpg";
 
-const iconMap: Record<string, any> = {
-  laptop: Laptop,
-  printer: Printer,
-  cpu: Cpu,
-  camera: Camera,
-};
+const iconMap: Record<string, any> = { laptop: Laptop, printer: Printer, cpu: Cpu, camera: Camera };
 
 export default function Services() {
   return (
-    <div className="min-h-screen bg-background">
-      {/* Hero */}
-      <section className="py-24 md:py-32 bg-foreground text-background">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className="max-w-[1440px] mx-auto px-6 text-center"
-        >
-          <p className="text-xs font-medium tracking-widest uppercase opacity-40 mb-4">Expert Solutions</p>
-          <h1 className="text-4xl md:text-6xl font-semibold tracking-tight mb-6">
-            Our Services
-          </h1>
-          <p className="text-lg opacity-60 max-w-2xl mx-auto">
-            Professional repair and installation services by certified technicians. We fix it right, the first time.
-          </p>
-        </motion.div>
+    <div className="bg-background">
+      {/* Hero Banner */}
+      <section className="w-full">
+        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 py-3">
+          <div className="relative rounded-2xl overflow-hidden">
+            <img src={bannerServices} alt="Our Services" className="w-full h-[200px] sm:h-[280px] md:h-[320px] object-cover" />
+            <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/40 to-transparent flex items-center">
+              <div className="px-6 sm:px-10 md:px-12">
+                <p className="text-white/60 text-xs uppercase tracking-widest mb-2">Expert Solutions</p>
+                <h1 className="text-2xl sm:text-3xl md:text-5xl font-bold text-white leading-tight mb-3">Our Services</h1>
+                <p className="text-white/80 text-sm sm:text-base max-w-lg">Professional repair and installation by certified technicians.</p>
+              </div>
+            </div>
+          </div>
+        </div>
       </section>
 
       {/* Services Grid */}
-      <section className="py-24">
-        <div className="max-w-[1440px] mx-auto px-6">
-          <div className="space-y-16">
+      <section className="py-8 sm:py-10">
+        <div className="max-w-[1400px] mx-auto px-4 sm:px-6">
+          <h2 className="text-xl sm:text-2xl font-bold text-foreground mb-6">All Services</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
             {services.map((service, i) => {
               const Icon = iconMap[service.icon] || Cpu;
-              const isEven = i % 2 === 0;
-
               return (
                 <AnimatedSection key={service.id} delay={i * 0.1}>
-                  <div className={`flex flex-col ${isEven ? "md:flex-row" : "md:flex-row-reverse"} gap-8 md:gap-16 items-center`}>
-                    <motion.div
-                      className="flex-1 rounded-3xl overflow-hidden shadow-elevated"
-                      whileHover={{ scale: 1.02 }}
-                      transition={{ duration: 0.3 }}
-                    >
-                      <img
-                        src={service.image}
-                        alt={service.name}
-                        className="w-full h-64 md:h-80 object-cover"
-                      />
-                    </motion.div>
-                    <div className="flex-1 space-y-4">
-                      <div className="w-14 h-14 bg-primary/10 rounded-2xl flex items-center justify-center">
-                        <Icon className="w-7 h-7 text-primary" strokeWidth={1.5} />
+                  <div className="bg-card rounded-xl overflow-hidden border border-border hover:shadow-md hover:border-primary/20 transition-all flex flex-col sm:flex-row">
+                    <div className="sm:w-48 h-40 sm:h-auto overflow-hidden shrink-0">
+                      <img src={service.image} alt={service.name} className="w-full h-full object-cover" loading="lazy" />
+                    </div>
+                    <div className="p-5 flex-1">
+                      <div className="flex items-center gap-2 mb-2">
+                        <div className="w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center">
+                          <Icon className="w-4 h-4 text-primary" strokeWidth={1.5} />
+                        </div>
+                        <h3 className="text-sm font-semibold text-foreground">{service.name}</h3>
                       </div>
-                      <h3 className="text-2xl md:text-3xl font-semibold tracking-tight text-foreground">
-                        {service.name}
-                      </h3>
-                      <p className="text-prose text-lg leading-relaxed">
-                        {service.description}
-                      </p>
-                      <a
-                        href="/contact"
-                        className="inline-block px-6 py-3 bg-primary text-primary-foreground rounded-full font-medium text-sm hover:opacity-90 transition-opacity mt-2"
-                      >
+                      <p className="text-xs text-muted-foreground leading-relaxed mb-3">{service.description}</p>
+                      <Link to="/contact"
+                        className="inline-block px-4 py-2 bg-primary text-primary-foreground rounded-lg text-xs font-semibold hover:opacity-90 transition-opacity">
                         Book Service
-                      </a>
+                      </Link>
                     </div>
                   </div>
                 </AnimatedSection>
@@ -80,34 +59,17 @@ export default function Services() {
         </div>
       </section>
 
-      {/* EMI Banner */}
-      <div className="py-8 bg-background">
-        <PromoBanner
-          image={bannerEmi}
-          title="0% EMI on All Services & Products"
-          subtitle="Easy Financing"
-          cta="Learn More"
-          ctaLink="/contact"
-          overlay="gradient"
-        />
-      </div>
-
       {/* CTA */}
-      <section className="py-24 bg-surface">
-        <div className="max-w-[1440px] mx-auto px-6 text-center">
+      <section className="py-8 sm:py-10 bg-muted/30">
+        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 text-center">
           <AnimatedSection>
-            <h2 className="text-3xl md:text-4xl font-semibold tracking-tight text-foreground mb-4">
-              Need a Custom Solution?
-            </h2>
-            <p className="text-muted-foreground max-w-lg mx-auto mb-8">
-              We also offer custom PC builds, network setup, and IT consultation for businesses. Get in touch!
+            <h2 className="text-xl sm:text-2xl font-bold text-foreground mb-3">Need a Custom Solution?</h2>
+            <p className="text-sm text-muted-foreground max-w-lg mx-auto mb-5">
+              We also offer custom PC builds, network setup, and IT consultation for businesses.
             </p>
-            <a
-              href="/contact"
-              className="inline-block px-8 py-4 bg-primary text-primary-foreground rounded-full font-medium hover:opacity-90 transition-opacity"
-            >
+            <Link to="/contact" className="inline-block px-6 py-3 bg-primary text-primary-foreground rounded-lg font-semibold text-sm hover:opacity-90 transition-opacity">
               Contact Us
-            </a>
+            </Link>
           </AnimatedSection>
         </div>
       </section>

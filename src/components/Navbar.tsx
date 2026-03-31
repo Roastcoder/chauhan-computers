@@ -124,7 +124,7 @@ export function Navbar() {
       <nav className={`h-14 sm:h-16 w-full sticky top-0 z-50 transition-all duration-300 ${
         scrolled ? "bg-card/95 backdrop-blur-md shadow-sm border-b border-border" : "bg-card border-b border-border"
       }`}>
-        <div className="max-w-[1200px] mx-auto px-4 sm:px-6 h-full flex items-center justify-between">
+        <div className="w-full px-4 sm:px-6 lg:px-10 h-full flex items-center justify-between">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2 shrink-0">
             <img src={logoIcon} alt="Chauhaan Computers" className="w-8 h-8 sm:w-9 sm:h-9" />
