@@ -64,6 +64,7 @@ const App = () => (
       <BrowserRouter>
         <AuthProvider>
           <CartProvider>
+            <ScrollToTop />
             <Routes>
               {/* Public storefront */}
               <Route path="/" element={<StorefrontLayout><Index /></StorefrontLayout>} />
