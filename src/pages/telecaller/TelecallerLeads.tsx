@@ -34,24 +34,25 @@ export default function TelecallerLeads() {
   });
 
   return (
-    <div className="space-y-6">
-      <h1 className="text-2xl font-bold text-foreground">My Leads</h1>
+    <div className="space-y-4 md:space-y-6">
+      <h1 className="text-xl md:text-2xl font-bold text-foreground">My Leads</h1>
 
-      <div className="flex gap-2">
+      <div className="flex gap-2 overflow-x-auto pb-1">
         {[
           { key: "all", label: "All" },
           { key: "new", label: "New" },
-          { key: "followup", label: "Follow-up Today" },
+          { key: "followup", label: "Follow-up" },
           { key: "not_called", label: "Not Called" },
         ].map(f => (
           <button key={f.key} onClick={() => setFilter(f.key)}
-            className={`px-4 py-2 rounded-xl text-xs font-semibold transition-colors ${filter === f.key ? "bg-primary text-primary-foreground" : "bg-background text-muted-foreground hover:text-foreground"}`}>
+            className={`px-3 md:px-4 py-2 rounded-xl text-xs font-semibold transition-colors whitespace-nowrap ${filter === f.key ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground hover:text-foreground"}`}>
             {f.label}
           </button>
         ))}
       </div>
 
-      <div className="bg-card border border-border rounded-xl overflow-hidden">
+      {/* Desktop table */}
+      <div className="hidden md:block bg-card border border-border rounded-xl overflow-hidden">
         <table className="w-full text-sm">
           <thead>
             <tr className="border-b border-border">
@@ -73,9 +74,9 @@ export default function TelecallerLeads() {
                 <td className="px-4 py-3">
                   <span className={`text-[10px] font-semibold px-2 py-1 rounded-full ${
                     lead.status === "new" ? "bg-primary/20 text-primary" :
-                    lead.status === "contacted" ? "bg-yellow-500/20 text-yellow-400" :
-                    lead.status === "interested" ? "bg-purple-500/20 text-purple-400" :
-                    lead.status === "converted" ? "bg-green-500/20 text-green-400" :
+                    lead.status === "contacted" ? "bg-yellow-500/20 text-yellow-500" :
+                    lead.status === "interested" ? "bg-purple-500/20 text-purple-500" :
+                    lead.status === "converted" ? "bg-green-500/20 text-green-500" :
                     "bg-destructive/20 text-destructive"
                   }`}>{lead.status.replace("_", " ")}</span>
                 </td>
@@ -89,6 +90,37 @@ export default function TelecallerLeads() {
             ))}
           </tbody>
         </table>
+      </div>
+
+      {/* Mobile cards */}
+      <div className="md:hidden space-y-2">
+        {isLoading && <p className="text-center text-muted-foreground py-8">Loading...</p>}
+        {filtered.map(lead => (
+          <div key={lead.id} className="bg-card border border-border rounded-xl p-4">
+            <div className="flex items-start justify-between mb-2">
+              <div>
+                <p className="text-sm font-semibold text-foreground">{lead.name}</p>
+                <p className="text-xs text-muted-foreground">{lead.phone}</p>
+              </div>
+              <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full ${
+                lead.status === "new" ? "bg-primary/20 text-primary" :
+                lead.status === "contacted" ? "bg-yellow-500/20 text-yellow-500" :
+                lead.status === "interested" ? "bg-purple-500/20 text-purple-500" :
+                lead.status === "converted" ? "bg-green-500/20 text-green-500" :
+                "bg-destructive/20 text-destructive"
+              }`}>{lead.status.replace("_", " ")}</span>
+            </div>
+            {lead.product_interest && (
+              <p className="text-[10px] text-muted-foreground mb-2">Interest: {lead.product_interest}</p>
+            )}
+            {lead.follow_up_at && (
+              <p className="text-[10px] text-muted-foreground mb-2">Follow-up: {new Date(lead.follow_up_at).toLocaleDateString()}</p>
+            )}
+            <button onClick={() => setCallingLead(lead)} className="w-full flex items-center justify-center gap-1.5 px-3 py-2 bg-green-600 text-white rounded-lg text-xs font-semibold hover:bg-green-700 transition-colors">
+              <Phone className="w-3 h-3" /> Call Now
+            </button>
+          </div>
+        ))}
       </div>
 
       <AnimatePresence>
@@ -109,7 +141,6 @@ function CallingModal({ lead, onClose }: { lead: Lead; onClose: () => void }) {
 
   const handleSave = async () => {
     setSaving(true);
-    // Save call history
     await supabase.from("call_history").insert({
       lead_id: lead.id,
       telecaller_id: user!.id,
@@ -118,7 +149,6 @@ function CallingModal({ lead, onClose }: { lead: Lead; onClose: () => void }) {
       follow_up_at: followUp || null,
     });
 
-    // Add remark
     if (remarks) {
       await supabase.from("lead_remarks").insert({
         lead_id: lead.id,
@@ -128,7 +158,6 @@ function CallingModal({ lead, onClose }: { lead: Lead; onClose: () => void }) {
       });
     }
 
-    // Update lead
     const updates: any = { status: status as any };
     if (followUp) updates.follow_up_at = followUp;
     await supabase.from("leads").update(updates).eq("id", lead.id);
@@ -141,8 +170,9 @@ function CallingModal({ lead, onClose }: { lead: Lead; onClose: () => void }) {
   };
 
   return (
-    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-50 bg-black/60 flex items-center justify-center p-6" onClick={onClose}>
-      <motion.div initial={{ scale: 0.95, y: 20 }} animate={{ scale: 1, y: 0 }} exit={{ scale: 0.95 }} className="bg-card border border-border rounded-2xl p-6 w-full max-w-md" onClick={e => e.stopPropagation()}>
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-50 bg-black/60 flex items-end md:items-center justify-center p-0 md:p-6" onClick={onClose}>
+      <motion.div initial={{ y: 100 }} animate={{ y: 0 }} exit={{ y: 100 }} className="bg-card border border-border rounded-t-2xl md:rounded-2xl p-5 md:p-6 w-full max-w-md max-h-[90vh] overflow-y-auto" onClick={e => e.stopPropagation()}>
+        <div className="w-10 h-1 bg-border rounded-full mx-auto mb-4 md:hidden" />
         <h2 className="text-lg font-bold text-foreground mb-1">{lead.name}</h2>
         <p className="text-2xl font-bold text-primary mb-4">{lead.phone}</p>
 
@@ -163,17 +193,14 @@ function CallingModal({ lead, onClose }: { lead: Lead; onClose: () => void }) {
               {OUTCOME_OPTIONS.map(o => <option key={o} value={o}>{o.replace("_", " ")}</option>)}
             </select>
           </div>
-
           <div>
             <label className="text-xs font-medium text-muted-foreground mb-1 block">Remarks</label>
             <textarea value={remarks} onChange={e => setRemarks(e.target.value)} rows={3} className="w-full px-4 py-2.5 bg-background rounded-xl text-sm text-foreground border border-border outline-none resize-none" placeholder="Notes from the call..." />
           </div>
-
           <div>
             <label className="text-xs font-medium text-muted-foreground mb-1 block">Follow-up Date</label>
             <input type="datetime-local" value={followUp} onChange={e => setFollowUp(e.target.value)} className="w-full px-4 py-2.5 bg-background rounded-xl text-sm text-foreground border border-border outline-none" />
           </div>
-
           <div>
             <label className="text-xs font-medium text-muted-foreground mb-1 block">Update Status</label>
             <select value={status} onChange={e => setStatus(e.target.value as any)} className="w-full px-4 py-2.5 bg-background rounded-xl text-sm text-foreground border border-border outline-none">
@@ -183,7 +210,7 @@ function CallingModal({ lead, onClose }: { lead: Lead; onClose: () => void }) {
         </div>
 
         <div className="flex gap-3 mt-4">
-          <button onClick={onClose} className="flex-1 py-2.5 bg-background text-foreground rounded-xl text-sm">Cancel</button>
+          <button onClick={onClose} className="flex-1 py-2.5 bg-muted text-foreground rounded-xl text-sm">Cancel</button>
           <button onClick={handleSave} disabled={saving} className="flex-1 py-2.5 bg-primary text-primary-foreground rounded-xl text-sm font-semibold disabled:opacity-50">
             {saving ? "Saving..." : "Save"}
           </button>

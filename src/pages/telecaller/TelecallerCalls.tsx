@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth";
+import { Phone } from "lucide-react";
 
 export default function TelecallerCalls() {
   const { user } = useAuth();
@@ -15,10 +16,11 @@ export default function TelecallerCalls() {
   });
 
   return (
-    <div className="space-y-6">
-      <h1 className="text-2xl font-bold text-foreground">Call History</h1>
+    <div className="space-y-4 md:space-y-6">
+      <h1 className="text-xl md:text-2xl font-bold text-foreground">Call History</h1>
 
-      <div className="bg-card border border-border rounded-xl overflow-hidden">
+      {/* Desktop table */}
+      <div className="hidden md:block bg-card border border-border rounded-xl overflow-hidden">
         <table className="w-full text-sm">
           <thead>
             <tr className="border-b border-border">
@@ -39,9 +41,9 @@ export default function TelecallerCalls() {
                 <td className="px-4 py-3 text-xs text-muted-foreground">{new Date(call.created_at).toLocaleString()}</td>
                 <td className="px-4 py-3">
                   <span className={`text-[10px] font-semibold px-2 py-1 rounded-full ${
-                    call.outcome === "answered" ? "bg-green-500/20 text-green-400" :
-                    call.outcome === "callback" ? "bg-yellow-500/20 text-yellow-400" :
-                    "bg-background text-muted-foreground"
+                    call.outcome === "answered" ? "bg-green-500/20 text-green-500" :
+                    call.outcome === "callback" ? "bg-yellow-500/20 text-yellow-500" :
+                    "bg-muted text-muted-foreground"
                   }`}>{call.outcome.replace("_", " ")}</span>
                 </td>
                 <td className="px-4 py-3 text-xs text-muted-foreground max-w-[200px] truncate">{call.remarks || "—"}</td>
@@ -49,6 +51,28 @@ export default function TelecallerCalls() {
             ))}
           </tbody>
         </table>
+      </div>
+
+      {/* Mobile cards */}
+      <div className="md:hidden space-y-2">
+        {calls.length === 0 && <p className="text-center text-muted-foreground py-8">No calls yet</p>}
+        {calls.map((call: any) => (
+          <div key={call.id} className="bg-card border border-border rounded-xl p-4">
+            <div className="flex items-start justify-between mb-1.5">
+              <div>
+                <p className="text-sm font-semibold text-foreground">{call.leads?.name || "—"}</p>
+                <p className="text-xs text-muted-foreground">{call.leads?.phone}</p>
+              </div>
+              <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full ${
+                call.outcome === "answered" ? "bg-green-500/20 text-green-500" :
+                call.outcome === "callback" ? "bg-yellow-500/20 text-yellow-500" :
+                "bg-muted text-muted-foreground"
+              }`}>{call.outcome.replace("_", " ")}</span>
+            </div>
+            <p className="text-[10px] text-muted-foreground">{new Date(call.created_at).toLocaleString()}</p>
+            {call.remarks && <p className="text-xs text-muted-foreground mt-1.5 line-clamp-2">{call.remarks}</p>}
+          </div>
+        ))}
       </div>
     </div>
   );
