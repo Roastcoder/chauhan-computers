@@ -1,13 +1,14 @@
 import { Outlet } from "react-router-dom";
 import { PanelSidebar, PanelMobileHeader } from "@/components/PanelSidebar";
 import { MobileBottomNav } from "@/components/MobileBottomNav";
-import { LayoutDashboard, Users, Package, PhoneCall, BarChart3, Settings, ImageIcon } from "lucide-react";
+import { LayoutDashboard, Users, Package, PhoneCall, BarChart3, Settings, ImageIcon, Share2 } from "lucide-react";
 
 const adminNav = [
   { icon: LayoutDashboard, label: "Dashboard", path: "/admin" },
   { icon: Users, label: "Leads", path: "/admin/leads" },
   { icon: Package, label: "Products", path: "/admin/products" },
   { icon: ImageIcon, label: "Banners", path: "/admin/banners" },
+  { icon: Share2, label: "Social Media", path: "/admin/social" },
   { icon: PhoneCall, label: "Telecallers", path: "/admin/telecallers" },
   { icon: BarChart3, label: "Reports", path: "/admin/reports" },
   { icon: Settings, label: "Settings", path: "/admin/settings" },
