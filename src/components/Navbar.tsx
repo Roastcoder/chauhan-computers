@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useCart } from "@/lib/cart";
 import { SearchOverlay } from "./SearchOverlay";
 import { categories, products } from "@/lib/data";
-import logoIcon from "@/assets/logo-icon.png";
+import logoIcon from "@/assets/logo-cc.png";
 
 const navLinks = [
   { name: "Home", path: "/", dropdown: undefined },
@@ -127,7 +127,7 @@ export function Navbar() {
         <div className="w-full px-4 sm:px-6 lg:px-10 h-full flex items-center justify-between">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2 shrink-0">
-            <img src={logoIcon} alt="Chauhaan Computers" className="w-8 h-8 sm:w-9 sm:h-9" />
+            <img src={logoIcon} alt="Chauhaan Computers" className="w-8 h-8 sm:w-9 sm:h-9 rounded-full object-cover" />
             <div className="hidden sm:block">
               <span className="text-base font-bold text-foreground leading-none">Chauhaan</span>
               <span className="text-base font-light text-muted-foreground leading-none ml-1">Computers</span>
