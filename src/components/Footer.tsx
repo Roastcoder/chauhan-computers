@@ -140,8 +140,8 @@ export function Footer() {
         <div className="mt-6 pt-4 border-t border-border text-center">
           <p className="text-[11px] text-muted-foreground">
             Designed by{" "}
-            <a href="https://marketvry.com" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline font-medium">
-              marketvry.com
+            <a href="https://github.com/Roastcoder" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline font-medium">
+              RoastCoder
             </a>
           </p>
         </div>
