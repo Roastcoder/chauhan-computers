@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
-  Star, Mail, Truck, Shield, MapPin, Award, Users, Heart
+  Star, Mail, Truck, Shield, MapPin, Award, Users, Heart, ChevronRight
 } from "lucide-react";
 import { AnimatedSection } from "@/components/AnimatedSection";
 import { ProductCard } from "@/components/ProductCard";
@@ -122,26 +122,58 @@ export default function Index() {
         </div>
       </section>
 
-      {/* Shop by Brand */}
-      <section className="py-8 sm:py-10 bg-background border-b border-border">
+      {/* Shop by Brand Section */}
+      <section className="py-12 sm:py-16 bg-background border-b border-border">
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6">
-          <h2 className="text-lg sm:text-2xl font-bold text-foreground mb-5">Shop by Brand</h2>
-          <div className="grid grid-cols-3 md:grid-cols-6 gap-2 sm:gap-4">
-            {categories.map((cat, i) => (
-              <motion.div key={cat.slug} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }} transition={{ delay: i * 0.03 }}>
-                <Link to={`/category/${cat.slug}`}
-                  className="flex flex-col items-center gap-2 sm:gap-3 p-3 sm:p-4 rounded-xl bg-card border border-border hover:shadow-lg hover:border-primary/20 transition-all group h-full">
-                  <div className="w-14 h-14 sm:w-20 sm:h-20 rounded-xl overflow-hidden bg-muted/50 flex items-center justify-center mb-1">
-                    <img src={cat.image} alt={cat.name} className="w-10 h-10 sm:w-16 sm:h-16 object-contain group-hover:scale-110 transition-transform" loading="lazy" />
+          <div className="flex items-center justify-between mb-8 sm:mb-12">
+            <div>
+              <h2 className="text-2xl sm:text-3xl font-bold text-foreground">Shop by Brand</h2>
+              <p className="text-sm sm:text-base text-muted-foreground mt-1">Explore our premium selection from world-class tech giants.</p>
+            </div>
+            <Link to="/category/dell-laptop" className="hidden sm:flex items-center gap-2 text-sm font-semibold text-primary hover:gap-3 transition-all">
+              View All Categories <ChevronRight className="w-4 h-4" />
+            </Link>
+          </div>
+
+          <div className="space-y-12 sm:space-y-20">
+            {categories.map((cat) => {
+              const categoryProducts = products.filter((p) => p.category === cat.slug).slice(0, 6);
+              
+              if (categoryProducts.length === 0) return null;
+
+              return (
+                <div key={cat.slug} className="relative group/brand">
+                  <div className="flex items-center justify-between mb-6">
+                    <div className="flex items-center gap-4">
+                      <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-2xl bg-muted/50 p-2 sm:p-3 flex items-center justify-center border border-border group-hover/brand:border-primary/30 transition-colors">
+                        <img src={cat.image} alt={cat.name} className="w-full h-full object-contain grayscale group-hover/brand:grayscale-0 transition-all duration-500" />
+                      </div>
+                      <div>
+                        <h3 className="text-lg sm:text-xl font-bold text-foreground">{cat.name}</h3>
+                        <p className="text-xs sm:text-sm text-muted-foreground">{cat.subtitle}</p>
+                      </div>
+                    </div>
+                    <Link 
+                      to={`/category/${cat.slug}`} 
+                      className="text-xs sm:text-sm font-semibold text-primary hover:underline flex items-center gap-1"
+                    >
+                      View All <ChevronRight className="w-3 h-3" />
+                    </Link>
                   </div>
-                  <div className="text-center">
-                    <span className="text-[11px] sm:text-sm font-bold text-foreground block leading-tight">{cat.name}</span>
-                    <span className="text-[9px] sm:text-[11px] text-muted-foreground block mt-1 leading-tight">{cat.subtitle}</span>
+
+                  <div className="relative">
+                    <div className="flex gap-4 sm:gap-6 overflow-x-auto no-scrollbar snap-x snap-mandatory pb-4 -mx-1 px-1">
+                      {categoryProducts.map((product, i) => (
+                        <div key={product.id} className="flex-none w-[200px] sm:w-[280px] snap-start">
+                          <ProductCard product={product} index={i} />
+                        </div>
+                      ))}
+                    </div>
+                    <div className="absolute top-0 right-0 h-full w-12 bg-gradient-to-l from-background to-transparent pointer-events-none hidden sm:block" />
                   </div>
-                </Link>
-              </motion.div>
-            ))}
+                </div>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -231,7 +263,8 @@ export default function Index() {
           <h2 className="text-lg sm:text-2xl font-bold text-foreground mb-5">What Our Customers Say</h2>
           <div className="relative group/reel">
             {/* Custom style for hiding scrollbar */}
-            <style dangerouslySetInnerHTML={{ __html: `
+            <style dangerouslySetInnerHTML={{
+              __html: `
               .no-scrollbar::-webkit-scrollbar { display: none; }
               .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
             ` }} />
@@ -244,12 +277,9 @@ export default function Index() {
                         <iframe
                           src={`${video.embedUrl}?utm_source=ig_web_copy_link`}
                           className="absolute inset-0 w-full h-full"
-                          frameBorder="0"
-                          scrolling="no"
-                          allowTransparency={true}
+                          title={video.caption}
                           allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
                           loading="lazy"
-                          title={video.caption}
                         />
                       </div>
                       <div className="p-3">
