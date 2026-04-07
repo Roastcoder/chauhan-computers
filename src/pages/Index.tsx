@@ -186,7 +186,8 @@ export default function Index() {
 
 
 
-      {promos[1] && <PromoBannerCard {...promos[1]} />}
+
+
 
 
 
@@ -200,6 +201,9 @@ export default function Index() {
           <InfiniteServiceCarousel cards={serviceCards} />
         </div>
       </section>
+
+      {promos[1] && <PromoBannerCard {...promos[1]} />}
+
 
       {/* Repair Services */}
       <section className="py-8 sm:py-10 bg-background">
