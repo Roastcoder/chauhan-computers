@@ -283,8 +283,11 @@ export function Navbar() {
 
                 {/* Call */}
                 <div className="pt-4 border-t border-border mt-4">
-                  <a href="tel:09829721157" className="flex items-center gap-2 px-3 py-2.5 text-sm font-medium text-primary">
-                    <Phone className="w-4 h-4" /> 098297 21157
+                  <a href="tel:09509317543" className="flex items-center gap-2 px-3 py-2.5 text-sm font-medium text-primary">
+                    <Phone className="w-4 h-4" /> 95093 17543
+                  </a>
+                  <a href="tel:08559965655" className="flex items-center gap-2 px-3 py-2 text-sm text-muted-foreground">
+                    <Phone className="w-4 h-4" /> 85599 65655
                   </a>
                 </div>
               </div>

@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
-  Star, Mail, Truck, Shield, CreditCard, MapPin
+  Star, Mail, Truck, Shield, MapPin, Award, Users, Heart
 } from "lucide-react";
 import { AnimatedSection } from "@/components/AnimatedSection";
 import { ProductCard } from "@/components/ProductCard";
@@ -13,19 +13,14 @@ import { useProducts } from "@/hooks/use-products";
 import { categories, services } from "@/lib/data";
 import { Skeleton } from "@/components/ui/skeleton";
 
-import bannerAccessories from "@/assets/banner-accessories.jpg";
-import bannerEmi from "@/assets/banner-emi.jpg";
-import bannerBusiness from "@/assets/banner-business.jpg";
 import bannerServices from "@/assets/banner-services.jpg";
+import warrantyBadge from "@/assets/warranty-badge.png";
 
 import serviceLaptops from "@/assets/service-laptops.jpg";
 import serviceDesktops from "@/assets/service-desktops.jpg";
 import servicePrinters from "@/assets/service-printers.jpg";
 import serviceAccessories from "@/assets/service-accessories.jpg";
 import serviceRepair from "@/assets/service-repair.jpg";
-import servicePeripherals from "@/assets/service-peripherals.jpg";
-import serviceComponents from "@/assets/service-components.jpg";
-import serviceCctv from "@/assets/service-cctv.jpg";
 
 const serviceCards = [
   { image: serviceLaptops, label: "Laptops", link: "/category/dell-laptop" },
@@ -33,23 +28,31 @@ const serviceCards = [
   { image: servicePrinters, label: "Printers", link: "/category/printers" },
   { image: serviceAccessories, label: "Accessories", link: "/category/keyboards" },
   { image: serviceRepair, label: "Repair Services", link: "/services" },
-  { image: servicePeripherals, label: "Peripherals", link: "/category/keyboards" },
-  { image: serviceComponents, label: "Components", link: "/category/cpu-desktop" },
-  { image: serviceCctv, label: "CCTV & Security", link: "/services" },
+];
+
+const trustStats = [
+  { icon: Star, value: "4.8★", label: "Google Rating", color: "text-yellow-500" },
+  { icon: Award, value: "4.7★", label: "JustDial Rating", color: "text-primary" },
+  { icon: Users, value: "10,000+", label: "Customers Served", color: "text-cyan" },
+  { icon: Heart, value: "Since 2010", label: "Still Serving", color: "text-red-500" },
 ];
 
 const trustBadges = [
   { icon: Truck, label: "Free Delivery", desc: "Across Jaipur" },
-  { icon: Shield, label: "1 Year Warranty", desc: "On all products" },
-  { icon: CreditCard, label: "0% EMI", desc: "Easy installments" },
+  { icon: Shield, label: "30 Day Warranty", desc: "On all products" },
   { icon: MapPin, label: "Visit Store", desc: "Malviya Nagar, Jaipur" },
 ];
 
 const fallbackPromos = [
-  { image: bannerAccessories, title: "Accessories Sale — Up to 30% Off", subtitle: "Keyboards, Mice, Headsets & More", link: "/category/keyboards" },
-  { image: bannerEmi, title: "0% EMI on All Laptops", subtitle: "Easy financing — pay in monthly installments", link: "/contact" },
+  { image: warrantyBadge, title: "30 Days Hardware Warranty", subtitle: "On all products — terms apply", link: "/contact" },
   { image: bannerServices, title: "Expert Repair & IT Services", subtitle: "Certified technicians for all brands", link: "/services" },
-  { image: bannerBusiness, title: "Enterprise IT Solutions", subtitle: "Bulk orders & custom setups for business", link: "/contact" },
+];
+
+// Instagram video reels from Chauhan Computers
+const customerVideos = [
+  { embedUrl: "https://www.instagram.com/reel/C8xQvJ_y8Zf/embed", caption: "Happy Customer Review" },
+  { embedUrl: "https://www.instagram.com/reel/C7kL2zxyKQz/embed", caption: "Customer Experience" },
+  { embedUrl: "https://www.instagram.com/reel/C6Yp4v_SXQK/embed", caption: "Store Visit Review" },
 ];
 
 function PromoBannerCard({ image, title, subtitle, link }: { image: string; title: string; subtitle: string; link: string }) {
@@ -93,28 +96,35 @@ export default function Index() {
     ? dbPromos.map(b => ({ image: b.image_url, title: b.title, subtitle: b.subtitle || "", link: b.cta_link }))
     : fallbackPromos;
 
-  const featuredProducts = products.filter((p) => p.badge).slice(0, 4);
   const bestSellers = products.filter((p) => p.badge).slice(0, 8);
 
   return (
     <div className="bg-background">
       <PremiumHeroBanner />
 
-      {/* Our Services — Horizontal Scroll */}
-      <section className="py-8 sm:py-10 bg-background">
+      {/* Trust Stats Bar */}
+      <section className="py-4 sm:py-6 bg-muted/30 border-b border-border">
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6">
-          <div className="flex items-center justify-between mb-5">
-            <h2 className="text-lg sm:text-2xl font-bold text-foreground">Our Services</h2>
-            <Link to="/services" className="text-primary text-xs sm:text-sm font-medium hover:underline">View All →</Link>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
+            {trustStats.map((stat, i) => (
+              <motion.div key={stat.label} initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }} transition={{ delay: i * 0.1 }}
+                className="flex items-center gap-2 sm:gap-3 p-3 sm:p-4 bg-card rounded-xl border border-border text-center justify-center">
+                <stat.icon className={`w-5 h-5 sm:w-6 sm:h-6 ${stat.color}`} />
+                <div>
+                  <p className="text-sm sm:text-lg font-bold text-foreground">{stat.value}</p>
+                  <p className="text-[10px] sm:text-xs text-muted-foreground">{stat.label}</p>
+                </div>
+              </motion.div>
+            ))}
           </div>
-          <InfiniteServiceCarousel cards={serviceCards} />
         </div>
       </section>
 
-      {/* Categories */}
-      <section className="py-8 sm:py-10 bg-muted/30">
+      {/* Shop by Brand — Top & Sticky */}
+      <section className="py-8 sm:py-10 bg-background sticky top-14 sm:top-16 z-30 bg-background/95 backdrop-blur-sm border-b border-border">
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6">
-          <h2 className="text-lg sm:text-2xl font-bold text-foreground mb-5">Shop by Category</h2>
+          <h2 className="text-lg sm:text-2xl font-bold text-foreground mb-5">Shop by Brand</h2>
           <div className="grid grid-cols-3 md:grid-cols-6 gap-2 sm:gap-4">
             {categories.map((cat, i) => (
               <motion.div key={cat.slug} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
@@ -134,27 +144,27 @@ export default function Index() {
 
       {promos[0] && <PromoBannerCard {...promos[0]} />}
 
-      {/* Featured Products */}
-      <section className="py-8 sm:py-10 bg-background">
+      {/* Store Video */}
+      <section className="py-8 sm:py-10 bg-muted/30">
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6">
-          <div className="flex items-center justify-between mb-5">
-            <h2 className="text-lg sm:text-2xl font-bold text-foreground">Featured Products</h2>
-            <Link to="/category/dell-laptop" className="text-primary text-xs sm:text-sm font-medium hover:underline">View All →</Link>
+          <h2 className="text-lg sm:text-2xl font-bold text-foreground mb-5">Visit Our Store</h2>
+          <div className="rounded-xl overflow-hidden border border-border aspect-video max-h-[400px]">
+            <iframe
+              src="https://www.youtube.com/embed?listType=user_uploads&list=chauhancomputersco"
+              className="w-full h-full"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+              loading="lazy"
+              title="Chauhan Computers Store"
+            />
           </div>
-          {isLoading ? <ProductGridSkeleton /> : (
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
-              {featuredProducts.map((product, i) => (
-                <ProductCard key={product.id} product={product} index={i} />
-              ))}
-            </div>
-          )}
         </div>
       </section>
 
       {/* Trust Badges */}
-      <section className="py-6 sm:py-8 bg-muted/30">
+      <section className="py-6 sm:py-8 bg-background">
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
+          <div className="grid grid-cols-3 gap-3 sm:gap-4">
             {trustBadges.map((b, i) => (
               <motion.div key={b.label} initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }} transition={{ delay: i * 0.1 }}
@@ -191,10 +201,19 @@ export default function Index() {
         </div>
       </section>
 
-      {promos[2] && <PromoBannerCard {...promos[2]} />}
+      {/* Our Services — Lower on Page */}
+      <section className="py-8 sm:py-10 bg-muted/30">
+        <div className="max-w-[1400px] mx-auto px-4 sm:px-6">
+          <div className="flex items-center justify-between mb-5">
+            <h2 className="text-lg sm:text-2xl font-bold text-foreground">Our Services</h2>
+            <Link to="/services" className="text-primary text-xs sm:text-sm font-medium hover:underline">View All →</Link>
+          </div>
+          <InfiniteServiceCarousel cards={serviceCards} />
+        </div>
+      </section>
 
       {/* Repair Services */}
-      <section className="py-8 sm:py-10 bg-muted/30">
+      <section className="py-8 sm:py-10 bg-background">
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6">
           <h2 className="text-lg sm:text-2xl font-bold text-foreground mb-5">Repair & IT Services</h2>
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
@@ -217,29 +236,25 @@ export default function Index() {
         </div>
       </section>
 
-      {promos[3] && <PromoBannerCard {...promos[3]} />}
-
-      {/* Testimonials */}
-      <section className="py-8 sm:py-10 bg-background">
+      {/* Customer Video Testimonials */}
+      <section className="py-8 sm:py-10 bg-muted/30">
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6">
           <h2 className="text-lg sm:text-2xl font-bold text-foreground mb-5">What Our Customers Say</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-4">
-            {([
-              { name: "Arjun Mehta", role: "Software Architect", text: "The Studio Tower Pro transformed my development workflow. Builds that took 20 minutes now finish in under 3. Chauhaan's attention to detail is unmatched.", rating: 5 },
-              { name: "Priya Sharma", role: "Digital Artist", text: "I've tried every brand. Chauhaan is the only one that delivers true professional-grade hardware with a premium experience from unboxing to daily use.", rating: 5 },
-              { name: "Karan Singh", role: "Business Owner", text: "From laptop purchases to CCTV installation, Chauhaan Computers handles everything for my office. Their service is outstanding.", rating: 5 },
-            ]).map((t, i) => (
+            {customerVideos.map((video, i) => (
               <AnimatedSection key={i} delay={i * 0.1}>
-                <div className="bg-card rounded-xl p-4 sm:p-6 border border-border">
-                  <div className="flex gap-1 mb-3">
-                    {Array.from({ length: t.rating }).map((_, j) => (
-                      <Star key={j} className="w-3 h-3 sm:w-4 sm:h-4 fill-yellow-500 text-yellow-500" />
-                    ))}
+                <div className="bg-card rounded-xl overflow-hidden border border-border">
+                  <div className="aspect-[9/16] sm:aspect-[9/14] max-h-[400px]">
+                    <iframe
+                      src={video.embedUrl}
+                      className="w-full h-full"
+                      allowFullScreen
+                      loading="lazy"
+                      title={video.caption}
+                    />
                   </div>
-                  <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed mb-3">"{t.text}"</p>
-                  <div>
-                    <p className="text-xs sm:text-sm font-semibold text-foreground">{t.name}</p>
-                    <p className="text-[10px] sm:text-xs text-muted-foreground">{t.role}</p>
+                  <div className="p-3">
+                    <p className="text-xs sm:text-sm font-medium text-foreground">{video.caption}</p>
                   </div>
                 </div>
               </AnimatedSection>
