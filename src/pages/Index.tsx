@@ -277,6 +277,8 @@ export default function Index() {
                         <iframe
                           src={`${video.embedUrl}?utm_source=ig_web_copy_link`}
                           className="absolute inset-0 w-full h-full"
+                          frameBorder="0"
+                          scrolling="no"
                           title={video.caption}
                           allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
                           loading="lazy"
