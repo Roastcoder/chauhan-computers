@@ -87,6 +87,7 @@ const App = () => (
                 <Route path="telecallers" element={<AdminTelecallers />} />
                 <Route path="reports" element={<AdminReports />} />
                 <Route path="banners" element={<AdminBanners />} />
+                <Route path="social" element={<AdminSocialMedia />} />
                 <Route path="settings" element={<AdminSettings />} />
               </Route>
 
