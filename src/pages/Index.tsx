@@ -273,7 +273,7 @@ export default function Index() {
                 <AnimatedSection key={i} delay={i * 0.1}>
                   <div className="flex-none w-[280px] sm:w-[320px] snap-start">
                     <div className="bg-card rounded-xl overflow-hidden border border-border shadow-sm hover:shadow-md transition-shadow">
-                      <div className="aspect-[9/16] bg-muted relative">
+                      <div className="aspect-[9/20] bg-muted relative">
                         <iframe
                           src={`${video.embedUrl}?utm_source=ig_web_copy_link`}
                           className="absolute inset-0 w-full h-full"
