@@ -119,6 +119,23 @@ export default function Index() {
               </motion.div>
             ))}
           </div>
+
+          {/* Moved Trust Badges here for better context */}
+          <div className="grid grid-cols-3 gap-3 sm:gap-6 mt-6 sm:mt-10">
+            {trustBadges.map((b, i) => (
+              <motion.div key={b.label} initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }} transition={{ delay: i * 0.1 + 0.2 }}
+                className="flex flex-col sm:flex-row items-center gap-2 sm:gap-3 p-3 sm:p-4 bg-card rounded-xl border border-border text-center sm:text-left">
+                <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                  <b.icon className="w-4 h-4 sm:w-5 sm:h-5 text-primary" strokeWidth={1.5} />
+                </div>
+                <div>
+                  <p className="text-[10px] sm:text-sm font-semibold text-foreground uppercase tracking-wider">{b.label}</p>
+                  <p className="hidden sm:block text-[10px] sm:text-xs text-muted-foreground">{b.desc}</p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -146,32 +163,6 @@ export default function Index() {
         </div>
       </section>
 
-      {promos[0] && <PromoBannerCard {...promos[0]} />}
-
-
-
-      {/* Trust Badges */}
-      <section className="py-6 sm:py-8 bg-background">
-        <div className="max-w-[1400px] mx-auto px-4 sm:px-6">
-          <div className="grid grid-cols-3 gap-3 sm:gap-4">
-            {trustBadges.map((b, i) => (
-              <motion.div key={b.label} initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }} transition={{ delay: i * 0.1 }}
-                className="flex items-center gap-2 sm:gap-3 p-3 sm:p-4 bg-card rounded-xl border border-border">
-                <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
-                  <b.icon className="w-4 h-4 sm:w-5 sm:h-5 text-primary" strokeWidth={1.5} />
-                </div>
-                <div>
-                  <p className="text-xs sm:text-sm font-semibold text-foreground">{b.label}</p>
-                  <p className="text-[10px] sm:text-xs text-muted-foreground">{b.desc}</p>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {promos[1] && <PromoBannerCard {...promos[1]} />}
 
       {/* Best Sellers */}
       <section className="py-8 sm:py-10 bg-background">
@@ -189,6 +180,15 @@ export default function Index() {
           )}
         </div>
       </section>
+
+      {promos[0] && <PromoBannerCard {...promos[0]} />}
+
+
+
+
+      {promos[1] && <PromoBannerCard {...promos[1]} />}
+
+
 
       {/* Our Services — Lower on Page */}
       <section className="py-8 sm:py-10 bg-muted/30">
