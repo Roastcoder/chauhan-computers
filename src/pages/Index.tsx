@@ -248,7 +248,7 @@ export default function Index() {
                       <div className="aspect-[9/16] bg-muted relative overflow-hidden">
                         <iframe
                           src={`${video.embedUrl}?utm_source=ig_web_copy_link`}
-                          className="absolute -top-[55px] left-0 w-full h-[calc(100%+115px)] pointer-events-none"
+                          className="absolute -top-[55px] left-0 w-full h-[calc(100%+115px)]"
                           frameBorder="0"
                           scrolling="no"
                           title={video.caption}
