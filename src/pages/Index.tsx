@@ -14,7 +14,7 @@ import { categories, services } from "@/lib/data";
 import { Skeleton } from "@/components/ui/skeleton";
 
 import bannerServices from "@/assets/banner-services.jpg";
-import warrantyBadge from "@/assets/warranty-badge.png";
+import warrantyBadge from "@/assets/warranty-banner-final.png";
 
 import serviceLaptops from "@/assets/service-laptops.jpg";
 import serviceDesktops from "@/assets/service-desktops.jpg";
@@ -50,21 +50,22 @@ const fallbackPromos = [
 
 // Instagram video reels from Chauhan Computers
 const customerVideos = [
-  { embedUrl: "https://www.instagram.com/reel/C8xQvJ_y8Zf/embed", caption: "Happy Customer Review" },
-  { embedUrl: "https://www.instagram.com/reel/C7kL2zxyKQz/embed", caption: "Customer Experience" },
-  { embedUrl: "https://www.instagram.com/reel/C6Yp4v_SXQK/embed", caption: "Store Visit Review" },
+  { embedUrl: "https://www.instagram.com/reel/DWlIY8jD5ji/embed", caption: "Happy Customer Review" },
+  { embedUrl: "https://www.instagram.com/reel/DWMHXMdB8qr/embed", caption: "Premium Laptop Unboxing" },
+  { embedUrl: "https://www.instagram.com/reel/DWv6jbmDy2E/embed", caption: "Store Service Showcase" },
+  { embedUrl: "https://www.instagram.com/reel/DWOC_klBekI/embed", caption: "Happy Customer Feedback" },
 ];
 
 function PromoBannerCard({ image, title, subtitle, link }: { image: string; title: string; subtitle: string; link: string }) {
   return (
     <section className="py-2">
       <div className="max-w-[1400px] mx-auto px-4 sm:px-6">
-        <Link to={link} className="block rounded-xl overflow-hidden relative group">
-          <img src={image} alt={title} className="w-full h-[120px] sm:h-[160px] md:h-[180px] object-cover group-hover:scale-[1.02] transition-transform duration-500" loading="lazy" />
-          <div className="absolute inset-0 bg-gradient-to-r from-black/60 to-transparent flex items-center px-6 sm:px-8">
-            <div>
-              <h3 className="text-white text-sm sm:text-lg md:text-2xl font-bold">{title}</h3>
-              <p className="text-white/80 text-xs sm:text-sm mt-1">{subtitle}</p>
+        <Link to={link} className="block rounded-xl overflow-hidden relative group aspect-[4/1] md:aspect-[8/1] bg-muted">
+          <img src={image} alt={title} className="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-500" loading="lazy" />
+          <div className="absolute inset-0 bg-gradient-to-r from-black/40 via-transparent to-transparent flex items-center px-6 sm:px-8">
+            <div className="max-w-[50%]">
+              <h3 className="text-white text-sm sm:text-lg md:text-xl font-bold leading-tight">{title}</h3>
+              <p className="text-white/80 text-[10px] sm:text-xs mt-1">{subtitle}</p>
             </div>
           </div>
         </Link>
@@ -121,8 +122,8 @@ export default function Index() {
         </div>
       </section>
 
-      {/* Shop by Brand — Top & Sticky */}
-      <section className="py-8 sm:py-10 bg-background sticky top-14 sm:top-16 z-30 bg-background/95 backdrop-blur-sm border-b border-border">
+      {/* Shop by Brand */}
+      <section className="py-8 sm:py-10 bg-background border-b border-border">
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6">
           <h2 className="text-lg sm:text-2xl font-bold text-foreground mb-5">Shop by Brand</h2>
           <div className="grid grid-cols-3 md:grid-cols-6 gap-2 sm:gap-4">
@@ -130,11 +131,14 @@ export default function Index() {
               <motion.div key={cat.slug} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }} transition={{ delay: i * 0.03 }}>
                 <Link to={`/category/${cat.slug}`}
-                  className="flex flex-col items-center gap-2 sm:gap-3 p-3 sm:p-4 rounded-xl bg-card border border-border hover:shadow-lg hover:border-primary/20 transition-all group">
-                  <div className="w-14 h-14 sm:w-20 sm:h-20 rounded-xl overflow-hidden bg-muted/50 flex items-center justify-center">
+                  className="flex flex-col items-center gap-2 sm:gap-3 p-3 sm:p-4 rounded-xl bg-card border border-border hover:shadow-lg hover:border-primary/20 transition-all group h-full">
+                  <div className="w-14 h-14 sm:w-20 sm:h-20 rounded-xl overflow-hidden bg-muted/50 flex items-center justify-center mb-1">
                     <img src={cat.image} alt={cat.name} className="w-10 h-10 sm:w-16 sm:h-16 object-contain group-hover:scale-110 transition-transform" loading="lazy" />
                   </div>
-                  <span className="text-[10px] sm:text-sm font-medium text-foreground text-center leading-tight">{cat.name}</span>
+                  <div className="text-center">
+                    <span className="text-[11px] sm:text-sm font-bold text-foreground block leading-tight">{cat.name}</span>
+                    <span className="text-[9px] sm:text-[11px] text-muted-foreground block mt-1 leading-tight">{cat.subtitle}</span>
+                  </div>
                 </Link>
               </motion.div>
             ))}
@@ -144,22 +148,7 @@ export default function Index() {
 
       {promos[0] && <PromoBannerCard {...promos[0]} />}
 
-      {/* Store Video */}
-      <section className="py-8 sm:py-10 bg-muted/30">
-        <div className="max-w-[1400px] mx-auto px-4 sm:px-6">
-          <h2 className="text-lg sm:text-2xl font-bold text-foreground mb-5">Visit Our Store</h2>
-          <div className="rounded-xl overflow-hidden border border-border aspect-video max-h-[400px]">
-            <iframe
-              src="https://www.youtube.com/embed?listType=user_uploads&list=chauhancomputersco"
-              className="w-full h-full"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-              loading="lazy"
-              title="Chauhan Computers Store"
-            />
-          </div>
-        </div>
-      </section>
+
 
       {/* Trust Badges */}
       <section className="py-6 sm:py-8 bg-background">
@@ -240,25 +229,37 @@ export default function Index() {
       <section className="py-8 sm:py-10 bg-muted/30">
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6">
           <h2 className="text-lg sm:text-2xl font-bold text-foreground mb-5">What Our Customers Say</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-4">
-            {customerVideos.map((video, i) => (
-              <AnimatedSection key={i} delay={i * 0.1}>
-                <div className="bg-card rounded-xl overflow-hidden border border-border">
-                  <div className="aspect-[9/16] sm:aspect-[9/14] max-h-[400px]">
-                    <iframe
-                      src={video.embedUrl}
-                      className="w-full h-full"
-                      allowFullScreen
-                      loading="lazy"
-                      title={video.caption}
-                    />
+          <div className="relative group/reel">
+            {/* Custom style for hiding scrollbar */}
+            <style dangerouslySetInnerHTML={{ __html: `
+              .no-scrollbar::-webkit-scrollbar { display: none; }
+              .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+            ` }} />
+            <div className="flex gap-4 sm:gap-6 overflow-x-auto snap-x snap-mandatory no-scrollbar pb-6 px-1">
+              {customerVideos.map((video, i) => (
+                <AnimatedSection key={i} delay={i * 0.1}>
+                  <div className="flex-none w-[280px] sm:w-[320px] snap-start">
+                    <div className="bg-card rounded-xl overflow-hidden border border-border shadow-sm hover:shadow-md transition-shadow">
+                      <div className="aspect-[9/16] bg-muted relative">
+                        <iframe
+                          src={`${video.embedUrl}?utm_source=ig_web_copy_link`}
+                          className="absolute inset-0 w-full h-full"
+                          frameBorder="0"
+                          scrolling="no"
+                          allowTransparency={true}
+                          allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+                          loading="lazy"
+                          title={video.caption}
+                        />
+                      </div>
+                      <div className="p-3">
+                        <p className="text-xs sm:text-sm font-medium text-foreground">{video.caption}</p>
+                      </div>
+                    </div>
                   </div>
-                  <div className="p-3">
-                    <p className="text-xs sm:text-sm font-medium text-foreground">{video.caption}</p>
-                  </div>
-                </div>
-              </AnimatedSection>
-            ))}
+                </AnimatedSection>
+              ))}
+            </div>
           </div>
         </div>
       </section>

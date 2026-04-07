@@ -1,5 +1,6 @@
+import { useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { ShoppingBag, Heart, Star, Cpu, HardDrive, MemoryStick, Monitor } from "lucide-react";
 import { useProducts } from "@/hooks/use-products";
 import { useCart } from "@/lib/cart";
@@ -52,6 +53,9 @@ export default function ProductDetail() {
     toast.success(`${product.name} added to cart`);
   };
 
+  const [activeImage, setActiveImage] = useState(product.image);
+  const allImages = product.images || [product.image];
+
   return (
     <div className="min-h-screen bg-background">
       <div className="max-w-[1440px] mx-auto px-6 py-12">
@@ -64,20 +68,42 @@ export default function ProductDetail() {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">
-          <motion.div
-            initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6, ease: [0.23, 1, 0.32, 1] }}
-            className="bg-muted/30 rounded-3xl p-12 md:p-16 flex items-center justify-center aspect-square"
-          >
-            {product.image ? (
-              <motion.img src={product.image} alt={product.name}
-                className="w-48 h-48 md:w-64 md:h-64 object-contain drop-shadow-2xl"
-                whileHover={{ scale: 1.05, rotateY: 10 }} transition={{ duration: 0.4 }}
-                style={{ perspective: "1000px" }} />
-            ) : (
-              <div className="w-48 h-48 md:w-64 md:h-64 bg-muted rounded-3xl" />
+          <div className="flex flex-col gap-6">
+            <motion.div
+              initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6, ease: [0.23, 1, 0.32, 1] }}
+              className="bg-muted/30 rounded-3xl p-12 md:p-16 flex items-center justify-center aspect-square overflow-hidden"
+            >
+              <AnimatePresence mode="wait">
+                <motion.img
+                  key={activeImage}
+                  src={activeImage}
+                  alt={product.name}
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.95 }}
+                  transition={{ duration: 0.3 }}
+                  className="w-full h-full object-contain drop-shadow-2xl max-w-[400px]"
+                />
+              </AnimatePresence>
+            </motion.div>
+
+            {allImages.length > 1 && (
+              <div className="flex gap-4 overflow-x-auto pb-2 no-scrollbar justify-center sm:justify-start">
+                {allImages.map((img, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => setActiveImage(img)}
+                    className={`relative w-20 h-20 rounded-xl overflow-hidden border-2 transition-all shrink-0 ${
+                      activeImage === img ? "border-primary ring-2 ring-primary/20" : "border-border hover:border-primary/50"
+                    }`}
+                  >
+                    <img src={img} alt={`${product.name} view ${idx + 1}`} className="w-full h-full object-contain bg-white p-2" />
+                  </button>
+                ))}
+              </div>
             )}
-          </motion.div>
+          </div>
 
           <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, delay: 0.1, ease: [0.23, 1, 0.32, 1] }}

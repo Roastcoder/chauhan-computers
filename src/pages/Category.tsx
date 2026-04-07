@@ -55,7 +55,8 @@ export default function Category() {
           <div className="flex items-center justify-between mb-4">
             <div>
               <h1 className="text-xl sm:text-2xl font-bold text-foreground">{categoryName}</h1>
-              <p className="text-xs sm:text-sm text-muted-foreground">{filtered.length} products</p>
+              {category?.subtitle && <p className="text-sm text-primary font-medium mt-1 uppercase tracking-wider">{category.subtitle}</p>}
+              <p className="text-xs sm:text-sm text-muted-foreground mt-1">{filtered.length} products available</p>
             </div>
             <div className="flex items-center gap-2">
               <button onClick={() => setFiltersOpen(!filtersOpen)}
