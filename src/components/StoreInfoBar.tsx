@@ -12,9 +12,13 @@ export function StoreInfoBar() {
           <Clock className="w-3 h-3 text-cyan" />
           Mon–Sun: Open until 9:00 PM
         </span>
-        <a href="tel:09829721157" className="flex items-center gap-1.5 hover:text-foreground transition-colors">
+        <a href="tel:09509317543" className="flex items-center gap-1.5 hover:text-foreground transition-colors">
           <Phone className="w-3 h-3 text-primary" />
-          098297 21157
+          95093 17543
+        </a>
+        <a href="tel:08559965655" className="flex items-center gap-1.5 hover:text-foreground transition-colors">
+          <Phone className="w-3 h-3 text-primary" />
+          85599 65655
         </a>
         <span className="flex items-center gap-1.5">
           <Globe className="w-3 h-3 text-cyan" />

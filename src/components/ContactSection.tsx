@@ -11,7 +11,6 @@ export function ContactSection() {
         </AnimatedSection>
 
         <div className="grid lg:grid-cols-2 gap-8">
-          {/* Info */}
           <AnimatedSection>
             <div className="glass-card rounded-2xl p-8 space-y-6 h-full">
               <div className="flex items-start gap-4">
@@ -25,7 +24,9 @@ export function ContactSection() {
                 <Phone className="w-5 h-5 text-primary mt-0.5 shrink-0" />
                 <div>
                   <h3 className="text-sm font-semibold text-foreground mb-1">Phone</h3>
-                  <a href="tel:09829721157" className="text-sm text-primary hover:underline">098297 21157</a>
+                  <a href="tel:09509317543" className="text-sm text-primary hover:underline block">95093 17543</a>
+                  <a href="tel:08559965655" className="text-sm text-primary hover:underline block">85599 65655</a>
+                  <a href="tel:09376721157" className="text-sm text-muted-foreground hover:underline block">93767 21157 (Service)</a>
                 </div>
               </div>
               <div className="flex items-start gap-4">
@@ -43,7 +44,7 @@ export function ContactSection() {
                 </div>
               </div>
               <a
-                href="https://wa.me/919829721157?text=Hi%2C%20I%27d%20like%20to%20enquire%20about%20a%20product"
+                href="https://wa.me/919509317543?text=Hi%2C%20I%27d%20like%20to%20enquire%20about%20a%20product"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 px-6 py-3 bg-green-600 text-white rounded-full text-sm font-semibold hover:bg-green-700 transition-colors"
@@ -54,7 +55,6 @@ export function ContactSection() {
             </div>
           </AnimatedSection>
 
-          {/* Map */}
           <AnimatedSection delay={0.1}>
             <div className="glass-card rounded-2xl overflow-hidden h-full min-h-[400px]">
               <iframe
