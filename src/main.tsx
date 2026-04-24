@@ -16,14 +16,6 @@ if ('caches' in window) {
   });
 }
 
-// Force reload on version mismatch
-const APP_VERSION = '__BUILD_TIME__';
-const storedVersion = localStorage.getItem('app_version');
-if (storedVersion && storedVersion !== APP_VERSION) {
-  localStorage.setItem('app_version', APP_VERSION);
-  window.location.reload();
-} else {
-  localStorage.setItem('app_version', APP_VERSION);
-}
+// Version check system removed as requested
 
 createRoot(document.getElementById("root")!).render(<App />);
