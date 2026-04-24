@@ -158,8 +158,13 @@ export function Navbar() {
                   </button>
                   <AnimatePresence>
                     {activeDropdown === link.dropdown && (
-                      <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 8 }}
-                        transition={{ duration: 0.15 }} className="fixed left-1/2 -translate-x-1/2 pt-3" style={{ top: "56px" }}>
+                      <motion.div 
+                        initial={{ opacity: 0, y: 4 }} 
+                        animate={{ opacity: 1, y: 0 }} 
+                        exit={{ opacity: 0, y: 4 }}
+                        transition={{ duration: 0.15 }} 
+                        className="absolute left-1/2 -translate-x-1/2 pt-2 top-full"
+                      >
                         {renderDropdown(link.dropdown!)}
                       </motion.div>
                     )}
