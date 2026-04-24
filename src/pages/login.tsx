@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { Navigate } from "react-router-dom";
+import { Navigate, Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { Eye, EyeOff, LogIn, UserPlus, MapPin, Phone } from "lucide-react";
+import { Eye, EyeOff, LogIn, UserPlus, MapPin, Phone, ArrowLeft } from "lucide-react";
 import { useAuth } from "@/lib/auth";
 import loginHero from "@/assets/login-hero.jpg";
 import logoIcon from "@/assets/logo-cc.png";
@@ -122,10 +122,16 @@ export default function Login() {
           animate={{ opacity: 1, x: 0 }}
           className="w-full max-w-md"
         >
-          {/* Mobile logo */}
-          <div className="lg:hidden flex items-center gap-2 mb-8">
-            <img src={logoIcon} alt="Chauhan Computers" className="w-8 h-8 rounded-full object-cover" />
-            <span className="text-xl font-bold text-foreground">Chauhan Computers</span>
+          {/* Mobile logo & Back Button */}
+          <div className="flex items-center justify-between mb-8">
+            <div className="flex items-center gap-2">
+              <img src={logoIcon} alt="Chauhan Computers" className="w-8 h-8 rounded-full object-cover lg:hidden" />
+              <span className="text-xl font-bold text-foreground lg:hidden">Chauhan Computers</span>
+            </div>
+            <Link to="/" className="flex items-center gap-1.5 text-xs font-medium text-muted-foreground hover:text-primary transition-colors bg-surface px-3 py-1.5 rounded-lg border border-border">
+              <ArrowLeft className="w-3.5 h-3.5" />
+              Back to Home
+            </Link>
           </div>
 
           {/* Tabs */}
