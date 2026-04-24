@@ -75,9 +75,10 @@ const App = () => {
         const currentVersion = localStorage.getItem('app_version');
         
         if (currentVersion && currentVersion !== data.version) {
-          console.log('New version detected, reloading...');
+          console.log('New version detected:', data.version, 'Current:', currentVersion);
           localStorage.setItem('app_version', data.version);
-          window.location.reload();
+          // Small delay to ensure localStorage is written before reload
+          setTimeout(() => window.location.reload(), 100);
         } else if (!currentVersion) {
           localStorage.setItem('app_version', data.version);
         }
