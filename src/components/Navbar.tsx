@@ -127,9 +127,9 @@ export function Navbar() {
         <div className="w-full px-4 sm:px-6 lg:px-10 h-full flex items-center justify-between">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2 shrink-0">
-            <img src={logoIcon} alt="Chauhaan Computers" className="w-8 h-8 sm:w-9 sm:h-9 rounded-full object-cover" />
+            <img src={logoIcon} alt="Chauhan Computers" className="w-8 h-8 sm:w-9 sm:h-9 rounded-full object-cover" />
             <div className="hidden sm:block">
-              <span className="text-base font-bold text-foreground leading-none">Chauhaan</span>
+              <span className="text-base font-bold text-foreground leading-none">Chauhan</span>
               <span className="text-base font-light text-muted-foreground leading-none ml-1">Computers</span>
             </div>
           </Link>
@@ -215,8 +215,8 @@ export function Navbar() {
               {/* Mobile header */}
               <div className="flex items-center justify-between p-4 border-b border-border">
                 <Link to="/" className="flex items-center gap-2" onClick={() => setMobileOpen(false)}>
-                  <img src={logoIcon} alt="Chauhaan Computers" className="w-8 h-8" />
-                  <span className="text-sm font-bold text-foreground">Chauhaan Computers</span>
+                  <img src={logoIcon} alt="Chauhan Computers" className="w-8 h-8" />
+                  <span className="text-sm font-bold text-foreground">Chauhan Computers</span>
                 </Link>
                 <button onClick={() => setMobileOpen(false)} className="p-1 text-muted-foreground">
                   <X className="w-5 h-5" />

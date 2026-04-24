@@ -1,12 +1,11 @@
 import { useState } from "react";
 import { useAuth } from "@/lib/auth";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { supabase } from "@/integrations/supabase/client";
+import { useMutation } from "@tanstack/react-query";
+import { api } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 
 export default function CustomerProfile() {
   const { profile, user } = useAuth();
-  const queryClient = useQueryClient();
   const [form, setForm] = useState({
     full_name: profile?.full_name || "",
     phone: profile?.phone || "",
@@ -15,12 +14,8 @@ export default function CustomerProfile() {
   });
 
   const updateMutation = useMutation({
-    mutationFn: async () => {
-      await supabase.from("profiles").update(form).eq("user_id", user!.id);
-    },
-    onSuccess: () => {
-      toast.success("Profile updated");
-    },
+    mutationFn: () => api.put(`/users/${user!.id}`, form),
+    onSuccess: () => toast.success("Profile updated"),
   });
 
   return (

@@ -11,7 +11,8 @@ import { StoreInfoBar } from "@/components/StoreInfoBar";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
-import Index from "./pages/Index";
+import { useEffect } from "react";
+import Index from "./pages/index";
 import Category from "./pages/Category";
 import ProductDetail from "./pages/ProductDetail";
 import Cart from "./pages/Cart";
@@ -31,6 +32,13 @@ import AdminReports from "./pages/admin/AdminReports";
 import AdminSettings from "./pages/admin/AdminSettings";
 import AdminBanners from "./pages/admin/AdminBanners";
 import AdminSocialMedia from "./pages/admin/AdminSocialMedia";
+import AdminMessages from "./pages/admin/AdminMessages";
+import AdminUsers from "./pages/admin/AdminUsers";
+import AdminWebsite from "./pages/admin/AdminWebsite";
+import AdminCategories from "./pages/admin/AdminCategories";
+import AdminTestimonials from "./pages/admin/AdminTestimonials";
+import AdminServices from "./pages/admin/AdminServices";
+import AdminCareers from "./pages/admin/AdminCareers";
 import TelecallerLayout from "./pages/telecaller/TelecallerLayout";
 import TelecallerLeads from "./pages/telecaller/TelecallerLeads";
 import TelecallerCalls from "./pages/telecaller/TelecallerCalls";
@@ -57,7 +65,33 @@ function StorefrontLayout({ children }: { children: React.ReactNode }) {
   );
 }
 
-const App = () => (
+const App = () => {
+  useEffect(() => {
+    // Check for new version every 30 seconds
+    const checkVersion = async () => {
+      try {
+        const response = await fetch('/version.json?t=' + Date.now());
+        const data = await response.json();
+        const currentVersion = localStorage.getItem('app_version');
+        
+        if (currentVersion && currentVersion !== data.version) {
+          console.log('New version detected, reloading...');
+          localStorage.setItem('app_version', data.version);
+          window.location.reload();
+        } else if (!currentVersion) {
+          localStorage.setItem('app_version', data.version);
+        }
+      } catch (error) {
+        console.error('Version check failed:', error);
+      }
+    };
+
+    checkVersion();
+    const interval = setInterval(checkVersion, 30000);
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
       <Toaster />
@@ -93,6 +127,13 @@ const App = () => (
                 <Route path="reports" element={<AdminReports />} />
                 <Route path="banners" element={<AdminBanners />} />
                 <Route path="social" element={<AdminSocialMedia />} />
+                <Route path="messages" element={<AdminMessages />} />
+                <Route path="users" element={<AdminUsers />} />
+                <Route path="website" element={<AdminWebsite />} />
+                <Route path="categories" element={<AdminCategories />} />
+                <Route path="testimonials" element={<AdminTestimonials />} />
+                <Route path="services" element={<AdminServices />} />
+                <Route path="careers" element={<AdminCareers />} />
                 <Route path="settings" element={<AdminSettings />} />
               </Route>
 
@@ -120,6 +161,7 @@ const App = () => (
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>
-);
+  );
+};
 
 export default App;

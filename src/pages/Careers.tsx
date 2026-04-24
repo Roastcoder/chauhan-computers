@@ -1,8 +1,10 @@
 import { motion } from "framer-motion";
 import { AnimatedSection } from "@/components/AnimatedSection";
 import { Briefcase, MapPin } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
+import { api } from "@/integrations/supabase/client";
 
-const openings = [
+const fallbackOpenings = [
   { title: "Sales Executive", location: "In-Store", type: "Full-time", description: "Help customers find the perfect tech solutions. Must have excellent communication skills." },
   { title: "Hardware Technician", location: "Service Center", type: "Full-time", description: "Diagnose and repair laptops, desktops, and printers. 2+ years experience required." },
   { title: "CCTV Installation Engineer", location: "Field", type: "Full-time", description: "Install and configure CCTV systems for residential and commercial clients." },
@@ -10,6 +12,13 @@ const openings = [
 ];
 
 export default function Careers() {
+  const { data: settings = [] } = useQuery({
+    queryKey: ["public-settings"],
+    queryFn: () => api.get("/settings/public"),
+  });
+
+  const careersConfig = (settings as any[]).find((s: any) => s.key === "careers_config")?.value || [];
+  const openings = careersConfig.length > 0 ? careersConfig.filter((job: any) => job.visible) : fallbackOpenings;
   return (
     <div className="min-h-screen bg-background">
       <section className="py-24 md:py-32 bg-foreground text-background">
@@ -33,9 +42,9 @@ export default function Careers() {
           </AnimatedSection>
 
           <div className="space-y-4">
-            {openings.map((job, i) => (
+            {openings.map((job: any, i: number) => (
               <AnimatedSection key={i} delay={i * 0.1}>
-                <div className="bg-surface rounded-2xl p-6 hover:shadow-elevated transition-shadow duration-300">
+                <div className="bg-card rounded-2xl p-6 border border-border hover:shadow-lg transition-shadow duration-300">
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                     <div>
                       <h3 className="text-lg font-semibold text-foreground flex items-center gap-2">

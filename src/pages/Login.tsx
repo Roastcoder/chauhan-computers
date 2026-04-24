@@ -86,7 +86,7 @@ export default function Login() {
       <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden">
         <img
           src={loginHero}
-          alt="Chauhaan Computers store"
+          alt="Chauhan Computers store"
           className="absolute inset-0 w-full h-full object-cover"
           width={960}
           height={1280}
@@ -94,9 +94,9 @@ export default function Login() {
         <div className="absolute inset-0 bg-gradient-to-t from-foreground/70 via-foreground/30 to-transparent" />
         <div className="relative z-10 flex flex-col justify-end p-10 text-white">
            <div className="flex items-center gap-3 mb-4">
-            <img src={logoIcon} alt="Chauhaan Computers" className="w-10 h-10 rounded-full object-cover" />
+            <img src={logoIcon} alt="Chauhan Computers" className="w-10 h-10 rounded-full object-cover" />
             <span className="text-2xl font-bold tracking-tight text-white">
-              Chauhaan Computers
+              Chauhan Computers
             </span>
           </div>
           <p className="text-lg text-white/80 mb-6 max-w-md">
@@ -124,8 +124,8 @@ export default function Login() {
         >
           {/* Mobile logo */}
           <div className="lg:hidden flex items-center gap-2 mb-8">
-            <img src={logoIcon} alt="Chauhaan Computers" className="w-8 h-8 rounded-full object-cover" />
-            <span className="text-xl font-bold text-foreground">Chauhaan Computers</span>
+            <img src={logoIcon} alt="Chauhan Computers" className="w-8 h-8 rounded-full object-cover" />
+            <span className="text-xl font-bold text-foreground">Chauhan Computers</span>
           </div>
 
           {/* Tabs */}

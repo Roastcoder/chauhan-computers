@@ -1,7 +1,10 @@
 import { motion } from "framer-motion";
 import { AnimatedSection } from "@/components/AnimatedSection";
-import { Users, Award, MapPin, Clock } from "lucide-react";
+import { Users, Award, MapPin, Clock, Star } from "lucide-react";
 import bannerBusiness from "@/assets/banner-business.jpg";
+import { useQuery } from "@tanstack/react-query";
+import { api } from "@/integrations/supabase/client";
+import { testimonials as fallbackTestimonials } from "@/lib/data";
 
 const stats = [
   { icon: Users, label: "Happy Customers", value: "10,000+" },
@@ -11,19 +14,26 @@ const stats = [
 ];
 
 const team = [
-  { name: "Rajesh Chauhaan", role: "Founder & CEO", bio: "With 15+ years in the tech industry, Rajesh founded Chauhaan Computers with a vision to provide premium technology solutions." },
-  { name: "Meera Chauhaan", role: "Operations Head", bio: "Meera ensures every customer receives exceptional service and manages the day-to-day operations seamlessly." },
+  { name: "Rajesh Chauhan", role: "Founder & CEO", bio: "With 15+ years in the tech industry, Rajesh founded Chauhan Computers with a vision to provide premium technology solutions." },
+  { name: "Meera Chauhan", role: "Operations Head", bio: "Meera ensures every customer receives exceptional service and manages the day-to-day operations seamlessly." },
   { name: "Amit Verma", role: "Technical Lead", bio: "Certified hardware engineer with expertise in laptop, desktop, and CCTV installations across all major brands." },
 ];
 
 export default function About() {
+  const { data: settings = [] } = useQuery({
+    queryKey: ["public-settings"],
+    queryFn: () => api.get("/settings/public"),
+  });
+
+  const testimonialsConfig = (settings as any[]).find((s: any) => s.key === "testimonials")?.value || [];
+  const testimonials = testimonialsConfig.length > 0 ? testimonialsConfig.filter((t: any) => t.visible) : fallbackTestimonials;
   return (
     <div className="bg-background">
       {/* Hero Banner */}
       <section className="w-full">
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6 py-3">
           <div className="relative rounded-2xl overflow-hidden">
-            <img src={bannerBusiness} alt="About Chauhaan Computers" className="w-full h-[200px] sm:h-[280px] md:h-[320px] object-cover" />
+            <img src={bannerBusiness} alt="About Chauhan Computers" className="w-full h-[200px] sm:h-[280px] md:h-[320px] object-cover" />
             <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/40 to-transparent flex items-center">
               <div className="px-6 sm:px-10 md:px-12">
                 <p className="text-white/60 text-xs uppercase tracking-widest mb-2">Our Story</p>
@@ -59,7 +69,7 @@ export default function About() {
             <AnimatedSection>
               <h2 className="text-xl sm:text-2xl font-bold text-foreground mb-4">Our Mission</h2>
               <p className="text-sm text-muted-foreground leading-relaxed mb-3">
-                At Chauhaan Computers, we believe everyone deserves access to reliable, high-performance technology.
+                At Chauhan Computers, we believe everyone deserves access to reliable, high-performance technology.
                 We carefully select and test every product we sell to ensure it meets our rigorous standards.
               </p>
               <p className="text-sm text-muted-foreground leading-relaxed">
@@ -98,6 +108,33 @@ export default function About() {
           </div>
         </div>
       </section>
+
+      {/* Testimonials */}
+      {testimonials.length > 0 && (
+        <section className="py-8 sm:py-10 bg-muted/30">
+          <div className="max-w-[1400px] mx-auto px-4 sm:px-6">
+            <h2 className="text-xl sm:text-2xl font-bold text-foreground mb-6">What Our Customers Say</h2>
+            <div className="grid md:grid-cols-3 gap-4">
+              {testimonials.map((testimonial: any, i: number) => (
+                <AnimatedSection key={i} delay={i * 0.1}>
+                  <div className="bg-card rounded-xl p-6 border border-border">
+                    <div className="flex gap-1 mb-3">
+                      {Array.from({ length: testimonial.rating || 5 }).map((_, i) => (
+                        <Star key={i} className="w-4 h-4 fill-yellow-500 text-yellow-500" />
+                      ))}
+                    </div>
+                    <p className="text-sm text-muted-foreground leading-relaxed mb-4">"{testimonial.text}"</p>
+                    <div>
+                      <p className="text-sm font-semibold text-foreground">{testimonial.name}</p>
+                      <p className="text-xs text-primary">{testimonial.role}</p>
+                    </div>
+                  </div>
+                </AnimatedSection>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
     </div>
   );
 }

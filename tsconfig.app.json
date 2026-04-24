@@ -30,6 +30,8 @@
     "useDefineForClassFields": true
   },
   "include": [
-    "src"
+    "src",
+    "src/**/*.ts",
+    "src/**/*.tsx"
   ]
 }

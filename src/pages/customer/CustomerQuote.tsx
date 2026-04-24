@@ -1,42 +1,33 @@
 import { useState } from "react";
 import { useQuery, useMutation } from "@tanstack/react-query";
-import { supabase } from "@/integrations/supabase/client";
+import { api } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth";
 import { toast } from "sonner";
 
 export default function CustomerQuote() {
-  const { user } = useAuth();
-  const [form, setForm] = useState({ products: [] as string[], name: "", email: "", phone: "", message: "" });
+  const { user, profile } = useAuth();
+  const [form, setForm] = useState({
+    products: [] as string[],
+    name: profile?.full_name || "",
+    email: profile?.email || "",
+    phone: profile?.phone || "",
+    message: "",
+  });
 
   const { data: products = [] } = useQuery({
     queryKey: ["quote-products"],
-    queryFn: async () => {
-      const { data } = await supabase.from("crm_products").select("id, name, price").eq("is_active", true);
-      return data || [];
-    },
-  });
-
-  const { data: profile } = useQuery({
-    queryKey: ["quote-profile", user?.id],
-    queryFn: async () => {
-      const { data } = await supabase.from("profiles").select("*").eq("user_id", user!.id).single();
-      if (data) {
-        setForm(f => ({ ...f, name: data.full_name || "", email: data.email || "", phone: data.phone || "" }));
-      }
-      return data;
-    },
-    enabled: !!user,
+    queryFn: () => api.get("/products"),
   });
 
   const submitMutation = useMutation({
-    mutationFn: async () => {
-      const selectedProducts = products.filter(p => form.products.includes(p.id));
-      const productNames = selectedProducts.map(p => p.name).join(", ");
-      await supabase.from("leads").insert({
+    mutationFn: () => {
+      const selectedProducts = (products as any[]).filter(p => form.products.includes(p.id));
+      const productNames = selectedProducts.map((p: any) => p.name).join(", ");
+      return api.post("/leads", {
         name: form.name,
         phone: form.phone,
         email: form.email,
-        source: "website" as const,
+        source: "website",
         product_interest: productNames,
         notes: form.message,
         customer_user_id: user!.id,
@@ -49,10 +40,7 @@ export default function CustomerQuote() {
   });
 
   const toggleProduct = (id: string) => {
-    setForm(f => ({
-      ...f,
-      products: f.products.includes(id) ? f.products.filter(p => p !== id) : [...f.products, id],
-    }));
+    setForm(f => ({ ...f, products: f.products.includes(id) ? f.products.filter(p => p !== id) : [...f.products, id] }));
   };
 
   return (
@@ -62,16 +50,8 @@ export default function CustomerQuote() {
       <div className="bg-card border border-border rounded-xl p-6">
         <h3 className="text-sm font-semibold text-foreground mb-3">Select Products</h3>
         <div className="grid grid-cols-2 md:grid-cols-3 gap-2 mb-6">
-          {products.map(p => (
-            <button
-              key={p.id}
-              onClick={() => toggleProduct(p.id)}
-              className={`text-left p-3 rounded-xl text-xs transition-colors ${
-                form.products.includes(p.id)
-                  ? "bg-primary/20 border border-primary/30 text-primary"
-                  : "bg-background border border-border text-foreground hover:bg-muted"
-              }`}
-            >
+          {(products as any[]).map((p: any) => (
+            <button key={p.id} onClick={() => toggleProduct(p.id)} className={`text-left p-3 rounded-xl text-xs transition-colors ${form.products.includes(p.id) ? "bg-primary/20 border border-primary/30 text-primary" : "bg-background border border-border text-foreground hover:bg-muted"}`}>
               <p className="font-medium">{p.name}</p>
               <p className="text-muted-foreground">₹{Number(p.price).toLocaleString()}</p>
             </button>
@@ -85,11 +65,7 @@ export default function CustomerQuote() {
           <textarea value={form.message} onChange={e => setForm(f => ({ ...f, message: e.target.value }))} placeholder="Message / Requirements" rows={3} className="w-full px-4 py-2.5 bg-background rounded-xl text-sm text-foreground border border-border outline-none resize-none" />
         </div>
 
-        <button
-          onClick={() => submitMutation.mutate()}
-          disabled={!form.name || !form.phone || form.products.length === 0}
-          className="mt-4 w-full py-3 bg-primary text-primary-foreground rounded-xl text-sm font-semibold disabled:opacity-50"
-        >
+        <button onClick={() => submitMutation.mutate()} disabled={!form.name || !form.phone || form.products.length === 0} className="mt-4 w-full py-3 bg-primary text-primary-foreground rounded-xl text-sm font-semibold disabled:opacity-50">
           Submit Quote Request
         </button>
       </div>

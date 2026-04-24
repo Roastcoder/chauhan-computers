@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { supabase } from "@/integrations/supabase/client";
+import { api } from "@/integrations/supabase/client";
 import type { Product } from "@/lib/data";
 import { getProductFallbackImage } from "@/lib/product-images";
 
@@ -28,12 +28,7 @@ export function useProducts() {
   return useQuery({
     queryKey: ["public-products"],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from("crm_products")
-        .select("*")
-        .eq("is_active", true)
-        .order("created_at", { ascending: false });
-      if (error) throw error;
+      const data = await api.get("/products");
       return (data || []).map(mapDbProduct);
     },
     staleTime: 5 * 60 * 1000,

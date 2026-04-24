@@ -4,10 +4,10 @@ import lenovoLaptopImg from "@/assets/lenovo-laptop.png";
 import macbookImg from "@/assets/macbook.png";
 import cpuDesktopImg from "@/assets/cpu-desktop.png";
 import printerImg from "@/assets/printer.png";
-import serviceLaptopImg from "@/assets/service-laptop-repair.png";
+import accessoriesImg from "@/assets/accessories.png";
 import servicePrinterImg from "@/assets/service-printer-repair.png";
 import serviceCpuImg from "@/assets/service-cpu-repair.png";
-import serviceCctvImg from "@/assets/service-cctv.png";
+import serviceLaptopImg from "@/assets/service-laptop-repair.png";
 
 export interface Product {
   id: string;
@@ -34,6 +34,20 @@ export const categories = [
   { name: "Lenovo Laptop", slug: "lenovo-laptop", image: lenovoLaptopImg, subtitle: "Business & Gaming Series" },
   { name: "MacBook", slug: "macbook", image: macbookImg, subtitle: "Apple Certified Support" },
   { name: "Printers", slug: "printers", image: printerImg, subtitle: "Service & Troubleshooting" },
+  { name: "Accessories", slug: "accessories", image: accessoriesImg, subtitle: "Keyboards, Mice & More" },
+];
+
+export const accessorySubtypes = [
+  { label: "Keyboards", value: "keyboards" },
+  { label: "Mouse", value: "mouse" },
+  { label: "Headphones & Headsets", value: "headphones" },
+  { label: "Webcams", value: "webcams" },
+  { label: "Monitors", value: "monitors" },
+  { label: "Speakers", value: "speakers" },
+  { label: "USB Hubs & Adapters", value: "usb-hubs" },
+  { label: "Bags & Sleeves", value: "bags" },
+  { label: "Cables & Chargers", value: "cables" },
+  { label: "Other Accessories", value: "accessories-other" },
 ];
 
 export interface Service {
@@ -66,13 +80,6 @@ export const services: Service[] = [
     image: serviceCpuImg,
     icon: "cpu",
   },
-  {
-    id: "cctv-installation",
-    name: "CCTV Installation",
-    description: "Complete CCTV setup and installation. HD cameras, DVR/NVR configuration, and remote monitoring setup.",
-    image: serviceCctvImg,
-    icon: "camera",
-  },
 ];
 
 export const products: Product[] = [
@@ -84,7 +91,7 @@ export const products: Product[] = [
     price: 89999,
     originalPrice: 99999,
     image: cpuDesktopImg,
-    brand: "Chauhaan",
+    brand: "Chauhan",
     ram: "32GB",
     storage: "1TB SSD",
     specs: ["Intel Core i9-14900K", "32GB DDR5", "1TB NVMe SSD", "NVIDIA RTX 4070"],
@@ -99,7 +106,7 @@ export const products: Product[] = [
     category: "cpu-desktop",
     price: 74999,
     image: cpuDesktopImg,
-    brand: "Chauhaan",
+    brand: "Chauhan",
     ram: "64GB",
     storage: "2TB SSD",
     specs: ["AMD Ryzen 9 7950X", "64GB DDR5", "2TB NVMe SSD", "NVIDIA RTX 4080"],
@@ -114,7 +121,7 @@ export const products: Product[] = [
     category: "cpu-desktop",
     price: 54999,
     image: cpuDesktopImg,
-    brand: "Chauhaan",
+    brand: "Chauhan",
     ram: "32GB",
     storage: "1TB SSD",
     specs: ["Intel Core i7-14700", "32GB DDR5", "1TB NVMe SSD", "Intel Arc A770"],
@@ -128,7 +135,7 @@ export const products: Product[] = [
     category: "cpu-desktop",
     price: 129999,
     image: cpuDesktopImg,
-    brand: "Chauhaan",
+    brand: "Chauhan",
     ram: "32GB",
     storage: "2TB SSD",
     specs: ["Intel Core i9-14900K", "32GB DDR5", "2TB NVMe SSD", "NVIDIA RTX 4090"],
@@ -142,7 +149,7 @@ export const products: Product[] = [
     category: "cpu-desktop",
     price: 32999,
     image: cpuDesktopImg,
-    brand: "Chauhaan",
+    brand: "Chauhan",
     ram: "16GB",
     storage: "512GB SSD",
     specs: ["Intel Core i5-14400", "16GB DDR5", "512GB NVMe SSD", "Intel UHD 730"],
@@ -682,19 +689,19 @@ export const testimonials = [
   {
     name: "Arjun Mehta",
     role: "Software Architect",
-    text: "The Studio Tower Pro transformed my development workflow. Builds that took 20 minutes now finish in under 3. Chauhaan's attention to detail is unmatched.",
+    text: "The Studio Tower Pro transformed my development workflow. Builds that took 20 minutes now finish in under 3. Chauhan's attention to detail is unmatched.",
     rating: 5,
   },
   {
     name: "Priya Sharma",
     role: "Digital Artist",
-    text: "I've tried every brand. Chauhaan is the only one that delivers true professional-grade hardware with a premium experience from unboxing to daily use.",
+    text: "I've tried every brand. Chauhan is the only one that delivers true professional-grade hardware with a premium experience from unboxing to daily use.",
     rating: 5,
   },
   {
     name: "Karan Singh",
     role: "Business Owner",
-    text: "From laptop purchases to CCTV installation, Chauhaan Computers handles everything for my office. Their service is outstanding.",
+    text: "From laptop purchases to CCTV installation, Chauhan Computers handles everything for my office. Their service is outstanding.",
     rating: 5,
   },
 ];

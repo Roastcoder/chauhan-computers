@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { supabase } from "@/integrations/supabase/client";
+import { api } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth";
 
 const statusColors: Record<string, string> = {
@@ -15,10 +15,7 @@ export default function CustomerEnquiries() {
 
   const { data: enquiries = [] } = useQuery({
     queryKey: ["customer-enquiries", user?.id],
-    queryFn: async () => {
-      const { data } = await supabase.from("leads").select("*").eq("customer_user_id", user!.id).order("created_at", { ascending: false });
-      return data || [];
-    },
+    queryFn: () => api.get("/enquiries"),
     enabled: !!user,
   });
 
@@ -26,7 +23,6 @@ export default function CustomerEnquiries() {
     <div className="space-y-4 md:space-y-6">
       <h1 className="text-xl md:text-2xl font-bold text-foreground">My Enquiries</h1>
 
-      {/* Desktop table */}
       <div className="hidden md:block bg-card border border-border rounded-xl overflow-hidden">
         <table className="w-full text-sm">
           <thead>
@@ -38,16 +34,12 @@ export default function CustomerEnquiries() {
             </tr>
           </thead>
           <tbody>
-            {enquiries.length === 0 && <tr><td colSpan={4} className="px-4 py-8 text-center text-muted-foreground">No enquiries yet</td></tr>}
-            {enquiries.map(enq => (
+            {(enquiries as any[]).length === 0 && <tr><td colSpan={4} className="px-4 py-8 text-center text-muted-foreground">No enquiries yet</td></tr>}
+            {(enquiries as any[]).map((enq: any) => (
               <tr key={enq.id} className="border-b border-border/50">
                 <td className="px-4 py-3 font-medium text-foreground">{enq.product_interest || "General"}</td>
                 <td className="px-4 py-3 text-xs text-muted-foreground">{new Date(enq.created_at).toLocaleDateString()}</td>
-                <td className="px-4 py-3">
-                  <span className={`text-[10px] font-semibold px-2 py-1 rounded-full ${statusColors[enq.status] || "bg-muted text-muted-foreground"}`}>
-                    {enq.status.replace("_", " ")}
-                  </span>
-                </td>
+                <td className="px-4 py-3"><span className={`text-[10px] font-semibold px-2 py-1 rounded-full ${statusColors[enq.status] || "bg-muted text-muted-foreground"}`}>{enq.status.replace("_", " ")}</span></td>
                 <td className="px-4 py-3 text-xs text-muted-foreground">{new Date(enq.updated_at).toLocaleDateString()}</td>
               </tr>
             ))}
@@ -55,16 +47,13 @@ export default function CustomerEnquiries() {
         </table>
       </div>
 
-      {/* Mobile cards */}
       <div className="md:hidden space-y-2">
-        {enquiries.length === 0 && <p className="text-center text-muted-foreground py-8">No enquiries yet</p>}
-        {enquiries.map(enq => (
+        {(enquiries as any[]).length === 0 && <p className="text-center text-muted-foreground py-8">No enquiries yet</p>}
+        {(enquiries as any[]).map((enq: any) => (
           <div key={enq.id} className="bg-card border border-border rounded-xl p-4">
             <div className="flex items-start justify-between mb-1.5">
               <p className="text-sm font-semibold text-foreground">{enq.product_interest || "General"}</p>
-              <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full ${statusColors[enq.status] || "bg-muted text-muted-foreground"}`}>
-                {enq.status.replace("_", " ")}
-              </span>
+              <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full ${statusColors[enq.status] || "bg-muted text-muted-foreground"}`}>{enq.status.replace("_", " ")}</span>
             </div>
             <p className="text-[10px] text-muted-foreground">Created: {new Date(enq.created_at).toLocaleDateString()}</p>
             <p className="text-[10px] text-muted-foreground">Updated: {new Date(enq.updated_at).toLocaleDateString()}</p>

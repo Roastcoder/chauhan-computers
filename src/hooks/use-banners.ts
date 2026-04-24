@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { supabase } from "@/integrations/supabase/client";
+import { api } from "@/integrations/supabase/client";
 
 interface Banner {
   id: string;
@@ -18,16 +18,9 @@ export function useBanners(page: string, type?: string) {
   return useQuery({
     queryKey: ["banners", page, type],
     queryFn: async () => {
-      let query = supabase
-        .from("banners")
-        .select("*")
-        .eq("page", page)
-        .eq("is_active", true)
-        .order("position");
-      if (type) query = query.eq("banner_type", type);
-      const { data, error } = await query;
-      if (error) throw error;
-      return (data || []) as Banner[];
+      const params = new URLSearchParams({ page });
+      if (type) params.set("type", type);
+      return (await api.get(`/banners?${params}`)) as Banner[];
     },
     staleTime: 60_000,
   });

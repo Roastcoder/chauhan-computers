@@ -1,12 +1,21 @@
 import { Link } from "react-router-dom";
 import { AnimatedSection } from "@/components/AnimatedSection";
-import { services } from "@/lib/data";
-import { Laptop, Printer, Cpu, Camera } from "lucide-react";
+import { services as fallbackServices } from "@/lib/data";
+import { Laptop, Printer, Cpu } from "lucide-react";
 import bannerServices from "@/assets/banner-services.jpg";
+import { useQuery } from "@tanstack/react-query";
+import { api } from "@/integrations/supabase/client";
 
-const iconMap: Record<string, any> = { laptop: Laptop, printer: Printer, cpu: Cpu, camera: Camera };
+const iconMap: Record<string, any> = { laptop: Laptop, printer: Printer, cpu: Cpu };
 
 export default function Services() {
+  const { data: settings = [] } = useQuery({
+    queryKey: ["public-settings"],
+    queryFn: () => api.get("/settings/public"),
+  });
+
+  const servicesConfig = (settings as any[]).find((s: any) => s.key === "services_config")?.value || [];
+  const services = servicesConfig.length > 0 ? servicesConfig.filter((svc: any) => svc.visible) : fallbackServices;
   return (
     <div className="bg-background">
       {/* Hero Banner */}
@@ -30,13 +39,13 @@ export default function Services() {
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6">
           <h2 className="text-xl sm:text-2xl font-bold text-foreground mb-6">All Services</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
-            {services.map((service, i) => {
+            {services.map((service: any, i: number) => {
               const Icon = iconMap[service.icon] || Cpu;
               return (
                 <AnimatedSection key={service.id} delay={i * 0.1}>
                   <div className="bg-card rounded-xl overflow-hidden border border-border hover:shadow-md hover:border-primary/20 transition-all flex flex-col sm:flex-row">
                     <div className="sm:w-48 h-40 sm:h-auto overflow-hidden shrink-0">
-                      <img src={service.image} alt={service.name} className="w-full h-full object-cover" loading="lazy" />
+                      <img src={service.image_url || service.image} alt={service.name} className="w-full h-full object-cover" loading="lazy" />
                     </div>
                     <div className="p-5 flex-1">
                       <div className="flex items-center gap-2 mb-2">
@@ -46,10 +55,10 @@ export default function Services() {
                         <h3 className="text-sm font-semibold text-foreground">{service.name}</h3>
                       </div>
                       <p className="text-xs text-muted-foreground leading-relaxed mb-3">{service.description}</p>
-                      <Link to="/contact"
+                      <a href="tel:09376721157"
                         className="inline-block px-4 py-2 bg-primary text-primary-foreground rounded-lg text-xs font-semibold hover:opacity-90 transition-opacity">
-                        Book Service
-                      </Link>
+                        Customer Support: 93767 21157
+                      </a>
                     </div>
                   </div>
                 </AnimatedSection>

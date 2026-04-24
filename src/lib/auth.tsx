@@ -1,13 +1,21 @@
 import { createContext, useContext, useEffect, useState, ReactNode } from "react";
-import { supabase } from "@/integrations/supabase/client";
-import type { User } from "@supabase/supabase-js";
+import { api } from "@/integrations/supabase/client";
 
 type AppRole = "admin" | "telecaller" | "customer";
 
+interface AuthUser {
+  id: string;
+  email: string;
+  role: AppRole;
+  full_name: string;
+  phone?: string;
+  address?: string;
+}
+
 interface AuthContextType {
-  user: User | null;
+  user: AuthUser | null;
   role: AppRole | null;
-  profile: any | null;
+  profile: AuthUser | null;
   loading: boolean;
   signIn: (email: string, password: string) => Promise<{ error: any }>;
   signUp: (email: string, password: string, fullName: string, role: AppRole) => Promise<{ error: any }>;
@@ -17,70 +25,45 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | null>(null);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState<User | null>(null);
-  const [role, setRole] = useState<AppRole | null>(null);
-  const [profile, setProfile] = useState<any | null>(null);
+  const [user, setUser] = useState<AuthUser | null>(null);
   const [loading, setLoading] = useState(true);
 
-  const fetchRoleAndProfile = async (userId: string) => {
-    const [roleRes, profileRes] = await Promise.all([
-      supabase.from("user_roles").select("role").eq("user_id", userId).limit(1).single(),
-      supabase.from("profiles").select("*").eq("user_id", userId).limit(1).single(),
-    ]);
-    if (roleRes.data) setRole(roleRes.data.role as AppRole);
-    if (profileRes.data) setProfile(profileRes.data);
-  };
-
   useEffect(() => {
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
-      if (session?.user) {
-        setUser(session.user);
-        // Defer fetching to avoid deadlock with Supabase auth
-        setTimeout(() => fetchRoleAndProfile(session.user.id), 0);
-      } else {
-        setUser(null);
-        setRole(null);
-        setProfile(null);
-      }
-      setLoading(false);
-    });
-
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      if (session?.user) {
-        setUser(session.user);
-        fetchRoleAndProfile(session.user.id);
-      }
-      setLoading(false);
-    });
-
-    return () => subscription.unsubscribe();
+    const token = localStorage.getItem("auth_token");
+    if (!token) { setLoading(false); return; }
+    api.get("/auth/me")
+      .then(u => setUser(u))
+      .catch(() => localStorage.removeItem("auth_token"))
+      .finally(() => setLoading(false));
   }, []);
 
   const signIn = async (email: string, password: string) => {
-    const { error } = await supabase.auth.signInWithPassword({ email, password });
-    return { error };
+    try {
+      const { token, user: u } = await api.post("/auth/login", { email, password });
+      localStorage.setItem("auth_token", token);
+      setUser(u);
+      return { error: null };
+    } catch (e: any) {
+      return { error: { message: e.message } };
+    }
   };
 
-  const signUp = async (email: string, password: string, fullName: string, selectedRole: AppRole) => {
-    const { data, error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: { data: { full_name: fullName } },
-    });
-    if (error) return { error };
-    // Note: role assignment requires admin; for first user, manually assign via SQL
-    return { error: null };
+  const signUp = async (email: string, password: string, fullName: string, _role: AppRole) => {
+    try {
+      await api.post("/auth/signup", { email, password, full_name: fullName });
+      return { error: null };
+    } catch (e: any) {
+      return { error: { message: e.message } };
+    }
   };
 
   const signOut = async () => {
-    await supabase.auth.signOut();
+    localStorage.removeItem("auth_token");
     setUser(null);
-    setRole(null);
-    setProfile(null);
   };
 
   return (
-    <AuthContext.Provider value={{ user, role, profile, loading, signIn, signUp, signOut }}>
+    <AuthContext.Provider value={{ user, role: user?.role ?? null, profile: user, loading, signIn, signUp, signOut }}>
       {children}
     </AuthContext.Provider>
   );

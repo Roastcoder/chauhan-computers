@@ -3,21 +3,21 @@ import { AnimatedSection } from "./AnimatedSection";
 
 export function ContactSection() {
   return (
-    <section className="py-24 bg-surface">
+    <section className="py-10 bg-surface">
       <div className="max-w-[1440px] mx-auto px-6">
         <AnimatedSection>
-          <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-foreground text-center mb-4">Visit Our Store</h2>
-          <p className="text-muted-foreground text-center mb-12 max-w-lg mx-auto">Come experience our products firsthand at our Jaipur showroom.</p>
+          <h2 className="text-xl md:text-2xl font-bold tracking-tight text-foreground text-center mb-2">Visit Our Store</h2>
+          <p className="text-muted-foreground text-center mb-8 text-sm max-w-md mx-auto">Come experience our products firsthand at our Jaipur showroom.</p>
         </AnimatedSection>
 
         <div className="grid lg:grid-cols-2 gap-8">
           <AnimatedSection>
-            <div className="glass-card rounded-2xl p-8 space-y-6 h-full">
+            <div className="glass-card rounded-2xl p-6 space-y-5 h-full">
               <div className="flex items-start gap-4">
                 <MapPin className="w-5 h-5 text-primary mt-0.5 shrink-0" />
                 <div>
                   <h3 className="text-sm font-semibold text-foreground mb-1">Address</h3>
-                  <p className="text-sm text-muted-foreground">Shop No B-5, Girdhar Marg, near Indian Bank, Ashok Vihar, Sector 11, Malviya Nagar, Jaipur, Rajasthan 302017</p>
+                  <p className="text-sm text-muted-foreground">B-5 A, Vaibhav Enclave, Near Indian Bank, Girdhar Marg, Malviya Nagar, Jaipur, Rajasthan 302017</p>
                 </div>
               </div>
               <div className="flex items-start gap-4">
@@ -26,7 +26,7 @@ export function ContactSection() {
                   <h3 className="text-sm font-semibold text-foreground mb-1">Phone</h3>
                   <a href="tel:09509317543" className="text-sm text-primary hover:underline block">95093 17543</a>
                   <a href="tel:08559965655" className="text-sm text-primary hover:underline block">85599 65655</a>
-                  <a href="tel:09376721157" className="text-sm text-muted-foreground hover:underline block">93767 21157 (Service)</a>
+                  <a href="tel:09376721157" className="text-sm text-blue-400 hover:underline block">93767 21157 — Customer Support</a>
                 </div>
               </div>
               <div className="flex items-start gap-4">
@@ -56,16 +56,16 @@ export function ContactSection() {
           </AnimatedSection>
 
           <AnimatedSection delay={0.1}>
-            <div className="glass-card rounded-2xl overflow-hidden h-full min-h-[400px]">
+            <div className="glass-card rounded-2xl overflow-hidden h-full min-h-[350px]">
               <iframe
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3559.8!2d75.8!3d26.85!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjbCsDUxJzAuMCJOIDc1wrA0OCcwLjAiRQ!5e0!3m2!1sen!2sin!4v1"
                 width="100%"
                 height="100%"
-                style={{ border: 0, minHeight: "400px" }}
+                style={{ border: 0, minHeight: "350px" }}
                 allowFullScreen
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
-                title="Chauhaan Computers Location"
+                title="Chauhan Computers Location"
               />
             </div>
           </AnimatedSection>

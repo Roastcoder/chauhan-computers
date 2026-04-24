@@ -4,7 +4,7 @@ import { SlidersHorizontal, ChevronDown } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ProductCard } from "@/components/ProductCard";
 import { useProducts } from "@/hooks/use-products";
-import { categories } from "@/lib/data";
+import { categories, accessorySubtypes } from "@/lib/data";
 import { Skeleton } from "@/components/ui/skeleton";
 
 const sortOptions = ["Featured", "Price: Low to High", "Price: High to Low", "Newest"];
@@ -19,13 +19,21 @@ export default function Category() {
   const [priceFilter, setPriceFilter] = useState("All");
   const [ramFilter, setRamFilter] = useState("All");
   const [storageFilter, setStorageFilter] = useState("All");
+  const [subtypeFilter, setSubtypeFilter] = useState("All");
   const [filtersOpen, setFiltersOpen] = useState(false);
 
   const category = categories.find((c) => c.slug === slug);
   const categoryName = category?.name || (slug ? slug.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase()) : "All Products");
+  const isAccessoryCategory = slug === "keyboards" || accessorySubtypes.some(s => s.value === slug);
 
   const filtered = useMemo(() => {
-    let result = slug ? products.filter((p) => p.category === slug) : [...products];
+    let result = slug ? products.filter((p) => {
+      if (isAccessoryCategory) {
+        return accessorySubtypes.some(s => s.value === p.category);
+      }
+      return p.category === slug;
+    }) : [...products];
+    if (subtypeFilter !== "All") result = result.filter((p) => p.category === subtypeFilter);
     if (priceFilter !== "All") {
       result = result.filter((p) => {
         if (priceFilter === "Under ₹25,000") return p.price < 25000;
@@ -40,7 +48,7 @@ export default function Category() {
     if (sort === "Price: Low to High") result.sort((a, b) => a.price - b.price);
     if (sort === "Price: High to Low") result.sort((a, b) => b.price - a.price);
     return result;
-  }, [slug, products, sort, priceFilter, ramFilter, storageFilter]);
+  }, [slug, products, sort, priceFilter, ramFilter, storageFilter, subtypeFilter, isAccessoryCategory]);
 
   return (
     <div className="bg-background">
@@ -77,9 +85,16 @@ export default function Category() {
             {filtersOpen && (
               <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }} className="overflow-hidden mb-4">
                 <div className="bg-card rounded-xl p-4 border border-border grid grid-cols-1 sm:grid-cols-3 gap-4">
+                  {isAccessoryCategory && (
+                    <FilterGroup label="Type" options={["All", ...accessorySubtypes.map(s => s.label)]} value={subtypeFilter === "All" ? "All" : accessorySubtypes.find(s => s.value === subtypeFilter)?.label || "All"} onChange={(v) => setSubtypeFilter(v === "All" ? "All" : accessorySubtypes.find(s => s.label === v)?.value || "All")} />
+                  )}
                   <FilterGroup label="Price" options={priceRanges} value={priceFilter} onChange={setPriceFilter} />
-                  <FilterGroup label="RAM" options={ramOptions} value={ramFilter} onChange={setRamFilter} />
-                  <FilterGroup label="Storage" options={storageOptions} value={storageFilter} onChange={setStorageFilter} />
+                  {!isAccessoryCategory && (
+                    <>
+                      <FilterGroup label="RAM" options={ramOptions} value={ramFilter} onChange={setRamFilter} />
+                      <FilterGroup label="Storage" options={storageOptions} value={storageFilter} onChange={setStorageFilter} />
+                    </>
+                  )}
                 </div>
               </motion.div>
             )}

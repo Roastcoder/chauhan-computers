@@ -19,6 +19,8 @@ export default function ProductDetail() {
   const { data: products = [], isLoading } = useProducts();
 
   const product = products.find((p) => p.id === id);
+  const allImages = product?.images || [product?.image].filter(Boolean);
+  const [activeImage, setActiveImage] = useState(allImages[0] || "");
 
   if (isLoading) {
     return (
@@ -52,9 +54,6 @@ export default function ProductDetail() {
     addItem(product);
     toast.success(`${product.name} added to cart`);
   };
-
-  const [activeImage, setActiveImage] = useState(product.image);
-  const allImages = product.images || [product.image];
 
   return (
     <div className="min-h-screen bg-background">

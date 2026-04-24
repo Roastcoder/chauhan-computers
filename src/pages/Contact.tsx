@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { AnimatedSection } from "@/components/AnimatedSection";
 import { Phone, Mail, MapPin, Clock } from "lucide-react";
 
@@ -9,6 +10,26 @@ const contactInfo = [
 ];
 
 export default function Contact() {
+  const [form, setForm] = useState({ name: "", email: "", subject: "", message: "" });
+  const [sent, setSent] = useState(false);
+  const [sending, setSending] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!form.name || !form.message) return;
+    setSending(true);
+    try {
+      await fetch("http://localhost:4000/api/contact-messages", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+      setSent(true);
+      setForm({ name: "", email: "", subject: "", message: "" });
+    } catch {}
+    setSending(false);
+  };
+
   return (
     <div className="bg-background">
       {/* Header */}
@@ -26,17 +47,25 @@ export default function Contact() {
             <AnimatedSection>
               <div className="bg-card rounded-xl border border-border p-6">
                 <h2 className="text-lg font-semibold text-foreground mb-4">Send us a Message</h2>
-                <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
-                  <div className="grid sm:grid-cols-2 gap-3">
-                    <input type="text" placeholder="Your Name" className="px-4 py-2.5 bg-background rounded-lg text-sm text-foreground placeholder:text-muted-foreground outline-none focus:ring-2 focus:ring-primary/20 border border-border w-full" />
-                    <input type="email" placeholder="Email Address" className="px-4 py-2.5 bg-background rounded-lg text-sm text-foreground placeholder:text-muted-foreground outline-none focus:ring-2 focus:ring-primary/20 border border-border w-full" />
+                {sent ? (
+                  <div className="py-8 text-center">
+                    <p className="text-green-500 font-semibold mb-1">Message sent!</p>
+                    <p className="text-xs text-muted-foreground">We'll get back to you soon.</p>
+                    <button onClick={() => setSent(false)} className="mt-4 text-xs text-primary hover:underline">Send another</button>
                   </div>
-                  <input type="text" placeholder="Subject" className="px-4 py-2.5 bg-background rounded-lg text-sm text-foreground placeholder:text-muted-foreground outline-none focus:ring-2 focus:ring-primary/20 border border-border w-full" />
-                  <textarea rows={4} placeholder="Your Message" className="px-4 py-2.5 bg-background rounded-lg text-sm text-foreground placeholder:text-muted-foreground outline-none focus:ring-2 focus:ring-primary/20 border border-border w-full resize-none" />
-                  <button type="submit" className="px-6 py-2.5 bg-primary text-primary-foreground rounded-lg font-semibold text-sm hover:opacity-90 transition-opacity">
-                    Send Message
+                ) : (
+                <form className="space-y-4" onSubmit={handleSubmit}>
+                  <div className="grid sm:grid-cols-2 gap-3">
+                    <input type="text" value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value }))} placeholder="Your Name *" required className="px-4 py-2.5 bg-background rounded-lg text-sm text-foreground placeholder:text-muted-foreground outline-none focus:ring-2 focus:ring-primary/20 border border-border w-full" />
+                    <input type="email" value={form.email} onChange={e => setForm(f => ({ ...f, email: e.target.value }))} placeholder="Email Address" className="px-4 py-2.5 bg-background rounded-lg text-sm text-foreground placeholder:text-muted-foreground outline-none focus:ring-2 focus:ring-primary/20 border border-border w-full" />
+                  </div>
+                  <input type="text" value={form.subject} onChange={e => setForm(f => ({ ...f, subject: e.target.value }))} placeholder="Subject" className="px-4 py-2.5 bg-background rounded-lg text-sm text-foreground placeholder:text-muted-foreground outline-none focus:ring-2 focus:ring-primary/20 border border-border w-full" />
+                  <textarea rows={4} value={form.message} onChange={e => setForm(f => ({ ...f, message: e.target.value }))} placeholder="Your Message *" required className="px-4 py-2.5 bg-background rounded-lg text-sm text-foreground placeholder:text-muted-foreground outline-none focus:ring-2 focus:ring-primary/20 border border-border w-full resize-none" />
+                  <button type="submit" disabled={sending} className="px-6 py-2.5 bg-primary text-primary-foreground rounded-lg font-semibold text-sm hover:opacity-90 transition-opacity disabled:opacity-50">
+                    {sending ? "Sending..." : "Send Message"}
                   </button>
                 </form>
+                )}
               </div>
             </AnimatedSection>
 
@@ -63,7 +92,7 @@ export default function Contact() {
                   <iframe
                     src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3559.0!2d75.8!3d26.85!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjbCsDUxJzAwLjAiTiA3NcKwNDgnMDAuMCJF!5e0!3m2!1sen!2sin!4v1"
                     width="100%" height="100%" style={{ border: 0 }} allowFullScreen loading="lazy"
-                    title="Chauhaan Computers Location"
+                    title="Chauhan Computers Location"
                   />
                 </div>
               </div>
