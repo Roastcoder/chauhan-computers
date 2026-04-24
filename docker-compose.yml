@@ -7,8 +7,8 @@ services:
       dockerfile: Dockerfile
     container_name: chauhan-computers
     restart: unless-stopped
-    ports:
-      - "3000:80"           # Access locally at http://localhost:3000
+    # Ports are handled internally by Coolify reverse proxy (Port 80)
+    # No host mapping needed to avoid conflicts with backend (Port 3000)
     environment:
       - NODE_ENV=production
     healthcheck:
