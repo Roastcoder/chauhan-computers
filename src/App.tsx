@@ -67,29 +67,8 @@ function StorefrontLayout({ children }: { children: React.ReactNode }) {
 
 const App = () => {
   useEffect(() => {
-    // Check for new version every 30 seconds
-    const checkVersion = async () => {
-      try {
-        const response = await fetch('/version.json?t=' + Date.now());
-        const data = await response.json();
-        const currentVersion = localStorage.getItem('app_version');
-        
-        if (currentVersion && currentVersion !== data.version) {
-          console.log('New version detected:', data.version, 'Current:', currentVersion);
-          localStorage.setItem('app_version', data.version);
-          // Small delay to ensure localStorage is written before reload
-          setTimeout(() => window.location.reload(), 100);
-        } else if (!currentVersion) {
-          localStorage.setItem('app_version', data.version);
-        }
-      } catch (error) {
-        console.error('Version check failed:', error);
-      }
-    };
-
-    checkVersion();
-    const interval = setInterval(checkVersion, 30000);
-    return () => clearInterval(interval);
+    // Version check disabled temporarily to resolve infinite reload loop
+    console.log('Version check disabled');
   }, []);
 
   return (
