@@ -67,8 +67,34 @@ function StorefrontLayout({ children }: { children: React.ReactNode }) {
 
 const App = () => {
   useEffect(() => {
-    // Version check disabled temporarily to resolve infinite reload loop
-    console.log('Version check disabled');
+    const checkVersion = async () => {
+      try {
+        const response = await fetch('/version.json?t=' + Date.now());
+        const data = await response.json();
+        const currentVersion = localStorage.getItem('app_version');
+        const lastReload = localStorage.getItem('last_version_reload');
+        const now = Date.now();
+
+        // Only attempt reload if version mismatch AND we haven't reloaded in the last 5 minutes
+        if (currentVersion && currentVersion !== data.version) {
+          const fiveMinutes = 5 * 60 * 1000;
+          if (!lastReload || (now - parseInt(lastReload)) > fiveMinutes) {
+            console.log('Safe reload: New version detected');
+            localStorage.setItem('app_version', data.version);
+            localStorage.setItem('last_version_reload', now.toString());
+            window.location.reload();
+          }
+        } else if (!currentVersion) {
+          localStorage.setItem('app_version', data.version);
+        }
+      } catch (e) {
+        // Silently fail to not disturb user
+      }
+    };
+
+    checkVersion();
+    const interval = setInterval(checkVersion, 60000); // Check every minute
+    return () => clearInterval(interval);
   }, []);
 
   return (
