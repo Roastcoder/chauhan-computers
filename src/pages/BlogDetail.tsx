@@ -18,7 +18,7 @@ export default function BlogDetail() {
   if (isLoading) {
     return (
       <div className="min-h-screen bg-background">
-        <div className="max-w-[1000px] mx-auto px-6 py-12 md:py-20">
+        <div className="max-w-[1440px] mx-auto px-6 py-12 md:py-20">
           <Skeleton className="h-10 w-3/4 mb-8" />
           <Skeleton className="aspect-video w-full rounded-3xl mb-12" />
           <div className="space-y-4">
@@ -47,7 +47,7 @@ export default function BlogDetail() {
         keywords={`tech news, ${blog.title}, Chauhan Computers`}
       />
       
-      <div className="max-w-[740px] mx-auto px-6 py-8 md:py-16">
+      <div className="max-w-[1440px] mx-auto px-6 py-8 md:py-16">
         <Link 
           to="/blog" 
           className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary mb-8 transition-colors group"
