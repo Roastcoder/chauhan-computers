@@ -64,10 +64,10 @@ export function PremiumHeroBanner() {
               <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/40 to-transparent" />
               <div className="absolute inset-0 flex items-center">
                 <div className="px-6 sm:px-10 md:px-12 max-w-lg">
-                  <h1 className="text-xl sm:text-2xl md:text-4xl lg:text-5xl font-bold text-white leading-tight mb-2 sm:mb-3 drop-shadow-md">
+                  <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-white leading-tight mb-2 sm:mb-3 drop-shadow-md">
                     {slide.title}
                   </h1>
-                  <p className="text-white/80 text-xs sm:text-sm md:text-base mb-4 sm:mb-6 drop-shadow">
+                  <p className="text-white/80 text-[10px] sm:text-xs md:text-sm mb-4 sm:mb-6 drop-shadow">
                     {slide.subtitle}
                   </p>
                   <Link to={slide.ctaLink}

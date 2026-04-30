@@ -61,7 +61,7 @@ export default function AdminSettings() {
 
   return (
     <div className="space-y-4 md:space-y-6">
-      <h1 className="text-xl md:text-2xl font-bold text-foreground">Settings</h1>
+      <h1 className="text-lg md:text-xl font-bold text-foreground">Settings</h1>
 
       {/* Site Features */}
       <div className="bg-card border border-border rounded-xl p-4 md:p-6">

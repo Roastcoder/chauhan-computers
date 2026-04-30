@@ -65,9 +65,9 @@ export default function AdminProducts() {
   return (
     <div className="space-y-5">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-foreground">Products</h1>
-        <button onClick={() => { setEditProduct(null); setShowModal(true); }} className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-xl text-xs font-semibold">
-          <Plus className="w-3.5 h-3.5" /> Add Product
+        <h1 className="text-xl font-bold text-foreground">Products</h1>
+        <button onClick={() => { setEditProduct(null); setShowModal(true); }} className="flex items-center gap-2 px-3 py-1.5 bg-primary text-primary-foreground rounded-lg text-[11px] font-bold">
+          <Plus className="w-3 h-3" /> Add Product
         </button>
       </div>
 

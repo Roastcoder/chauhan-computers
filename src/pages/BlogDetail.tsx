@@ -56,8 +56,8 @@ export default function BlogDetail() {
           Back to Insights
         </Link>
 
-        <header className="mb-10">
-          <h1 className="text-3xl md:text-4xl font-bold text-foreground leading-tight tracking-tight mb-6">
+        <header className="mb-8">
+          <h1 className="text-2xl md:text-3xl font-bold text-foreground leading-tight tracking-tight mb-4">
             {blog.title}
           </h1>
 

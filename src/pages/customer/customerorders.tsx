@@ -145,47 +145,47 @@ export default function CustomerOrders() {
   };
 
   return (
-    <div className="space-y-6 pb-10">
-      <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="flex flex-col gap-1">
-        <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight text-foreground">Purchase Ledger</h1>
-        <p className="text-sm text-muted-foreground font-medium">Manage your hardware acquisitions and tax documents.</p>
+    <div className="space-y-5 pb-8">
+      <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="flex flex-col gap-0.5">
+        <h1 className="text-xl md:text-2xl font-bold tracking-tight text-foreground">Purchase Ledger</h1>
+        <p className="text-xs text-muted-foreground font-medium">Manage your hardware acquisitions and tax documents.</p>
       </motion.div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <div className="lg:col-span-2 space-y-4">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="lg:col-span-2 space-y-3">
           {isLoading ? (
-            <div className="flex flex-col items-center justify-center py-20 bg-card/40 backdrop-blur-xl border border-border/50 rounded-3xl">
-              <div className="w-12 h-12 border-4 border-primary/20 border-t-primary rounded-full animate-spin mb-4" />
-              <p className="text-sm font-bold text-muted-foreground uppercase tracking-widest">Fetching Orders...</p>
+            <div className="flex flex-col items-center justify-center py-16 bg-card/40 backdrop-blur-xl border border-border/50 rounded-2xl">
+              <div className="w-10 h-10 border-4 border-primary/20 border-t-primary rounded-full animate-spin mb-3" />
+              <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest">Fetching Orders...</p>
             </div>
           ) : orders.length === 0 ? (
-            <div className="flex flex-col items-center justify-center py-20 bg-card/40 backdrop-blur-xl border border-border/50 border-dashed rounded-3xl">
-              <div className="w-20 h-20 bg-muted/20 rounded-full flex items-center justify-center mb-6">
-                <Package className="w-10 h-10 text-muted-foreground/50" />
+            <div className="flex flex-col items-center justify-center py-16 bg-card/40 backdrop-blur-xl border border-border/50 border-dashed rounded-2xl">
+              <div className="w-16 h-16 bg-muted/20 rounded-full flex items-center justify-center mb-4">
+                <Package className="w-8 h-8 text-muted-foreground/50" />
               </div>
-              <h3 className="text-xl font-bold text-foreground mb-2">No orders found</h3>
-              <p className="text-muted-foreground text-sm max-w-xs text-center">Your purchase history is currently empty. Ready to upgrade your hardware?</p>
+              <h3 className="text-lg font-bold text-foreground mb-1">No orders found</h3>
+              <p className="text-muted-foreground text-xs max-w-xs text-center">Your purchase history is currently empty.</p>
             </div>
           ) : (
-            <div className="space-y-4">
+            <div className="space-y-3">
               {orders.map((order: any, idx: number) => (
                 <motion.div 
                   key={order.id}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: idx * 0.1 }}
+                  transition={{ delay: idx * 0.05 }}
                   onClick={() => setSelectedOrderId(order.id)}
-                  className={`group relative overflow-hidden bg-card/40 backdrop-blur-xl border transition-all duration-300 cursor-pointer rounded-2xl p-5 hover:shadow-xl hover:shadow-black/5 hover:-translate-y-1 ${selectedOrderId === order.id ? 'border-primary shadow-lg shadow-primary/5 bg-card/60' : 'border-border/50'}`}
+                  className={`group relative overflow-hidden bg-card/40 backdrop-blur-xl border transition-all duration-300 cursor-pointer rounded-xl p-4 hover:shadow-lg hover:shadow-black/5 hover:-translate-y-0.5 ${selectedOrderId === order.id ? 'border-primary shadow-lg shadow-primary/5 bg-card/60' : 'border-border/50'}`}
                 >
                   <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-5">
-                      <div className={`w-12 h-12 rounded-xl flex items-center justify-center transition-colors ${selectedOrderId === order.id ? 'bg-primary text-primary-foreground' : 'bg-primary/10 text-primary'}`}>
-                        <Package className="w-6 h-6" />
+                    <div className="flex items-center gap-4">
+                      <div className={`w-10 h-10 rounded-lg flex items-center justify-center transition-colors ${selectedOrderId === order.id ? 'bg-primary text-primary-foreground' : 'bg-primary/10 text-primary'}`}>
+                        <Package className="w-5 h-5" />
                       </div>
                       <div>
-                        <div className="flex items-center gap-3 mb-1">
-                          <h4 className="text-base font-bold text-foreground tracking-tight">#{order.receipt.split('_')[1]}</h4>
-                          <span className={`text-[10px] font-black uppercase tracking-widest px-2.5 py-1 rounded-full ${
+                        <div className="flex items-center gap-2.5 mb-0.5">
+                          <h4 className="text-sm font-bold text-foreground tracking-tight">#{order.receipt.split('_')[1]}</h4>
+                          <span className={`text-[9px] font-black uppercase tracking-widest px-2 py-0.5 rounded-full ${
                             order.status === 'paid' ? 'bg-emerald-500/10 text-emerald-500' : 
                             (order.status === 'cancelled' || order.status === 'failed') ? 'bg-rose-500/10 text-rose-500' :
                             'bg-amber-500/10 text-amber-500'
@@ -193,13 +193,13 @@ export default function CustomerOrders() {
                             {order.status}
                           </span>
                         </div>
-                        <div className="flex items-center gap-3 text-xs font-medium text-muted-foreground">
-                          <span className="flex items-center gap-1"><Clock className="w-3 h-3" /> {format(new Date(order.created_at), "MMM dd, yyyy")}</span>
-                          <span className="flex items-center gap-1 text-primary font-bold"><IndianRupee className="w-3 h-3" /> {order.amount.toLocaleString()}</span>
+                        <div className="flex items-center gap-2.5 text-[11px] font-medium text-muted-foreground">
+                          <span className="flex items-center gap-1"><Clock className="w-2.5 h-2.5" /> {format(new Date(order.created_at), "MMM dd, yyyy")}</span>
+                          <span className="flex items-center gap-1 text-primary font-bold"><IndianRupee className="w-2.5 h-2.5" /> {order.amount.toLocaleString()}</span>
                         </div>
                       </div>
                     </div>
-                    <ChevronRight className={`w-5 h-5 text-muted-foreground transition-transform duration-300 ${selectedOrderId === order.id ? 'translate-x-1 text-primary' : ''}`} />
+                    <ChevronRight className={`w-4 h-4 text-muted-foreground transition-transform duration-300 ${selectedOrderId === order.id ? 'translate-x-0.5 text-primary' : ''}`} />
                   </div>
                 </motion.div>
               ))}
@@ -212,16 +212,16 @@ export default function CustomerOrders() {
             {selectedOrderId ? (
               <motion.div 
                 key={selectedOrderId}
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, scale: 0.95 }}
-                className="sticky top-24 bg-card border border-border/50 rounded-3xl p-6 md:p-8 shadow-2xl shadow-black/5 overflow-hidden"
+                exit={{ opacity: 0, scale: 0.98 }}
+                className="sticky top-24 bg-card border border-border/50 rounded-2xl p-5 md:p-6 shadow-xl shadow-black/5 overflow-hidden"
               >
-                <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
+                <div className="absolute top-0 right-0 w-24 h-24 bg-primary/5 rounded-full blur-2xl -translate-y-1/2 translate-x-1/2" />
                 
                 <div className="relative z-10">
-                  <div className="flex items-center justify-between mb-8">
-                    <h3 className="text-xl font-black text-foreground tracking-tight">Order Insight</h3>
+                  <div className="flex items-center justify-between mb-6">
+                    <h3 className="text-lg font-bold text-foreground tracking-tight">Order Insight</h3>
                     {orderDetails?.status === 'paid' ? (
                       <button 
                         onClick={() => generateInvoice(orderDetails)}

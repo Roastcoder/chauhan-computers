@@ -32,9 +32,9 @@ export default function Services() {
             <img src={bannerServices} alt="Our Services" className="w-full h-[200px] sm:h-[280px] md:h-[320px] object-cover" />
             <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/40 to-transparent flex items-center">
               <div className="px-6 sm:px-10 md:px-12">
-                <p className="text-white/60 text-xs uppercase tracking-widest mb-2">Expert Solutions</p>
-                <h1 className="text-2xl sm:text-3xl md:text-5xl font-bold text-white leading-tight mb-3">Our Services</h1>
-                <p className="text-white/80 text-sm sm:text-base max-w-lg">Professional repair and installation by certified technicians.</p>
+                <p className="text-white/60 text-[10px] uppercase tracking-widest mb-1.5">Expert Solutions</p>
+                <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-white leading-tight mb-2">Our Services</h1>
+                <p className="text-white/80 text-xs sm:text-sm max-w-lg">Professional repair and installation by certified technicians.</p>
               </div>
             </div>
           </div>
