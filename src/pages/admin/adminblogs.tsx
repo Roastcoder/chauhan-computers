@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { 
   Plus, Search, Edit2, Trash2, Globe, Lock, Loader2, 
-  LayoutList, FileText, Image as ImageIcon, User, Tag
+  LayoutList, FileText, Image as ImageIcon, User, Tag, Calendar
 } from "lucide-react";
 import { toast } from "sonner";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
