@@ -138,7 +138,7 @@ export default function ProductDetail() {
                   <span className="text-[10px] font-bold tracking-widest uppercase text-white bg-emerald-500 px-3 py-1.5 rounded-full">Save {discounted}%</span>
                 )}
               </div>
-              <h1 className="text-2xl md:text-4xl font-bold tracking-tight text-slate-900 mb-3 leading-tight">{product.name}</h1>
+              <h1 className="text-xl md:text-2xl font-bold tracking-tight text-slate-900 mb-3 leading-tight">{product.name}</h1>
               <div className="flex items-center gap-4">
                 <div className="flex items-center gap-1.5 bg-yellow-50 px-2.5 py-1 rounded-lg border border-yellow-100">
                   <Star className="w-4 h-4 fill-yellow-500 text-yellow-500" />
@@ -150,7 +150,7 @@ export default function ProductDetail() {
 
             <div className="p-6 bg-white rounded-3xl border border-slate-100 shadow-sm">
               <div className="flex items-baseline gap-3 mb-2">
-                <span className="text-4xl font-bold text-slate-900 tracking-tight">₹{product.price.toLocaleString()}</span>
+                <span className="text-3xl font-bold text-slate-900 tracking-tight">₹{product.price.toLocaleString()}</span>
                 {product.specs?.originalPrice && (
                   <span className="text-xl text-slate-400 line-through font-medium">₹{product.specs.originalPrice.toLocaleString()}</span>
                 )}
@@ -238,9 +238,9 @@ export default function ProductDetail() {
 
         {/* Description Section */}
         <div className="mt-20 max-w-3xl">
-          <h2 className="text-2xl font-bold text-slate-900 mb-6">Product Overview</h2>
+          <h2 className="text-xl font-bold text-slate-900 mb-6">Product Overview</h2>
           <div className="prose prose-slate max-w-none">
-            <p className="text-lg text-slate-600 leading-relaxed italic border-l-4 border-primary pl-6">
+            <p className="text-base text-slate-600 leading-relaxed italic border-l-4 border-primary pl-6">
               "{product.description}"
             </p>
           </div>
@@ -250,7 +250,7 @@ export default function ProductDetail() {
         {related.length > 0 && (
           <section className="mt-24">
             <div className="flex items-center justify-between mb-8">
-              <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-slate-900">Recommended for You</h2>
+              <h2 className="text-xl md:text-2xl font-bold tracking-tight text-slate-900">Recommended for You</h2>
               <Link to={`/category/${product.category}`} className="text-primary text-sm font-bold hover:underline">View all related products →</Link>
             </div>
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
