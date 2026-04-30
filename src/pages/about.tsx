@@ -19,6 +19,8 @@ const team = [
   { name: "Amit Verma", role: "Technical Lead", bio: "Certified hardware engineer with expertise in laptop, desktop, and CCTV installations across all major brands." },
 ];
 
+import { SEO } from "@/components/SEO";
+
 export default function About() {
   const { data: settings = [] } = useQuery({
     queryKey: ["public-settings"],
@@ -29,6 +31,11 @@ export default function About() {
   const testimonials = testimonialsConfig.length > 0 ? testimonialsConfig.filter((t: any) => t.visible) : fallbackTestimonials;
   return (
     <div className="bg-background">
+      <SEO 
+        title="About Us" 
+        description="Learn more about Chauhan Computers, Jaipur's leading laptop and computer dealer with 15+ years of experience."
+        keywords="about chauhan computers, laptop dealer jaipur, trusted computer store jaipur"
+      />
       {/* Hero Banner */}
       <section className="w-full">
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6 py-3">

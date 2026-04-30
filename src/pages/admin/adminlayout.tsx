@@ -13,6 +13,7 @@ const adminNav = [
   { icon: Star, label: "Testimonials", path: "/admin/testimonials" },
   { icon: Wrench, label: "Services", path: "/admin/services" },
   { icon: Briefcase, label: "Careers", path: "/admin/careers" },
+  { icon: Globe, label: "Blogs", path: "/admin/blogs" },
   { icon: Globe, label: "Website", path: "/admin/website" },
   { icon: Share2, label: "Social Media", path: "/admin/social" },
   { icon: MessageSquare, label: "Messages", path: "/admin/messages" },

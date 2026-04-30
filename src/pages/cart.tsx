@@ -4,28 +4,28 @@ import { Minus, Plus, Trash2, ShoppingBag, ArrowLeft } from "lucide-react";
 import { useCart } from "@/lib/cart";
 import { AnimatedSection } from "@/components/AnimatedSection";
 
+import { SEO } from "@/components/SEO";
+
 export default function Cart() {
   const { items, updateQuantity, removeItem, total } = useCart();
 
-  if (items.length === 0) {
-    return (
-      <div className="min-h-[70vh] flex flex-col items-center justify-center px-6">
-        <ShoppingBag className="w-16 h-16 text-muted-foreground/30 mb-6" />
-        <h1 className="text-2xl font-semibold text-foreground mb-2">Your cart is empty</h1>
-        <p className="text-muted-foreground mb-8">Discover something you'll love.</p>
-        <Link
-          to="/"
-          className="px-8 py-4 bg-primary text-primary-foreground rounded-full font-medium hover:opacity-90 transition-opacity"
-        >
-          Continue Shopping
-        </Link>
-      </div>
-    );
-  }
-
   return (
     <div className="min-h-screen bg-background">
-      <div className="max-w-[1440px] mx-auto px-6 py-12">
+      <SEO title="Your Cart" description="Review your selected laptops and computer accessories before checkout at Chauhan Computers." />
+      {items.length === 0 ? (
+        <div className="min-h-[70vh] flex flex-col items-center justify-center px-6">
+          <ShoppingBag className="w-16 h-16 text-muted-foreground/30 mb-6" />
+          <h1 className="text-2xl font-semibold text-foreground mb-2">Your cart is empty</h1>
+          <p className="text-muted-foreground mb-8">Discover something you'll love.</p>
+          <Link
+            to="/"
+            className="px-8 py-4 bg-primary text-primary-foreground rounded-full font-medium hover:opacity-90 transition-opacity"
+          >
+            Continue Shopping
+          </Link>
+        </div>
+      ) : (
+        <div className="max-w-[1440px] mx-auto px-6 py-12">
         <AnimatedSection>
           <Link to="/" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground mb-8 transition-colors">
             <ArrowLeft className="w-4 h-4" />
@@ -112,6 +112,8 @@ export default function Cart() {
           </div>
         </div>
       </div>
+        </div>
+      )}
     </div>
   );
 }

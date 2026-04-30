@@ -10,6 +10,8 @@ const contactInfo = [
   { icon: Clock, label: "Hours", value: "Mon – Sun: Open until 9:00 PM", href: "#" },
 ];
 
+import { SEO } from "@/components/SEO";
+
 export default function Contact() {
   const [form, setForm] = useState({ name: "", email: "", subject: "", message: "" });
   const [sent, setSent] = useState(false);
@@ -29,6 +31,11 @@ export default function Contact() {
 
   return (
     <div className="bg-background">
+      <SEO 
+        title="Contact Us" 
+        description="Get in touch with Chauhan Computers for laptop repairs, IT services, or sales inquiries in Jaipur. We're here to help."
+        keywords="contact chauhan computers, laptop repair jaipur contact, computer shop jaipur phone number"
+      />
       {/* Header */}
       <section className="py-8 sm:py-10">
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6">

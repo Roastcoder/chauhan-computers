@@ -11,6 +11,8 @@ const fallbackOpenings = [
   { title: "Digital Marketing Specialist", location: "Remote", type: "Part-time", description: "Manage our online presence, social media, and advertising campaigns." },
 ];
 
+import { SEO } from "@/components/SEO";
+
 export default function Careers() {
   const { data: settings = [] } = useQuery({
     queryKey: ["public-settings"],
@@ -21,6 +23,11 @@ export default function Careers() {
   const openings = careersConfig.length > 0 ? careersConfig.filter((job: any) => job.visible) : fallbackOpenings;
   return (
     <div className="min-h-screen bg-background">
+      <SEO 
+        title="Careers" 
+        description="Join the team at Chauhan Computers. Explore job openings for sales, hardware technicians, and IT specialists in Jaipur."
+        keywords="careers jaipur, tech jobs jaipur, laptop technician jobs, IT sales jobs jaipur"
+      />
       <section className="py-24 md:py-32 bg-foreground text-background">
         <motion.div
           initial={{ opacity: 0, y: 30 }}

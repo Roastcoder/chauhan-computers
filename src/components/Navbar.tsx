@@ -14,6 +14,7 @@ const navLinks = [
   { name: "Desktops", path: "/category/cpu-desktop", dropdown: undefined },
   { name: "Accessories", path: "#", dropdown: "accessories" },
   { name: "Deals", path: "#", dropdown: "deals" },
+  { name: "Blog", path: "/blog", dropdown: undefined },
   { name: "Contact", path: "/contact", dropdown: undefined },
 ];
 
@@ -34,6 +35,7 @@ const mobileMenuLinks = [
   { name: "Home", path: "/" },
   { name: "Desktops", path: "/category/cpu-desktop" },
   { name: "Services", path: "/services" },
+  { name: "Blog", path: "/blog" },
   { name: "About", path: "/about" },
   { name: "Contact", path: "/contact" },
 ];

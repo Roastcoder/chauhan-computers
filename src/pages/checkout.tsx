@@ -8,6 +8,8 @@ import { api } from "@/integrations/supabase/client";
 import { AnimatedSection } from "@/components/AnimatedSection";
 import { toast } from "sonner";
 
+import { SEO } from "@/components/SEO";
+
 export default function Checkout() {
   const { items, total, clearCart } = useCart();
   const { user } = useAuth();
@@ -117,6 +119,7 @@ export default function Checkout() {
   if (orderComplete) {
     return (
       <div className="min-h-[70vh] flex flex-col items-center justify-center px-6 text-center">
+        <SEO title="Order Confirmed" description="Thank you for your purchase from Chauhan Computers. Your order has been placed successfully." />
         <motion.div
           initial={{ scale: 0 }}
           animate={{ scale: 1 }}
@@ -140,6 +143,7 @@ export default function Checkout() {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEO title="Checkout" description="Securely complete your purchase of laptops and tech accessories at Chauhan Computers." />
       <div className="max-w-[1440px] mx-auto px-6 py-12">
         <AnimatedSection>
           <Link to="/cart" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground mb-8 transition-colors">

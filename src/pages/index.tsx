@@ -1,3 +1,4 @@
+import { SEO } from "@/components/SEO";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { motion } from "framer-motion";
@@ -130,7 +131,12 @@ export default function Index() {
   const bestSellers = products.filter((p) => p.badge).slice(0, 8);
 
   return (
-    <div className="bg-background">
+    <div className="min-h-screen bg-background">
+      <SEO 
+        title="Best Laptop & Computer Store in Jaipur" 
+        description="Official partner for Dell, HP, Lenovo. Get the best deals on new laptops, refurbished desktops, and professional IT services in Jaipur."
+        keywords="laptop store jaipur, computer repair jaipur, buy dell laptop jaipur, refurbished laptops jaipur, IT services jaipur"
+      />
       <PremiumHeroBanner />
 
       {/* Trust Stats Bar */}

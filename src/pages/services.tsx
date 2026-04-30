@@ -8,6 +8,8 @@ import { api } from "@/integrations/supabase/client";
 
 const iconMap: Record<string, any> = { laptop: Laptop, printer: Printer, cpu: Cpu };
 
+import { SEO } from "@/components/SEO";
+
 export default function Services() {
   const { data: settings = [] } = useQuery({
     queryKey: ["public-settings"],
@@ -18,6 +20,11 @@ export default function Services() {
   const services = servicesConfig.length > 0 ? servicesConfig.filter((svc: any) => svc.visible) : fallbackServices;
   return (
     <div className="bg-background">
+      <SEO 
+        title="Our Services" 
+        description="Professional laptop repair, desktop servicing, and IT maintenance services in Jaipur by Chauhan Computers. Expert technicians, fast turnaround."
+        keywords="laptop repair services jaipur, desktop repair jaipur, computer maintenance, IT services jaipur"
+      />
       {/* Hero Banner */}
       <section className="w-full">
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6 py-3">

@@ -20,14 +20,14 @@ import Checkout from "./pages/checkout";
 import About from "./pages/about";
 import Services from "./pages/services";
 import Blog from "./pages/blog";
-import Contact from "./pages/contact";
 import Careers from "./pages/careers";
 import Login from "./pages/login";
 import NotFound from "./pages/notfound";
 import AdminLayout from "./pages/admin/adminlayout";
 import AdminDashboard from "./pages/admin/admindashboard";
-import AdminLeads from "./pages/admin/adminleads";
-import AdminOrders from "./pages/admin/adminorders";
+import Blog from "./pages/Blog";
+import BlogDetail from "./pages/BlogDetail";
+import AdminBlogs from "./pages/admin/adminblogs";
 import AdminProducts from "./pages/admin/adminproducts";
 import AdminTelecallers from "./pages/admin/admintelecallers";
 import AdminReports from "./pages/admin/adminreports";
@@ -116,6 +116,7 @@ const App = () => {
                 <Route path="services" element={<AdminServices />} />
                 <Route path="careers" element={<AdminCareers />} />
                 <Route path="settings" element={<AdminSettings />} />
+                <Route path="blogs" element={<AdminBlogs />} />
               </Route>
 
               {/* Telecaller Panel */}
@@ -133,6 +134,8 @@ const App = () => {
                 <Route path="profile" element={<CustomerProfile />} />
               </Route>
 
+              <Route path="/blog" element={<Blog />} />
+              <Route path="/blog/:slug" element={<BlogDetail />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </CartProvider>
