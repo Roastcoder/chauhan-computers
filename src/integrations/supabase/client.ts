@@ -1,4 +1,4 @@
-const BASE = (import.meta.env.VITE_API_URL as string) || "https://saddlebrown-lapwing-971744.hostingersite.com/api";
+const BASE = (import.meta.env.VITE_API_URL as string) || "https://backend.chauhancomputers.co.in/api";
 
 function getToken() {
   return localStorage.getItem("auth_token");
