@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { 
   Users, PhoneCall, TrendingUp, DollarSign, UserPlus, Package, 
   AlertTriangle, MessageSquare, ExternalLink, ShoppingBag, 
-  Clock, ArrowUpRight, ArrowDownRight, Activity
+  Clock, ArrowUpRight, ArrowDownRight, Activity, ImageIcon
 } from "lucide-react";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, AreaChart, Area, CartesianGrid } from "recharts";
 import { Link } from "react-router-dom";
