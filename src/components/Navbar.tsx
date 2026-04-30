@@ -3,6 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import { Search, ShoppingBag, Menu, X, ChevronDown, Phone, ChevronRight, User } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useCart } from "@/lib/cart";
+import { useAuth } from "@/lib/auth";
 import { SearchOverlay } from "./SearchOverlay";
 import { categories, products } from "@/lib/data";
 import logoIcon from "@/assets/logo-cc.png";
@@ -45,6 +46,7 @@ export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
   const { items } = useCart();
+  const { user, role, signOut } = useAuth();
   const cartCount = items.reduce((sum, i) => sum + i.quantity, 0);
 
   useEffect(() => {
@@ -192,10 +194,17 @@ export function Navbar() {
                 </span>
               )}
             </Link>
-            <Link to="/login" className="hidden md:inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-semibold bg-primary text-primary-foreground hover:opacity-90 transition-opacity">
-              <User className="w-3.5 h-3.5" />
-              Login
-            </Link>
+            {user ? (
+              <Link to={`/${role}`} className="hidden md:inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-semibold bg-primary text-primary-foreground hover:opacity-90 transition-opacity">
+                <User className="w-3.5 h-3.5" />
+                Dashboard
+              </Link>
+            ) : (
+              <Link to="/login" className="hidden md:inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-semibold bg-primary text-primary-foreground hover:opacity-90 transition-opacity">
+                <User className="w-3.5 h-3.5" />
+                Login
+              </Link>
+            )}
             <button onClick={() => setMobileOpen(!mobileOpen)} className="lg:hidden text-muted-foreground hover:text-foreground p-1.5">
               {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
@@ -229,11 +238,24 @@ export function Navbar() {
               </div>
 
               <div className="p-4 space-y-1">
-                {/* Login Button on Mobile */}
-                <Link to="/login" onClick={() => setMobileOpen(false)}
-                  className="flex items-center gap-3 px-3 py-3 bg-primary text-primary-foreground rounded-lg text-sm font-semibold mb-3">
-                  <User className="w-4 h-4" /> Login / Sign Up
-                </Link>
+                {/* Login/Dashboard Button on Mobile */}
+                {user ? (
+                  <div className="flex flex-col gap-2 mb-3">
+                    <Link to={`/${role}`} onClick={() => setMobileOpen(false)}
+                      className="flex items-center gap-3 px-3 py-3 bg-primary text-primary-foreground rounded-lg text-sm font-semibold">
+                      <User className="w-4 h-4" /> Go to Dashboard
+                    </Link>
+                    <button onClick={() => { signOut(); setMobileOpen(false); }}
+                      className="flex items-center gap-3 px-3 py-3 bg-destructive/10 text-destructive rounded-lg text-sm font-semibold">
+                      Log Out
+                    </button>
+                  </div>
+                ) : (
+                  <Link to="/login" onClick={() => setMobileOpen(false)}
+                    className="flex items-center gap-3 px-3 py-3 bg-primary text-primary-foreground rounded-lg text-sm font-semibold mb-3">
+                    <User className="w-4 h-4" /> Login / Sign Up
+                  </Link>
+                )}
 
                 {/* Main links */}
                 {mobileMenuLinks.map(link => (

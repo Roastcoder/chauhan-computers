@@ -16,6 +16,7 @@ import Index from "./pages/index";
 import Category from "./pages/category";
 import ProductDetail from "./pages/productdetail";
 import Cart from "./pages/cart";
+import Checkout from "./pages/checkout";
 import About from "./pages/about";
 import Services from "./pages/services";
 import Blog from "./pages/blog";
@@ -90,6 +91,7 @@ const App = () => {
               <Route path="/category/:slug" element={<StorefrontLayout><Category /></StorefrontLayout>} />
               <Route path="/product/:id" element={<StorefrontLayout><ProductDetail /></StorefrontLayout>} />
               <Route path="/cart" element={<StorefrontLayout><Cart /></StorefrontLayout>} />
+              <Route path="/checkout" element={<ProtectedRoute allowedRoles={["customer", "admin", "telecaller"]}><StorefrontLayout><Checkout /></StorefrontLayout></ProtectedRoute>} />
               <Route path="/about" element={<StorefrontLayout><About /></StorefrontLayout>} />
               <Route path="/services" element={<StorefrontLayout><Services /></StorefrontLayout>} />
               <Route path="/blog" element={<StorefrontLayout><Blog /></StorefrontLayout>} />

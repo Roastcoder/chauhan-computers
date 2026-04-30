@@ -102,9 +102,9 @@ export default function Cart() {
                   <span className="font-semibold text-foreground tabular-nums text-lg">₹{total.toLocaleString()}</span>
                 </div>
               </div>
-              <button className="w-full py-4 bg-primary text-primary-foreground rounded-full font-medium hover:opacity-90 transition-opacity">
+              <Link to="/checkout" className="w-full flex items-center justify-center py-4 bg-primary text-primary-foreground rounded-full font-medium hover:opacity-90 transition-opacity">
                 Proceed to Checkout
-              </button>
+              </Link>
               <p className="text-xs text-muted-foreground text-center mt-4">
                 0% financing available at checkout
               </p>
