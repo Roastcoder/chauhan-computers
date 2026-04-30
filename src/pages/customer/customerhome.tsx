@@ -59,12 +59,11 @@ export default function CustomerHome() {
       </motion.div>
 
       {/* KPI Grid */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
         {[
           { icon: Package, label: "Total Orders", value: orderCount, color: "from-blue-500/20 to-indigo-500/20 text-blue-500", border: "border-blue-500/20" },
-          { icon: FileText, label: "Active Enquiries", value: activeEnquiries, color: "from-amber-500/20 to-orange-500/20 text-amber-500", border: "border-amber-500/20" },
-          { icon: ShieldCheck, label: "Total Enquiries", value: (enquiries as any[]).length, color: "from-emerald-500/20 to-teal-500/20 text-emerald-500", border: "border-emerald-500/20" },
           { icon: Star, label: "Reward Points", value: points, color: "from-purple-500/20 to-pink-500/20 text-purple-500", border: "border-purple-500/20" },
+          { icon: ShieldCheck, label: "Member Status", value: "Premium", color: "from-emerald-500/20 to-teal-500/20 text-emerald-500", border: "border-emerald-500/20" },
         ].map((kpi, i) => (
           <motion.div 
             key={kpi.label} 
@@ -140,34 +139,20 @@ export default function CustomerHome() {
         >
           <h3 className="text-sm font-bold uppercase tracking-widest text-muted-foreground px-1">Quick Actions</h3>
           
-          <Link to="/customer/products" className="group block relative overflow-hidden bg-card/50 backdrop-blur-md border border-border/50 rounded-2xl p-5 hover:bg-card transition-all duration-300 hover:shadow-lg hover:shadow-primary/5 hover:-translate-y-0.5">
+          <Link to="/customer/orders" className="group block relative overflow-hidden bg-card/50 backdrop-blur-md border border-border/50 rounded-2xl p-5 hover:bg-card transition-all duration-300 hover:shadow-lg hover:shadow-primary/5 hover:-translate-y-0.5">
             <div className="absolute right-0 top-0 w-32 h-32 bg-primary/5 rounded-full blur-2xl -translate-y-1/2 translate-x-1/2 group-hover:bg-primary/10 transition-colors" />
             <div className="flex items-center gap-4 relative z-10">
               <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
                 <ShoppingBag className="w-6 h-6 text-primary" />
               </div>
               <div className="flex-1">
-                <h4 className="text-base font-bold text-foreground mb-0.5">Shop Hardware</h4>
-                <p className="text-xs text-muted-foreground">Browse our premium collection</p>
+                <h4 className="text-base font-bold text-foreground mb-0.5">Purchase History</h4>
+                <p className="text-xs text-muted-foreground">View orders and download invoices</p>
               </div>
               <ArrowRight className="w-5 h-5 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all" />
             </div>
           </Link>
 
-          <Link to="/customer/quote" className="group block relative overflow-hidden bg-card/50 backdrop-blur-md border border-border/50 rounded-2xl p-5 hover:bg-card transition-all duration-300 hover:shadow-lg hover:shadow-primary/5 hover:-translate-y-0.5">
-            <div className="absolute right-0 top-0 w-32 h-32 bg-primary/5 rounded-full blur-2xl -translate-y-1/2 translate-x-1/2 group-hover:bg-primary/10 transition-colors" />
-            <div className="flex items-center gap-4 relative z-10">
-              <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
-                <FileText className="w-6 h-6 text-primary" />
-              </div>
-              <div className="flex-1">
-                <h4 className="text-base font-bold text-foreground mb-0.5">Request Quote</h4>
-                <p className="text-xs text-muted-foreground">Get custom enterprise pricing</p>
-              </div>
-              <ArrowRight className="w-5 h-5 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all" />
-            </div>
-          </Link>
-          
           <Link to="/customer/profile" className="group block relative overflow-hidden bg-card/50 backdrop-blur-md border border-border/50 rounded-2xl p-5 hover:bg-card transition-all duration-300 hover:shadow-lg hover:shadow-primary/5 hover:-translate-y-0.5">
             <div className="absolute right-0 top-0 w-32 h-32 bg-primary/5 rounded-full blur-2xl -translate-y-1/2 translate-x-1/2 group-hover:bg-primary/10 transition-colors" />
             <div className="flex items-center gap-4 relative z-10">
@@ -175,12 +160,22 @@ export default function CustomerHome() {
                 <Star className="w-6 h-6 text-primary" />
               </div>
               <div className="flex-1">
-                <h4 className="text-base font-bold text-foreground mb-0.5">My Profile</h4>
-                <p className="text-xs text-muted-foreground">Update your details</p>
+                <h4 className="text-base font-bold text-foreground mb-0.5">Account Settings</h4>
+                <p className="text-xs text-muted-foreground">Update your personal information</p>
               </div>
               <ArrowRight className="w-5 h-5 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all" />
             </div>
           </Link>
+          
+          <div className="bg-primary/5 border border-primary/10 rounded-2xl p-5">
+            <div className="flex items-center gap-3 mb-2">
+              <ShieldCheck className="w-5 h-5 text-primary" />
+              <h4 className="text-sm font-bold text-foreground">Verified Member</h4>
+            </div>
+            <p className="text-[10px] text-muted-foreground leading-relaxed">
+              You have access to priority support and exclusive enterprise pricing on all upcoming releases.
+            </p>
+          </div>
         </motion.div>
       </div>
     </div>

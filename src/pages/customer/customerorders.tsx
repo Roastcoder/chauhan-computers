@@ -145,10 +145,10 @@ export default function CustomerOrders() {
   };
 
   return (
-    <div className="space-y-8 pb-10">
-      <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }}>
-        <h1 className="text-3xl font-black tracking-tight text-foreground">Purchase History</h1>
-        <p className="text-muted-foreground font-medium">Track your orders and access your official invoices.</p>
+    <div className="space-y-6 pb-10">
+      <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="flex flex-col gap-1">
+        <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight text-foreground">Purchase Ledger</h1>
+        <p className="text-sm text-muted-foreground font-medium">Manage your hardware acquisitions and tax documents.</p>
       </motion.div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
