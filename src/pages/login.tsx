@@ -122,7 +122,7 @@ export default function Login() {
         <div className="relative z-10 flex flex-col justify-end p-20 text-white w-full">
           <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: "easeOut" }}>
             <div className="flex items-center gap-5 mb-8">
-              <div className="w-16 h-16 rounded-2xl bg-white/10 backdrop-blur-2xl flex items-center justify-center border border-white/20 shadow-2xl overflow-hidden">
+              <div className="w-16 h-16 rounded-2xl bg-slate-800 flex items-center justify-center border border-white/10 shadow-2xl overflow-hidden">
                 <img src={logoIcon} alt="CC" className="w-12 h-12 rounded-full object-cover" />
               </div>
               <div>
@@ -134,11 +134,11 @@ export default function Login() {
               Elevating Jaipur's IT infrastructure since 2010. Your premium destination for enterprise hardware and service.
             </p>
             <div className="flex flex-col gap-4 text-sm text-white/70">
-              <div className="flex items-center gap-3 bg-white/5 backdrop-blur-sm p-4 rounded-2xl border border-white/10">
+              <div className="flex items-center gap-3 bg-slate-800/50 p-4 rounded-2xl border border-white/5">
                 <MapPin className="w-5 h-5 text-primary" />
                 <span>Shop No B-5, Vaibhav Enclave, Girdhar Marg, Malviya Nagar, Jaipur</span>
               </div>
-              <div className="flex items-center gap-3 bg-white/5 backdrop-blur-sm p-4 rounded-2xl border border-white/10">
+              <div className="flex items-center gap-3 bg-slate-800/50 p-4 rounded-2xl border border-white/5">
                 <Phone className="w-5 h-5 text-primary" />
                 <span>+91 98297 21157</span>
               </div>
@@ -168,9 +168,9 @@ export default function Login() {
             </Link>
           </div>
 
-          <div className="bg-white/80 backdrop-blur-2xl rounded-[2.5rem] p-8 md:p-10 shadow-2xl shadow-slate-200/50 border border-white/50 bg-gradient-to-b from-white to-blue-50/30">
+          <div className="bg-white rounded-[2.5rem] p-8 md:p-10 shadow-2xl shadow-slate-200/50 border border-slate-100 bg-gradient-to-b from-white to-slate-50">
             {/* Tabs */}
-            <div className="flex p-1.5 bg-slate-100/50 backdrop-blur-sm rounded-2xl mb-10 border border-slate-200/50">
+            <div className="flex p-1.5 bg-slate-100 rounded-2xl mb-10 border border-slate-200/50">
               <button
                 onClick={() => switchMode("login")}
                 className={`flex-1 py-3 rounded-[1.125rem] text-sm font-bold transition-all ${
@@ -235,7 +235,7 @@ export default function Login() {
                           type="email"
                           value={email}
                           onChange={(e) => setEmail(e.target.value)}
-                          className="w-full px-5 py-4 bg-white/50 border border-slate-200 rounded-2xl text-sm outline-none focus:ring-4 focus:ring-primary/5 focus:border-primary/30 transition-all placeholder:text-slate-400"
+                          className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-sm outline-none focus:ring-4 focus:ring-primary/5 focus:border-primary/30 transition-all placeholder:text-slate-400"
                           placeholder="name@company.com"
                           required
                         />
@@ -248,7 +248,7 @@ export default function Login() {
                           type={showPassword ? "text" : "password"}
                           value={password}
                           onChange={(e) => setPassword(e.target.value)}
-                          className="w-full px-5 py-4 bg-white/50 border border-slate-200 rounded-2xl text-sm outline-none focus:ring-4 focus:ring-primary/5 focus:border-primary/30 transition-all placeholder:text-slate-400 pr-12"
+                          className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-sm outline-none focus:ring-4 focus:ring-primary/5 focus:border-primary/30 transition-all placeholder:text-slate-400 pr-12"
                           placeholder="••••••••"
                           required
                         />
@@ -296,7 +296,7 @@ export default function Login() {
                         type="text"
                         value={fullName}
                         onChange={(e) => setFullName(e.target.value)}
-                        className="w-full px-5 py-4 bg-white/50 border border-slate-200 rounded-2xl text-sm outline-none focus:ring-4 focus:ring-primary/5 focus:border-primary/30 transition-all"
+                        className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-sm outline-none focus:ring-4 focus:ring-primary/5 focus:border-primary/30 transition-all"
                         placeholder="John Doe"
                         required
                       />
@@ -307,7 +307,7 @@ export default function Login() {
                         type="email"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                        className="w-full px-5 py-4 bg-white/50 border border-slate-200 rounded-2xl text-sm outline-none focus:ring-4 focus:ring-primary/5 focus:border-primary/30 transition-all"
+                        className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-sm outline-none focus:ring-4 focus:ring-primary/5 focus:border-primary/30 transition-all"
                         placeholder="you@example.com"
                         required
                       />
@@ -319,7 +319,7 @@ export default function Login() {
                           type="tel"
                           value={phone}
                           onChange={(e) => setPhone(e.target.value)}
-                          className="w-full px-5 py-4 bg-white/50 border border-slate-200 rounded-2xl text-sm outline-none focus:ring-4 focus:ring-primary/5 focus:border-primary/30 transition-all pl-12"
+                          className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-sm outline-none focus:ring-4 focus:ring-primary/5 focus:border-primary/30 transition-all pl-12"
                           placeholder="98765 43210"
                           required
                         />
@@ -335,7 +335,7 @@ export default function Login() {
                           type={showPassword ? "text" : "password"}
                           value={password}
                           onChange={(e) => setPassword(e.target.value)}
-                          className="w-full px-5 py-4 bg-white/50 border border-slate-200 rounded-2xl text-sm outline-none focus:ring-4 focus:ring-primary/5 focus:border-primary/30 transition-all pr-12"
+                          className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-sm outline-none focus:ring-4 focus:ring-primary/5 focus:border-primary/30 transition-all pr-12"
                           placeholder="Min. 6 characters"
                           required
                         />
