@@ -19,14 +19,16 @@ import Cart from "./pages/cart";
 import Checkout from "./pages/checkout";
 import About from "./pages/about";
 import Services from "./pages/services";
+import Contact from "./pages/contact";
 import Blog from "./pages/blog";
+import BlogDetail from "./pages/BlogDetail";
 import Careers from "./pages/careers";
 import Login from "./pages/login";
 import NotFound from "./pages/notfound";
 import AdminLayout from "./pages/admin/adminlayout";
 import AdminDashboard from "./pages/admin/admindashboard";
-import Blog from "./pages/Blog";
-import BlogDetail from "./pages/BlogDetail";
+import AdminLeads from "./pages/admin/adminleads";
+import AdminOrders from "./pages/admin/adminorders";
 import AdminBlogs from "./pages/admin/adminblogs";
 import AdminProducts from "./pages/admin/adminproducts";
 import AdminTelecallers from "./pages/admin/admintelecallers";
@@ -134,8 +136,7 @@ const App = () => {
                 <Route path="profile" element={<CustomerProfile />} />
               </Route>
 
-              <Route path="/blog" element={<Blog />} />
-              <Route path="/blog/:slug" element={<BlogDetail />} />
+              <Route path="/blog/:slug" element={<StorefrontLayout><BlogDetail /></StorefrontLayout>} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </CartProvider>
