@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
+import { useQuery } from "@tanstack/react-query";
 import { ArrowLeft, CreditCard, Lock, CheckCircle2 } from "lucide-react";
 import { useCart } from "@/lib/cart";
 import { useAuth } from "@/lib/auth";
@@ -12,8 +13,16 @@ import { SEO } from "@/components/SEO";
 
 export default function Checkout() {
   const { items, total, clearCart } = useCart();
-  const { user } = useAuth();
+  const { user, loading: authLoading } = useAuth();
   const navigate = useNavigate();
+
+  const { data: publicSettings } = useQuery({
+    queryKey: ["public-settings"],
+    queryFn: () => api.get("/settings/public"),
+  });
+
+  const razorpayConfig = (publicSettings as any[])?.find(s => s.key === "razorpay_config")?.value;
+  const razorpayKeyId = razorpayConfig?.key_id || import.meta.env.VITE_RAZORPAY_KEY_ID;
 
   const [loading, setLoading] = useState(false);
   const [address, setAddress] = useState({
@@ -25,6 +34,15 @@ export default function Checkout() {
   });
 
   const [orderComplete, setOrderComplete] = useState(false);
+
+  // While auth is loading, show a spinner
+  if (authLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <div className="w-12 h-12 border-4 border-primary/20 border-t-primary rounded-full animate-spin" />
+      </div>
+    );
+  }
 
   // If cart is empty and order not complete, redirect to cart
   if (items.length === 0 && !orderComplete) {
@@ -65,7 +83,7 @@ export default function Checkout() {
 
       // 2. Initialize Razorpay
       const options = {
-        key: import.meta.env.VITE_RAZORPAY_KEY_ID, // Use key from env
+        key: razorpayKeyId,
         amount: orderData.amount,
         currency: orderData.currency,
         name: "Chauhan Computers",

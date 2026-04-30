@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, ReactNode } from "react";
+import { createContext, useContext, useState, ReactNode, useEffect } from "react";
 import type { Product } from "./data";
 
 interface CartItem {
@@ -18,7 +18,20 @@ interface CartContextType {
 const CartContext = createContext<CartContextType | null>(null);
 
 export function CartProvider({ children }: { children: ReactNode }) {
-  const [items, setItems] = useState<CartItem[]>([]);
+  // Initialize from localStorage if available
+  const [items, setItems] = useState<CartItem[]>(() => {
+    try {
+      const saved = localStorage.getItem("chauhaan_cart");
+      return saved ? JSON.parse(saved) : [];
+    } catch (e) {
+      return [];
+    }
+  });
+
+  // Persist to localStorage whenever items change
+  useEffect(() => {
+    localStorage.setItem("chauhaan_cart", JSON.stringify(items));
+  }, [items]);
 
   const addItem = (product: Product) => {
     setItems((prev) => {

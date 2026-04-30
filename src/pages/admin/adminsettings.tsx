@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { api } from "@/integrations/supabase/client";
 import { toast } from "sonner";
-import { Gift, MessageCircle, Wrench, Zap } from "lucide-react";
+import { Gift, MessageCircle, Wrench, Zap, CreditCard } from "lucide-react";
 
 function Toggle({ checked, onChange }: { checked: boolean; onChange: () => void }) {
   return (
@@ -137,6 +137,43 @@ export default function AdminSettings() {
           <button onClick={() => saveLoyalty.mutate()} disabled={saveLoyalty.isPending} className="px-6 py-2.5 bg-primary text-primary-foreground rounded-xl text-sm font-semibold disabled:opacity-50">
             {saveLoyalty.isPending ? "Saving..." : "Save Loyalty Settings"}
           </button>
+        </div>
+      </div>
+
+      {/* Razorpay Config */}
+      <div className="bg-card border border-border rounded-xl p-4 md:p-6">
+        <div className="flex items-center gap-2 mb-4">
+          <CreditCard className="w-4 h-4 text-primary" />
+          <h3 className="text-sm font-semibold text-foreground">Razorpay Configuration</h3>
+        </div>
+        <div className="space-y-4">
+          <p className="text-xs text-muted-foreground">Override system environment variables with custom Razorpay API keys.</p>
+          <div className="grid grid-cols-1 gap-4">
+            <div>
+              <label className="text-xs font-medium text-muted-foreground mb-1 block">Razorpay Key ID</label>
+              <input 
+                type="text" 
+                value={get("razorpay_config", { key_id: "" }).key_id} 
+                onChange={e => save("razorpay_config", { ...get("razorpay_config", {}), key_id: e.target.value })} 
+                className="w-full px-4 py-2.5 bg-background rounded-xl text-sm text-foreground border border-border outline-none font-mono" 
+                placeholder="rzp_live_..."
+              />
+            </div>
+            <div>
+              <label className="text-xs font-medium text-muted-foreground mb-1 block">Razorpay Key Secret</label>
+              <input 
+                type="password" 
+                value={get("razorpay_config", { key_secret: "" }).key_secret} 
+                onChange={e => save("razorpay_config", { ...get("razorpay_config", {}), key_secret: e.target.value })} 
+                className="w-full px-4 py-2.5 bg-background rounded-xl text-sm text-foreground border border-border outline-none font-mono" 
+                placeholder="••••••••••••••••"
+              />
+            </div>
+          </div>
+          <div className="flex items-center gap-2 text-[10px] text-amber-500 font-bold uppercase tracking-widest bg-amber-500/5 p-3 rounded-xl border border-amber-500/10">
+            <Zap className="w-3 h-3" />
+            Warning: These keys will be used for all live transactions immediately.
+          </div>
         </div>
       </div>
     </div>
