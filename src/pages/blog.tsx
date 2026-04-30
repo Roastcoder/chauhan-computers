@@ -52,15 +52,10 @@ export default function Blog() {
                   <article className="bg-card rounded-3xl border border-border overflow-hidden flex flex-col h-full hover:shadow-2xl hover:border-primary/20 transition-all duration-500">
                     <div className="aspect-[16/10] overflow-hidden relative">
                       <img 
-                        src={blog.image_url || "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&q=80&w=800"} 
+                        src={blog.featured_image || "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&q=80&w=800"} 
                         alt={blog.title}
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                       />
-                      <div className="absolute top-4 left-4">
-                        <span className="bg-white/90 backdrop-blur-sm text-primary text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-full">
-                          {blog.category}
-                        </span>
-                      </div>
                     </div>
                     
                     <div className="p-6 flex flex-col flex-1">

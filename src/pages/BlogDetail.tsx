@@ -44,7 +44,7 @@ export default function BlogDetail() {
       <SEO 
         title={blog.title} 
         description={blog.excerpt} 
-        keywords={`${blog.category}, tech news, ${blog.title}`}
+        keywords={`tech news, ${blog.title}, Chauhan Computers`}
       />
       
       <div className="max-w-[900px] mx-auto px-6 py-12 md:py-24">
@@ -57,12 +57,6 @@ export default function BlogDetail() {
         </Link>
 
         <header className="mb-12">
-          <div className="flex items-center gap-2 mb-6">
-            <span className="bg-primary/10 text-primary text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-full border border-primary/20">
-              {blog.category}
-            </span>
-          </div>
-          
           <h1 className="text-3xl md:text-5xl font-bold text-foreground leading-[1.1] tracking-tight mb-8">
             {blog.title}
           </h1>
@@ -99,7 +93,7 @@ export default function BlogDetail() {
           className="mb-16"
         >
           <img 
-            src={blog.image_url || "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&q=80&w=1200"} 
+            src={blog.featured_image || "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&q=80&w=1200"} 
             alt={blog.title}
             className="w-full aspect-video object-cover rounded-[2.5rem] shadow-2xl border border-border"
           />
@@ -110,14 +104,6 @@ export default function BlogDetail() {
         </article>
 
         <footer className="mt-20 pt-10 border-t border-border">
-          <div className="flex flex-wrap items-center gap-2">
-            <Tag className="w-4 h-4 text-muted-foreground mr-2" />
-            {blog.category.split(',').map((tag) => (
-              <span key={tag} className="text-xs font-semibold text-slate-500 bg-slate-100 px-3 py-1 rounded-lg">
-                #{tag.trim()}
-              </span>
-            ))}
-          </div>
           
           <div className="mt-12 p-8 md:p-12 bg-slate-900 rounded-[2rem] text-center text-white overflow-hidden relative group">
             <div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-blue-500/20 opacity-50" />

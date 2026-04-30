@@ -24,15 +24,13 @@ export default function AdminBlogs() {
     title: "",
     excerpt: "",
     content: "",
-    image_url: "",
-    category: "Tech",
+    featured_image: "",
     author: "Admin",
-    is_published: true
+    status: "published"
   });
 
   const filteredBlogs = blogs.filter(b => 
-    b.title.toLowerCase().includes(search.toLowerCase()) || 
-    b.category.toLowerCase().includes(search.toLowerCase())
+    b.title.toLowerCase().includes(search.toLowerCase())
   );
 
   const resetForm = () => {
@@ -40,10 +38,9 @@ export default function AdminBlogs() {
       title: "",
       excerpt: "",
       content: "",
-      image_url: "",
-      category: "Tech",
+      featured_image: "",
       author: "Admin",
-      is_published: true
+      status: "published"
     });
     setEditingBlog(null);
   };
@@ -54,10 +51,9 @@ export default function AdminBlogs() {
       title: blog.title,
       excerpt: blog.excerpt,
       content: blog.content,
-      image_url: blog.image_url,
-      category: blog.category,
+      featured_image: blog.featured_image,
       author: blog.author,
-      is_published: blog.is_published
+      status: blog.status
     });
     setIsDialogOpen(true);
   };
@@ -132,16 +128,15 @@ export default function AdminBlogs() {
 
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <label className="text-xs font-bold uppercase tracking-wider text-muted-foreground ml-1">Category</label>
-                  <div className="relative">
-                    <Tag className="absolute left-3 top-3 w-4 h-4 text-muted-foreground" />
-                    <Input 
-                      placeholder="e.g. Laptops, Tips" 
-                      className="pl-10 h-11 rounded-xl bg-slate-50 border-transparent focus:bg-white focus:ring-2 focus:ring-primary/20 transition-all"
-                      value={formData.category}
-                      onChange={e => setFormData({...formData, category: e.target.value})}
-                    />
-                  </div>
+                  <label className="text-xs font-bold uppercase tracking-wider text-muted-foreground ml-1">Status</label>
+                  <select 
+                    className="w-full h-11 rounded-xl bg-slate-50 border-transparent focus:bg-white focus:ring-2 focus:ring-primary/20 transition-all px-4 text-sm"
+                    value={formData.status}
+                    onChange={e => setFormData({...formData, status: e.target.value})}
+                  >
+                    <option value="published">Published</option>
+                    <option value="draft">Draft</option>
+                  </select>
                 </div>
                 <div className="space-y-2">
                   <label className="text-xs font-bold uppercase tracking-wider text-muted-foreground ml-1">Author</label>
@@ -158,14 +153,14 @@ export default function AdminBlogs() {
               </div>
 
               <div className="space-y-2">
-                <label className="text-xs font-bold uppercase tracking-wider text-muted-foreground ml-1">Image URL</label>
+                <label className="text-xs font-bold uppercase tracking-wider text-muted-foreground ml-1">Featured Image URL</label>
                 <div className="relative">
                   <ImageIcon className="absolute left-3 top-3 w-4 h-4 text-muted-foreground" />
                   <Input 
                     placeholder="https://..." 
                     className="pl-10 h-11 rounded-xl bg-slate-50 border-transparent focus:bg-white focus:ring-2 focus:ring-primary/20 transition-all"
-                    value={formData.image_url}
-                    onChange={e => setFormData({...formData, image_url: e.target.value})}
+                    value={formData.featured_image}
+                    onChange={e => setFormData({...formData, featured_image: e.target.value})}
                   />
                 </div>
               </div>
@@ -194,17 +189,6 @@ export default function AdminBlogs() {
                 />
               </div>
 
-              <div className="flex items-center gap-3 p-4 bg-slate-50 rounded-2xl border border-dashed border-slate-200">
-                <input 
-                  type="checkbox" 
-                  id="published" 
-                  className="w-5 h-5 rounded-md border-slate-300 text-primary focus:ring-primary"
-                  checked={formData.is_published}
-                  onChange={e => setFormData({...formData, is_published: e.target.checked})}
-                />
-                <label htmlFor="published" className="text-sm font-semibold cursor-pointer">Publish immediately</label>
-              </div>
-
               <Button type="submit" disabled={isSaving} className="w-full h-12 rounded-xl text-md font-bold shadow-xl shadow-primary/20">
                 {isSaving ? <Loader2 className="w-5 h-5 animate-spin mr-2" /> : editingBlog ? "Update Post" : "Create Post"}
               </Button>
@@ -217,7 +201,7 @@ export default function AdminBlogs() {
         <div className="relative">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
           <Input 
-            placeholder="Search by title or category..." 
+            placeholder="Search by title..." 
             className="pl-10 h-12 rounded-xl border-none bg-white shadow-sm"
             value={search}
             onChange={e => setSearch(e.target.value)}
@@ -238,16 +222,15 @@ export default function AdminBlogs() {
             <div key={blog.id} className="group bg-white p-4 md:p-6 rounded-[2rem] border border-slate-100 hover:shadow-xl hover:shadow-slate-200/50 transition-all duration-300 flex flex-col md:flex-row md:items-center gap-6">
               <div className="w-20 h-20 md:w-24 md:h-24 rounded-2xl overflow-hidden shrink-0 border border-slate-100">
                 <img 
-                  src={blog.image_url || "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&q=80&w=200"} 
+                  src={blog.featured_image || "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&q=80&w=200"} 
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                 />
               </div>
               <div className="flex-1 space-y-2">
                 <div className="flex items-center gap-2">
-                  <Badge variant={blog.is_published ? "default" : "secondary"} className="rounded-full px-2.5 py-0.5 text-[10px] font-bold tracking-wider uppercase">
-                    {blog.is_published ? <><Globe className="w-3 h-3 mr-1" /> Public</> : <><Lock className="w-3 h-3 mr-1" /> Draft</>}
+                  <Badge variant={blog.status === 'published' ? "default" : "secondary"} className="rounded-full px-2.5 py-0.5 text-[10px] font-bold tracking-wider uppercase">
+                    {blog.status === 'published' ? <><Globe className="w-3 h-3 mr-1" /> Public</> : <><Lock className="w-3 h-3 mr-1" /> Draft</>}
                   </Badge>
-                  <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400">{blog.category}</span>
                 </div>
                 <h3 className="font-bold text-slate-900 line-clamp-1">{blog.title}</h3>
                 <div className="flex items-center gap-4 text-xs text-slate-500 font-medium">

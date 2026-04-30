@@ -7,10 +7,9 @@ export interface Blog {
   slug: string;
   excerpt: string;
   content: string;
-  image_url: string;
-  category: string;
+  featured_image: string;
   author: string;
-  is_published: boolean;
+  status: string;
   published_at: string;
   created_at: string;
 }
