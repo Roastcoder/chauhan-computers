@@ -13,6 +13,7 @@ function mapDbProduct(row: any): Product {
     price: Number(row.price) || 0,
     originalPrice: specs.originalPrice ? Number(specs.originalPrice) : undefined,
     image: row.images?.[0] || getProductFallbackImage(row.name),
+    images: row.images || [],
     brand: row.brand || "",
     ram: specs.ram || undefined,
     storage: specs.storage || undefined,

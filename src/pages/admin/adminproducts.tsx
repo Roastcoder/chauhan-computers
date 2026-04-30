@@ -108,45 +108,7 @@ export default function AdminProducts() {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {isLoading && <p className="text-muted-foreground col-span-3">Loading...</p>}
         {filtered.map((product: any) => (
-          <motion.div key={product.id} initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-            className={`bg-card border rounded-xl overflow-hidden transition-opacity ${!product.is_active ? "opacity-50 border-border/40" : product.stock_quantity <= lowStockThreshold && product.stock_quantity > 0 ? "border-yellow-500/40" : product.stock_quantity === 0 ? "border-red-500/40" : "border-border"}`}>
-            {product.images?.[0] ? (
-              <img src={product.images[0]} alt={product.name} className="w-full h-40 object-cover" />
-            ) : (
-              <div className="w-full h-40 bg-muted flex items-center justify-center">
-                <Image className="w-8 h-8 text-muted-foreground/40" />
-              </div>
-            )}
-            <div className="p-4">
-              <div className="flex justify-between items-start mb-1">
-                <div className="min-w-0 flex-1">
-                  <h3 className="text-sm font-semibold text-foreground truncate">{product.name}</h3>
-                  <p className="text-xs text-muted-foreground">{product.brand} · {catLabel(product.category)}</p>
-                </div>
-                <div className="flex flex-col items-end gap-1 ml-2 shrink-0">
-                  {product.stock_quantity === 0 ? (
-                    <span className="text-[10px] px-2 py-0.5 rounded-full font-semibold bg-red-100 text-red-600">Out of Stock</span>
-                  ) : product.stock_quantity <= lowStockThreshold ? (
-                    <span className="text-[10px] px-2 py-0.5 rounded-full font-semibold bg-yellow-100 text-yellow-700">Low: {product.stock_quantity}</span>
-                  ) : (
-                    <span className="text-[10px] px-2 py-0.5 rounded-full font-semibold bg-emerald-100 text-emerald-700">Stock: {product.stock_quantity}</span>
-                  )}
-                </div>
-              </div>
-              <p className="text-lg font-bold text-primary mb-3">₹{Number(product.price).toLocaleString()}</p>
-              <div className="flex gap-2">
-                <button onClick={() => { setEditProduct(product); setShowModal(true); }} className="flex-1 flex items-center justify-center gap-1 py-2 bg-background rounded-lg text-xs text-foreground hover:bg-muted transition-colors">
-                  <Pencil className="w-3 h-3" /> Edit
-                </button>
-                <button onClick={() => toggleActive.mutate({ id: product.id, is_active: product.is_active })} className={`flex items-center justify-center gap-1 py-2 px-3 rounded-lg text-xs transition-colors ${product.is_active ? "bg-primary/10 text-primary hover:bg-primary/20" : "bg-muted text-muted-foreground hover:bg-muted/80"}`}>
-                  {product.is_active ? <Eye className="w-3 h-3" /> : <EyeOff className="w-3 h-3" />}
-                </button>
-                <button onClick={() => { if (confirm("Delete?")) deleteMutation.mutate(product.id); }} className="flex items-center justify-center gap-1 py-2 px-3 bg-destructive/10 rounded-lg text-xs text-destructive hover:bg-destructive/20 transition-colors">
-                  <Trash2 className="w-3 h-3" />
-                </button>
-              </div>
-            </div>
-          </motion.div>
+          <ProductCardInline key={product.id} product={product} lowStockThreshold={lowStockThreshold} toggleActive={toggleActive} deleteMutation={deleteMutation} setEditProduct={setEditProduct} setShowModal={setShowModal} catLabel={catLabel} />
         ))}
       </div>
 
@@ -154,6 +116,124 @@ export default function AdminProducts() {
         {showModal && <ProductModal product={editProduct} onClose={() => setShowModal(false)} />}
       </AnimatePresence>
     </div>
+  );
+}
+
+function ProductCardInline({ product, lowStockThreshold, toggleActive, deleteMutation, setEditProduct, setShowModal, catLabel }: any) {
+  const queryClient = useQueryClient();
+  const [isEditingPrice, setIsEditingPrice] = useState(false);
+  const [isEditingStock, setIsEditingStock] = useState(false);
+  const [tempPrice, setTempPrice] = useState(product.price.toString());
+  const [tempStock, setTempStock] = useState(product.stock_quantity.toString());
+
+  const updateMutation = useMutation({
+    mutationFn: (updates: any) => api.put(`/products/${product.id}`, updates),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["crm-products"] });
+      toast.success("Product updated");
+    },
+    onError: () => {
+      toast.error("Update failed");
+      setTempPrice(product.price.toString());
+      setTempStock(product.stock_quantity.toString());
+    }
+  });
+
+  const handlePriceBlur = () => {
+    setIsEditingPrice(false);
+    if (Number(tempPrice) !== product.price) {
+      updateMutation.mutate({ price: Number(tempPrice) });
+    }
+  };
+
+  const handleStockBlur = () => {
+    setIsEditingStock(false);
+    if (Number(tempStock) !== product.stock_quantity) {
+      updateMutation.mutate({ stock_quantity: Number(tempStock) });
+    }
+  };
+
+  return (
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}
+      className={`bg-card border rounded-xl overflow-hidden transition-opacity ${!product.is_active ? "opacity-50 border-border/40" : product.stock_quantity <= lowStockThreshold && product.stock_quantity > 0 ? "border-yellow-500/40" : product.stock_quantity === 0 ? "border-red-500/40" : "border-border"}`}>
+      {product.images?.[0] ? (
+        <img src={product.images[0]} alt={product.name} className="w-full h-40 object-cover" />
+      ) : (
+        <div className="w-full h-40 bg-muted flex items-center justify-center">
+          <Image className="w-8 h-8 text-muted-foreground/40" />
+        </div>
+      )}
+      <div className="p-4">
+        <div className="flex justify-between items-start mb-1">
+          <div className="min-w-0 flex-1">
+            <h3 className="text-sm font-semibold text-foreground truncate">{product.name}</h3>
+            <p className="text-xs text-muted-foreground">{product.brand} · {catLabel(product.category)}</p>
+          </div>
+          <div className="flex flex-col items-end gap-1 ml-2 shrink-0">
+            {isEditingStock ? (
+              <input
+                autoFocus
+                type="number"
+                value={tempStock}
+                onChange={(e) => setTempStock(e.target.value)}
+                onBlur={handleStockBlur}
+                onKeyDown={(e) => e.key === "Enter" && handleStockBlur()}
+                className="w-16 px-1.5 py-0.5 text-[10px] font-semibold bg-background border border-primary rounded outline-none"
+              />
+            ) : (
+              <button
+                onClick={() => setIsEditingStock(true)}
+                className={`text-[10px] px-2 py-0.5 rounded-full font-semibold transition-colors hover:ring-1 hover:ring-primary/30 ${
+                  product.stock_quantity === 0 ? "bg-red-100 text-red-600" : 
+                  product.stock_quantity <= lowStockThreshold ? "bg-yellow-100 text-yellow-700" : 
+                  "bg-emerald-100 text-emerald-700"
+                }`}
+              >
+                {product.stock_quantity === 0 ? "Out of Stock" : 
+                 product.stock_quantity <= lowStockThreshold ? `Low: ${product.stock_quantity}` : 
+                 `Stock: ${product.stock_quantity}`}
+              </button>
+            )}
+          </div>
+        </div>
+
+        <div className="flex items-center gap-2 mb-3">
+          {isEditingPrice ? (
+            <div className="flex items-center gap-1">
+              <span className="text-lg font-bold text-primary">₹</span>
+              <input
+                autoFocus
+                type="number"
+                value={tempPrice}
+                onChange={(e) => setTempPrice(e.target.value)}
+                onBlur={handlePriceBlur}
+                onKeyDown={(e) => e.key === "Enter" && handlePriceBlur()}
+                className="w-24 px-1.5 py-0.5 text-lg font-bold text-primary bg-background border border-primary rounded outline-none"
+              />
+            </div>
+          ) : (
+            <p 
+              onClick={() => setIsEditingPrice(true)}
+              className="text-lg font-bold text-primary cursor-pointer hover:text-primary/80 transition-colors"
+            >
+              ₹{Number(product.price).toLocaleString()}
+            </p>
+          )}
+        </div>
+
+        <div className="flex gap-2">
+          <button onClick={() => { setEditProduct(product); setShowModal(true); }} className="flex-1 flex items-center justify-center gap-1 py-2 bg-background rounded-lg text-xs text-foreground hover:bg-muted transition-colors">
+            <Pencil className="w-3 h-3" /> Edit
+          </button>
+          <button onClick={() => toggleActive.mutate({ id: product.id, is_active: product.is_active })} className={`flex items-center justify-center gap-1 py-2 px-3 rounded-lg text-xs transition-colors ${product.is_active ? "bg-primary/10 text-primary hover:bg-primary/20" : "bg-muted text-muted-foreground hover:bg-muted/80"}`}>
+            {product.is_active ? <Eye className="w-3 h-3" /> : <EyeOff className="w-3 h-3" />}
+          </button>
+          <button onClick={() => { if (confirm("Delete?")) deleteMutation.mutate(product.id); }} className="flex items-center justify-center gap-1 py-2 px-3 bg-destructive/10 rounded-lg text-xs text-destructive hover:bg-destructive/20 transition-colors">
+            <Trash2 className="w-3 h-3" />
+          </button>
+        </div>
+      </div>
+    </motion.div>
   );
 }
 
