@@ -18,7 +18,7 @@ interface AuthContextType {
   profile: AuthUser | null;
   loading: boolean;
   signIn: (email: string, password: string) => Promise<{ error: any }>;
-  signUp: (email: string, password: string, fullName: string, role: AppRole) => Promise<{ error: any }>;
+  signUp: (email: string, password: string, fullName: string, role: AppRole, phone: string) => Promise<{ error: any }>;
   signOut: () => Promise<void>;
 }
 
@@ -48,9 +48,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   };
 
-  const signUp = async (email: string, password: string, fullName: string, _role: AppRole) => {
+  const signUp = async (email: string, password: string, fullName: string, _role: AppRole, phone: string) => {
     try {
-      await api.post("/auth/signup", { email, password, full_name: fullName });
+      await api.post("/auth/signup", { email, password, full_name: fullName, phone });
       return { error: null };
     } catch (e: any) {
       return { error: { message: e.message } };
