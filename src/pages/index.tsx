@@ -240,16 +240,8 @@ export default function Index() {
         </div>
       </section>
 
-      {promos[0] && <PromoBannerCard {...promos[0]} />}
-
-
-
-
-
-
-
-
-
+      {promos.length > 0 && <PromoBannerCard {...promos[0]} />}
+      
       {/* Our Services — Lower on Page */}
       <section className="py-8 sm:py-10 bg-muted/30">
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6">
@@ -261,8 +253,7 @@ export default function Index() {
         </div>
       </section>
 
-      {promos[1] && <PromoBannerCard {...promos[1]} />}
-
+      {promos.length > 1 && <PromoBannerCard {...promos[1]} />}
 
       {/* Repair Services */}
       <section className="py-8 sm:py-10 bg-background">
@@ -287,6 +278,15 @@ export default function Index() {
           </div>
         </div>
       </section>
+
+      {/* Additional Promo Banners */}
+      {promos.length > 2 && (
+        <div className="space-y-4 pb-10">
+          {promos.slice(2).map((promo, i) => (
+            <PromoBannerCard key={i} {...promo} />
+          ))}
+        </div>
+      )}
 
       {/* Customer Video Testimonials */}
       <section className="py-8 sm:py-10 bg-muted/30">
