@@ -248,16 +248,31 @@ export default function ProductDetail() {
 
         {/* Related Products */}
         {related.length > 0 && (
-          <section className="mt-24">
-            <div className="flex items-center justify-between mb-8">
+          <section className="mt-16 md:mt-24">
+            <div className="flex items-center justify-between mb-6">
               <h2 className="text-xl md:text-2xl font-bold tracking-tight text-slate-900">Recommended for You</h2>
-              <Link to={`/category/${product.category}`} className="text-primary text-sm font-bold hover:underline">View all related products →</Link>
+              <Link to={`/category/${product.category}`} className="text-primary text-xs md:text-sm font-bold hover:underline">View all →</Link>
             </div>
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
               {related.map((p, i) => <ProductCard key={p.id} product={p} index={i} />)}
             </div>
           </section>
         )}
+
+        {/* Trending Now Section */}
+        <section className="mt-16 md:mt-24 border-t border-slate-100 pt-16 md:pt-24">
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="text-xl md:text-2xl font-bold tracking-tight text-slate-900">Trending Now</h2>
+            <Link to="/category/all" className="text-primary text-xs md:text-sm font-bold hover:underline">Explore all products →</Link>
+          </div>
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+            {products
+              .filter(p => p.id !== product.id)
+              .sort(() => 0.5 - Math.random())
+              .slice(0, 4)
+              .map((p, i) => <ProductCard key={p.id} product={p} index={i} />)}
+          </div>
+        </section>
       </div>
     </div>
   );
