@@ -48,9 +48,6 @@ import TelecallerFollowups from "./pages/telecaller/telecallerfollowups";
 import TelecallerPerformance from "./pages/telecaller/telecallerperformance";
 import CustomerLayout from "./pages/customer/customerlayout";
 import CustomerHome from "./pages/customer/customerhome";
-import CustomerProducts from "./pages/customer/customerproducts";
-import CustomerEnquiries from "./pages/customer/customerenquiries";
-import CustomerQuote from "./pages/customer/customerquote";
 import CustomerOrders from "./pages/customer/customerorders";
 import CustomerProfile from "./pages/customer/customerprofile";
 
@@ -132,9 +129,6 @@ const App = () => {
               {/* Customer Panel */}
               <Route path="/customer" element={<ProtectedRoute allowedRoles={["customer"]}><CustomerLayout /></ProtectedRoute>}>
                 <Route index element={<CustomerHome />} />
-                <Route path="products" element={<CustomerProducts />} />
-                <Route path="enquiries" element={<CustomerEnquiries />} />
-                <Route path="quote" element={<CustomerQuote />} />
                 <Route path="orders" element={<CustomerOrders />} />
                 <Route path="profile" element={<CustomerProfile />} />
               </Route>
