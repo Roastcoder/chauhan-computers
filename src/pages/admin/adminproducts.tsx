@@ -237,18 +237,48 @@ function ProductModal({ product, onClose }: { product: any; onClose: () => void 
           </label>
           <div>
             <label className="text-xs font-medium text-muted-foreground mb-2 block">Product Images</label>
-            <div className="flex flex-wrap gap-2 mb-2">
+            <div className="flex flex-wrap gap-2 mb-3">
               {imageUrls.map((url, i) => (
                 <div key={i} className="relative w-20 h-20 rounded-lg overflow-hidden border border-border group">
                   <img src={url} alt="" className="w-full h-full object-cover" />
-                  <button onClick={() => setImageUrls(prev => prev.filter((_, j) => j !== i))} className="absolute top-0.5 right-0.5 w-5 h-5 bg-destructive text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                  <button type="button" onClick={() => setImageUrls(prev => prev.filter((_, j) => j !== i))} className="absolute top-0.5 right-0.5 w-5 h-5 bg-destructive text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                     <X className="w-3 h-3" />
                   </button>
                 </div>
               ))}
-              <button onClick={() => fileInputRef.current?.click()} disabled={uploading} className="w-20 h-20 rounded-lg border-2 border-dashed border-border hover:border-primary/40 flex flex-col items-center justify-center gap-1 text-muted-foreground hover:text-primary transition-colors">
+              <button type="button" onClick={() => fileInputRef.current?.click()} disabled={uploading} className="w-20 h-20 rounded-lg border-2 border-dashed border-border hover:border-primary/40 flex flex-col items-center justify-center gap-1 text-muted-foreground hover:text-primary transition-colors">
                 <Upload className="w-4 h-4" />
                 <span className="text-[10px]">{uploading ? "..." : "Upload"}</span>
+              </button>
+            </div>
+            <div className="flex gap-2">
+              <input 
+                id="manual-url"
+                placeholder="Or paste image URL here..." 
+                className="flex-1 px-4 py-2 bg-background rounded-xl text-xs border border-border outline-none focus:border-primary/50"
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    e.preventDefault();
+                    const val = (e.target as HTMLInputElement).value.trim();
+                    if (val) {
+                      setImageUrls(prev => [...prev, val]);
+                      (e.target as HTMLInputElement).value = '';
+                    }
+                  }
+                }}
+              />
+              <button 
+                type="button"
+                onClick={() => {
+                  const input = document.getElementById('manual-url') as HTMLInputElement;
+                  if (input.value.trim()) {
+                    setImageUrls(prev => [...prev, input.value.trim()]);
+                    input.value = '';
+                  }
+                }}
+                className="px-3 py-2 bg-muted rounded-xl text-[10px] font-bold hover:bg-muted/80 transition-colors"
+              >
+                Add
               </button>
             </div>
             <input ref={fileInputRef} type="file" accept="image/*" multiple onChange={handleImageUpload} className="hidden" />
