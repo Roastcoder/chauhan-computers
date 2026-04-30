@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { AnimatedSection } from "@/components/AnimatedSection";
 import { Phone, Mail, MapPin, Clock } from "lucide-react";
+import { api } from "@/integrations/supabase/client";
 
 const contactInfo = [
   { icon: Phone, label: "Phone", value: "098297 21157", href: "tel:09829721157" },
@@ -19,11 +20,7 @@ export default function Contact() {
     if (!form.name || !form.message) return;
     setSending(true);
     try {
-      await fetch("http://localhost:4000/api/contact-messages", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
-      });
+      await api.post("/contact-messages", form);
       setSent(true);
       setForm({ name: "", email: "", subject: "", message: "" });
     } catch {}

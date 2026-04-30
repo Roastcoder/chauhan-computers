@@ -96,11 +96,7 @@ function NewsletterForm() {
     if (!email) return;
     setLoading(true);
     try {
-      await fetch("http://localhost:4000/api/newsletter", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
-      });
+      await api.post("/newsletter", { email });
       setDone(true);
     } catch {}
     setLoading(false);

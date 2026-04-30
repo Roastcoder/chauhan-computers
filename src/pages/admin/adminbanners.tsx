@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { api } from "@/integrations/supabase/client";
 import { toast } from "sonner";
-import { Plus, Pencil, Trash2, Eye, EyeOff, GripVertical, Image } from "lucide-react";
+import { Plus, Pencil, Trash2, Eye, EyeOff, GripVertical, Image, X, Upload } from "lucide-react";
 
 const PAGES = ["home", "about", "services", "category", "contact"];
 const BANNER_TYPES = ["hero", "promo"];
@@ -83,15 +83,28 @@ export default function AdminBanners() {
             <div><label className="text-xs font-medium text-muted-foreground mb-1 block">Title</label><input value={form.title} onChange={e => setForm(f => ({ ...f, title: e.target.value }))} className="w-full px-3 py-2 bg-background rounded-lg border border-border text-sm" placeholder="Banner title" /></div>
             <div><label className="text-xs font-medium text-muted-foreground mb-1 block">Subtitle</label><input value={form.subtitle} onChange={e => setForm(f => ({ ...f, subtitle: e.target.value }))} className="w-full px-3 py-2 bg-background rounded-lg border border-border text-sm" /></div>
             <div>
-              <label className="text-xs font-medium text-muted-foreground mb-1 block">Image</label>
-              <div className="flex gap-2">
-                <input value={form.image_url} onChange={e => setForm(f => ({ ...f, image_url: e.target.value }))} className="flex-1 px-3 py-2 bg-background rounded-lg border border-border text-sm" placeholder="Image URL or upload" />
-                <label className="px-3 py-2 bg-muted rounded-lg cursor-pointer hover:bg-muted/80 flex items-center gap-1 text-xs">
-                  <Image className="w-3.5 h-3.5" /> Upload
-                  <input type="file" accept="image/*" onChange={handleImageUpload} className="hidden" />
-                </label>
+              <label className="text-xs font-medium text-muted-foreground mb-1 block">Banner Image</label>
+              <div className="flex flex-col items-center justify-center p-4 border-2 border-dashed border-border rounded-xl bg-muted/20 hover:bg-muted/30 transition-colors relative group">
+                {form.image_url ? (
+                  <div className="relative w-full aspect-[4/1] rounded-lg overflow-hidden">
+                    <img src={form.image_url} alt="Preview" className="w-full h-full object-cover" />
+                    <button type="button" onClick={() => setForm(f => ({ ...f, image_url: "" }))} className="absolute top-2 right-2 p-1.5 bg-destructive text-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity">
+                      <X className="w-4 h-4" />
+                    </button>
+                  </div>
+                ) : (
+                  <label className="flex flex-col items-center gap-2 cursor-pointer py-4 w-full">
+                    <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+                      <Upload className="w-5 h-5" />
+                    </div>
+                    <div className="text-center">
+                      <p className="text-xs font-bold text-foreground">Click to upload banner</p>
+                      <p className="text-[10px] text-muted-foreground">JPG, PNG or WEBP (Max 2MB)</p>
+                    </div>
+                    <input type="file" accept="image/*" onChange={handleImageUpload} className="hidden" />
+                  </label>
+                )}
               </div>
-              {form.image_url && <img src={form.image_url} alt="Preview" className="mt-2 h-20 rounded-lg object-cover" />}
             </div>
             <div className="grid grid-cols-2 gap-3">
               <div><label className="text-xs font-medium text-muted-foreground mb-1 block">CTA Text</label><input value={form.cta_text} onChange={e => setForm(f => ({ ...f, cta_text: e.target.value }))} className="w-full px-3 py-2 bg-background rounded-lg border border-border text-sm" /></div>
