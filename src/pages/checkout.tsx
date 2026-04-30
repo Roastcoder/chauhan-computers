@@ -102,7 +102,7 @@ export default function Checkout() {
           color: "#0f172a", // Primary color (slate-900)
         },
         modal: {
-          ondismiss: function() {
+          ondismiss: function () {
             setLoading(false);
             toast.info("Payment cancelled");
           }
@@ -235,7 +235,7 @@ export default function Checkout() {
           <div className="lg:sticky lg:top-24 lg:self-start">
             <div className="bg-surface rounded-3xl p-8">
               <h2 className="text-lg font-semibold text-foreground mb-6">Order Summary</h2>
-              
+
               <div className="space-y-4 mb-6">
                 {items.map((item) => (
                   <div key={item.product.id} className="flex justify-between text-sm">
@@ -264,64 +264,22 @@ export default function Checkout() {
                 </div>
               </div>
 
-              <div className="mt-4 space-y-3">
-                <button
-                  type="submit"
-                  form="checkout-form"
-                  disabled={loading}
-                  className="w-full py-4 bg-primary text-primary-foreground rounded-full font-medium hover:opacity-90 transition-opacity flex items-center justify-center gap-2 disabled:opacity-50"
-                >
-                  {loading ? (
-                    <div className="w-5 h-5 border-2 border-primary-foreground border-t-transparent rounded-full animate-spin" />
-                  ) : (
-                    <>
-                      <CreditCard className="w-5 h-5" />
-                      Pay ₹{total.toLocaleString()}
-                    </>
-                  )}
-                </button>
+              <button
+                type="submit"
+                form="checkout-form"
+                disabled={loading}
+                className="w-full py-4 bg-primary text-primary-foreground rounded-full font-medium hover:opacity-90 transition-opacity flex items-center justify-center gap-2 disabled:opacity-50"
+              >
+                {loading ? (
+                  <div className="w-5 h-5 border-2 border-primary-foreground border-t-transparent rounded-full animate-spin" />
+                ) : (
+                  <>
+                    <CreditCard className="w-5 h-5" />
+                    Pay ₹{total.toLocaleString()}
+                  </>
+                )}
+              </button>
 
-                {/* Demo Payment Bypass */}
-                <button
-                  type="button"
-                  onClick={async () => {
-                    if (!user) return toast.error("Login first");
-                    if (!address.phone) return toast.error("Phone required");
-                    setLoading(true);
-                    try {
-                      // Create real order but simulate verification
-                      const orderData = await api.post("/orders", {
-                        amount: total,
-                        currency: "INR",
-                        receipt: `demo_${Date.now()}`,
-                        shipping_address: `${address.street}, ${address.city}`,
-                        customer_phone: address.phone,
-                        items: items.map(i => ({ product_id: i.product.id, price: i.product.price, quantity: i.quantity }))
-                      });
-                      
-                      // Manual verification bypass (Development only)
-                      toast.success("Demo: Bypassing Razorpay...");
-                      await new Promise(r => setTimeout(r, 1000));
-                      
-                      // We still need to tell the backend it was "paid" if we want loyalty points etc.
-                      // This only works if your backend verify-payment doesn't strictly check signatures (which it does)
-                      // So for a true demo, we'll just show the success screen on frontend.
-                      
-                      toast.success("Order Placed (Demo Mode)");
-                      clearCart();
-                      setOrderComplete(true);
-                    } catch (e) {
-                      toast.error("Demo failed");
-                    } finally {
-                      setLoading(false);
-                    }
-                  }}
-                  className="w-full py-2 text-[10px] font-black uppercase tracking-widest text-muted-foreground hover:text-primary transition-colors border border-dashed border-border rounded-xl"
-                >
-                  Skip Payment (Demo Success)
-                </button>
-              </div>
-              
               <div className="mt-4 flex items-center justify-center gap-2 text-xs text-muted-foreground">
                 <Lock className="w-3.5 h-3.5" />
                 Secure Payments by Razorpay
