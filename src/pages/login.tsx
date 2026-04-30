@@ -86,26 +86,49 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen bg-[#f8fafc] flex relative overflow-hidden">
-      {/* Background blobs for mobile wow factor */}
-      <div className="lg:hidden absolute top-[-10%] right-[-10%] w-[300px] h-[300px] bg-primary/10 rounded-full blur-[80px]" />
-      <div className="lg:hidden absolute bottom-[-5%] left-[-5%] w-[250px] h-[250px] bg-blue-500/10 rounded-full blur-[60px]" />
+    <div className="min-h-screen bg-gradient-to-br from-[#f8fafc] via-white to-[#f1f5f9] flex relative overflow-hidden">
+      {/* Immersive Dynamic Gradient Blobs */}
+      <motion.div 
+        animate={{ 
+          scale: [1, 1.2, 1],
+          opacity: [0.1, 0.15, 0.1],
+          x: [0, 50, 0],
+          y: [0, -30, 0]
+        }}
+        transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
+        className="absolute top-[-10%] right-[-5%] w-[600px] h-[600px] bg-primary/20 rounded-full blur-[130px]" 
+      />
+      <motion.div 
+        animate={{ 
+          scale: [1, 1.1, 1],
+          opacity: [0.05, 0.1, 0.05],
+          x: [0, -40, 0],
+          y: [0, 40, 0]
+        }}
+        transition={{ duration: 12, repeat: Infinity, ease: "linear" }}
+        className="absolute bottom-[-15%] left-[-5%] w-[500px] h-[500px] bg-blue-400/15 rounded-full blur-[110px]" 
+      />
+      <div className="absolute top-[30%] left-[20%] w-[350px] h-[350px] bg-indigo-500/5 rounded-full blur-[90px]" />
+      <div className="absolute top-[10%] left-[50%] -translate-x-1/2 w-full h-[1px] bg-gradient-to-r from-transparent via-slate-200/50 to-transparent" />
 
       {/* Left — Hero image (Desktop Only) */}
       <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden">
         <img
           src={loginHero}
           alt="Chauhan Computers store"
-          className="absolute inset-0 w-full h-full object-cover"
+          className="absolute inset-0 w-full h-full object-cover scale-105"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/40 to-transparent" />
-        <div className="relative z-10 flex flex-col justify-end p-16 text-white w-full">
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
-            <div className="flex items-center gap-4 mb-6">
-              <div className="w-12 h-12 rounded-2xl bg-white/10 backdrop-blur-md flex items-center justify-center border border-white/20">
-                <img src={logoIcon} alt="CC" className="w-8 h-8 rounded-full" />
+        <div className="absolute inset-0 bg-gradient-to-tr from-slate-900/95 via-slate-900/70 to-primary/30" />
+        <div className="relative z-10 flex flex-col justify-end p-20 text-white w-full">
+          <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: "easeOut" }}>
+            <div className="flex items-center gap-5 mb-8">
+              <div className="w-16 h-16 rounded-2xl bg-white/10 backdrop-blur-2xl flex items-center justify-center border border-white/20 shadow-2xl overflow-hidden">
+                <img src={logoIcon} alt="CC" className="w-12 h-12 rounded-full object-cover" />
               </div>
-              <h2 className="text-3xl font-black tracking-tight">Chauhan Computers</h2>
+              <div>
+                <h2 className="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-white/60">Chauhan Computers</h2>
+                <div className="h-1 w-12 bg-primary mt-1 rounded-full" />
+              </div>
             </div>
             <p className="text-xl text-white/80 mb-8 max-w-md font-medium leading-relaxed">
               Elevating Jaipur's IT infrastructure since 2010. Your premium destination for enterprise hardware and service.
@@ -145,14 +168,14 @@ export default function Login() {
             </Link>
           </div>
 
-          <div className="bg-white/70 backdrop-blur-2xl rounded-[2.5rem] p-8 md:p-10 shadow-2xl shadow-slate-200/50 border border-white">
+          <div className="bg-white/80 backdrop-blur-2xl rounded-[2.5rem] p-8 md:p-10 shadow-2xl shadow-slate-200/50 border border-white/50 bg-gradient-to-b from-white to-blue-50/30">
             {/* Tabs */}
-            <div className="flex p-1.5 bg-slate-100 rounded-2xl mb-10">
+            <div className="flex p-1.5 bg-slate-100/50 backdrop-blur-sm rounded-2xl mb-10 border border-slate-200/50">
               <button
                 onClick={() => switchMode("login")}
                 className={`flex-1 py-3 rounded-[1.125rem] text-sm font-bold transition-all ${
                   mode === "login"
-                    ? "bg-white text-primary shadow-lg shadow-slate-200"
+                    ? "bg-white text-primary shadow-xl shadow-slate-200"
                     : "text-slate-500 hover:text-slate-700"
                 }`}
               >
@@ -162,7 +185,7 @@ export default function Login() {
                 onClick={() => switchMode("signup")}
                 className={`flex-1 py-3 rounded-[1.125rem] text-sm font-bold transition-all ${
                   mode === "signup"
-                    ? "bg-white text-primary shadow-lg shadow-slate-200"
+                    ? "bg-white text-primary shadow-xl shadow-slate-200"
                     : "text-slate-500 hover:text-slate-700"
                 }`}
               >
@@ -179,7 +202,7 @@ export default function Login() {
                   exit={{ opacity: 0, x: 10 }}
                 >
                   <div className="mb-8 text-center sm:text-left">
-                    <h2 className="text-3xl font-black text-slate-900 tracking-tight">Welcome back</h2>
+                    <h2 className="text-3xl font-bold text-slate-900">Welcome back</h2>
                     <p className="text-sm font-medium text-slate-500 mt-2">Secure access to your enterprise dashboard</p>
                   </div>
 
@@ -194,7 +217,7 @@ export default function Login() {
                           onClick={() => fillDemo(demo)}
                           className={`px-4 py-2 rounded-xl text-xs font-bold border transition-all ${
                             email === demo.email
-                              ? "bg-primary text-white border-primary shadow-md shadow-primary/20"
+                              ? "bg-gradient-to-r from-primary to-blue-600 text-white border-transparent shadow-lg shadow-primary/20"
                               : "bg-white border-slate-200 text-slate-600 hover:border-primary/30"
                           }`}
                         >
@@ -212,7 +235,7 @@ export default function Login() {
                           type="email"
                           value={email}
                           onChange={(e) => setEmail(e.target.value)}
-                          className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-sm outline-none focus:ring-4 focus:ring-primary/5 focus:border-primary/30 transition-all placeholder:text-slate-400"
+                          className="w-full px-5 py-4 bg-white/50 border border-slate-200 rounded-2xl text-sm outline-none focus:ring-4 focus:ring-primary/5 focus:border-primary/30 transition-all placeholder:text-slate-400"
                           placeholder="name@company.com"
                           required
                         />
@@ -225,7 +248,7 @@ export default function Login() {
                           type={showPassword ? "text" : "password"}
                           value={password}
                           onChange={(e) => setPassword(e.target.value)}
-                          className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-sm outline-none focus:ring-4 focus:ring-primary/5 focus:border-primary/30 transition-all placeholder:text-slate-400 pr-12"
+                          className="w-full px-5 py-4 bg-white/50 border border-slate-200 rounded-2xl text-sm outline-none focus:ring-4 focus:ring-primary/5 focus:border-primary/30 transition-all placeholder:text-slate-400 pr-12"
                           placeholder="••••••••"
                           required
                         />
@@ -241,7 +264,7 @@ export default function Login() {
                     <button
                       type="submit"
                       disabled={submitting}
-                      className="w-full py-4 bg-primary text-white rounded-2xl font-black text-sm hover:shadow-xl hover:shadow-primary/20 transition-all disabled:opacity-50 flex items-center justify-center gap-3 active:scale-[0.98]"
+                      className="w-full py-4 bg-gradient-to-r from-primary to-blue-600 text-white rounded-2xl font-black text-sm hover:shadow-2xl hover:shadow-primary/30 hover:-translate-y-0.5 transition-all disabled:opacity-50 flex items-center justify-center gap-3 active:scale-[0.98]"
                     >
                       {submitting ? (
                         <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
@@ -262,7 +285,7 @@ export default function Login() {
                   exit={{ opacity: 0, x: -10 }}
                 >
                   <div className="mb-8 text-center sm:text-left">
-                    <h2 className="text-3xl font-black text-slate-900 tracking-tight">Get Started</h2>
+                    <h2 className="text-3xl font-bold text-slate-900">Get Started</h2>
                     <p className="text-sm font-medium text-slate-500 mt-2">Join our premium IT ecosystem</p>
                   </div>
 
@@ -273,7 +296,7 @@ export default function Login() {
                         type="text"
                         value={fullName}
                         onChange={(e) => setFullName(e.target.value)}
-                        className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-sm outline-none focus:ring-4 focus:ring-primary/5 focus:border-primary/30 transition-all"
+                        className="w-full px-5 py-4 bg-white/50 border border-slate-200 rounded-2xl text-sm outline-none focus:ring-4 focus:ring-primary/5 focus:border-primary/30 transition-all"
                         placeholder="John Doe"
                         required
                       />
@@ -284,7 +307,7 @@ export default function Login() {
                         type="email"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                        className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-sm outline-none focus:ring-4 focus:ring-primary/5 focus:border-primary/30 transition-all"
+                        className="w-full px-5 py-4 bg-white/50 border border-slate-200 rounded-2xl text-sm outline-none focus:ring-4 focus:ring-primary/5 focus:border-primary/30 transition-all"
                         placeholder="you@example.com"
                         required
                       />
@@ -296,7 +319,7 @@ export default function Login() {
                           type="tel"
                           value={phone}
                           onChange={(e) => setPhone(e.target.value)}
-                          className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-sm outline-none focus:ring-4 focus:ring-primary/5 focus:border-primary/30 transition-all pl-12"
+                          className="w-full px-5 py-4 bg-white/50 border border-slate-200 rounded-2xl text-sm outline-none focus:ring-4 focus:ring-primary/5 focus:border-primary/30 transition-all pl-12"
                           placeholder="98765 43210"
                           required
                         />
@@ -312,7 +335,7 @@ export default function Login() {
                           type={showPassword ? "text" : "password"}
                           value={password}
                           onChange={(e) => setPassword(e.target.value)}
-                          className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-sm outline-none focus:ring-4 focus:ring-primary/5 focus:border-primary/30 transition-all pr-12"
+                          className="w-full px-5 py-4 bg-white/50 border border-slate-200 rounded-2xl text-sm outline-none focus:ring-4 focus:ring-primary/5 focus:border-primary/30 transition-all pr-12"
                           placeholder="Min. 6 characters"
                           required
                         />
@@ -327,7 +350,7 @@ export default function Login() {
                     <button
                       type="submit"
                       disabled={submitting}
-                      className="w-full py-4 bg-primary text-white rounded-2xl font-black text-sm hover:shadow-xl hover:shadow-primary/20 transition-all disabled:opacity-50 flex items-center justify-center gap-3 active:scale-[0.98]"
+                      className="w-full py-4 bg-gradient-to-r from-primary to-blue-600 text-white rounded-2xl font-black text-sm hover:shadow-2xl hover:shadow-primary/30 hover:-translate-y-0.5 transition-all disabled:opacity-50 flex items-center justify-center gap-3 active:scale-[0.98]"
                     >
                       {submitting ? (
                         <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />

@@ -49,7 +49,7 @@ export default function AdminDashboard() {
       {/* Header Area */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-black tracking-tight text-foreground">Command Center</h1>
+          <h1 className="text-3xl font-bold text-foreground">Command Center</h1>
           <p className="text-muted-foreground font-medium flex items-center gap-2">
             <Activity className="w-4 h-4 text-emerald-500 animate-pulse" /> System performance is optimal today
           </p>
@@ -95,7 +95,7 @@ export default function AdminDashboard() {
                 <kpi.icon className="w-6 h-6" />
               </div>
               <div>
-                <p className="text-3xl font-black text-foreground tracking-tight">{kpi.value}</p>
+                <p className="text-3xl font-bold text-foreground">{kpi.value}</p>
                 <div className="flex items-center justify-between mt-1">
                   <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">{kpi.label}</p>
                   <span className="flex items-center gap-0.5 text-[10px] font-bold text-emerald-500">
@@ -113,7 +113,7 @@ export default function AdminDashboard() {
         <div className="lg:col-span-2 bg-card border border-border/50 rounded-[2.5rem] p-6 md:p-8 shadow-sm">
           <div className="flex items-center justify-between mb-8">
             <div>
-              <h3 className="text-xl font-black text-foreground">Growth Analytics</h3>
+              <h3 className="text-xl font-bold text-foreground">Growth Analytics</h3>
               <p className="text-xs font-medium text-muted-foreground">Performance metrics over the last 7 days</p>
             </div>
             <div className="flex gap-2">
@@ -147,7 +147,7 @@ export default function AdminDashboard() {
         </div>
 
         <div className="bg-card border border-border/50 rounded-[2.5rem] p-6 md:p-8 shadow-sm flex flex-col">
-          <h3 className="text-xl font-black text-foreground mb-6">Quick Actions</h3>
+          <h3 className="text-xl font-bold text-foreground mb-6">Quick Actions</h3>
           <div className="grid grid-cols-1 gap-3">
             {[
               { label: "Inventory Sync", icon: Package, to: "/admin/products", desc: "Manage stocks and pricing" },
@@ -177,7 +177,7 @@ export default function AdminDashboard() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div className="bg-card border border-border/50 rounded-[2.5rem] p-6 md:p-8 shadow-sm">
           <div className="flex items-center justify-between mb-6">
-            <h3 className="text-xl font-black text-foreground">Recent Orders</h3>
+            <h3 className="text-xl font-bold text-foreground">Recent Orders</h3>
             <Link to="/admin/orders" className="text-xs font-bold text-primary hover:underline">View Ledger</Link>
           </div>
           <div className="space-y-4">
@@ -207,7 +207,7 @@ export default function AdminDashboard() {
 
         <div className="bg-card border border-border/50 rounded-[2.5rem] p-6 md:p-8 shadow-sm">
           <div className="flex items-center justify-between mb-6">
-            <h3 className="text-xl font-black text-foreground">Incoming Leads</h3>
+            <h3 className="text-xl font-bold text-foreground">Incoming Leads</h3>
             <Link to="/admin/leads" className="text-xs font-bold text-primary hover:underline">Manage All</Link>
           </div>
           <div className="space-y-4">

@@ -48,7 +48,7 @@ export default function CustomerHome() {
         
         <div className="relative z-10">
           <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.1 }}>
-            <h1 className="text-3xl md:text-5xl font-extrabold tracking-tight mb-2 text-white">
+            <h1 className="text-3xl md:text-5xl font-bold mb-2 text-white">
               Welcome back, <br className="sm:hidden" /><span className="text-white/90">{profile?.full_name?.split(' ')[0] || "Customer"}</span>
             </h1>
             <p className="text-primary-foreground/80 text-sm md:text-base font-medium max-w-lg">
@@ -72,7 +72,7 @@ export default function CustomerHome() {
           >
             <div className={`absolute -right-4 -top-4 w-24 h-24 bg-gradient-to-br ${kpi.color} rounded-full blur-2xl opacity-50 group-hover:opacity-80 transition-opacity`} />
             <kpi.icon className={`w-6 h-6 md:w-8 md:h-8 mb-4 relative z-10 ${kpi.color.split(' ')[2]}`} />
-            <p className="text-2xl md:text-4xl font-black text-foreground relative z-10 tracking-tight">{kpi.value}</p>
+            <p className="text-2xl md:text-4xl font-bold text-foreground relative z-10">{kpi.value}</p>
             <p className="text-xs md:text-sm font-medium text-muted-foreground relative z-10 mt-1">{kpi.label}</p>
           </motion.div>
         ))}
@@ -91,7 +91,7 @@ export default function CustomerHome() {
                   <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
                     <Gift className="w-5 h-5 text-primary" />
                   </div>
-                  <h3 className="text-lg md:text-xl font-bold text-foreground tracking-tight">Loyalty Rewards</h3>
+                  <h3 className="text-lg md:text-xl font-bold text-foreground">Loyalty Rewards</h3>
                 </div>
                 <p className="text-sm text-muted-foreground max-w-md">
                   Earn points on every purchase. Redeem them for exclusive discounts on your next upgrade.
@@ -100,7 +100,7 @@ export default function CustomerHome() {
               <div className="flex flex-col items-start md:items-end bg-background/50 p-4 rounded-2xl border border-border/50 w-full md:w-auto">
                 <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-1">Available Points</span>
                 <div className="flex items-baseline gap-1.5">
-                  <span className="text-4xl font-black bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/60">{points}</span>
+                  <span className="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/60">{points}</span>
                   <span className="text-sm font-medium text-muted-foreground">pts</span>
                 </div>
               </div>

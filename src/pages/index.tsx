@@ -173,9 +173,9 @@ export default function Index() {
       {/* Shop by Brand */}
       <section className="py-12 sm:py-16 bg-gradient-to-b from-white to-muted/20 border-b border-border">
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6">
-          <div className="flex flex-col items-center text-center mb-10">
-            <h2 className="text-2xl sm:text-4xl font-extrabold text-foreground tracking-tight mb-3">Shop by Category</h2>
-            <div className="w-20 h-1.5 bg-primary rounded-full" />
+          <div className="flex flex-col items-center text-center mb-12">
+            <h2 className="text-3xl sm:text-5xl font-bold text-slate-900 mb-4">Shop by Category</h2>
+            <div className="w-24 h-1.5 bg-gradient-to-r from-primary to-blue-600 rounded-full" />
           </div>
           
           {/* Desktop: Grid */}
