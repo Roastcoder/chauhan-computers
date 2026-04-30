@@ -27,6 +27,7 @@ import NotFound from "./pages/notfound";
 import AdminLayout from "./pages/admin/adminlayout";
 import AdminDashboard from "./pages/admin/admindashboard";
 import AdminLeads from "./pages/admin/adminleads";
+import AdminOrders from "./pages/admin/adminorders";
 import AdminProducts from "./pages/admin/adminproducts";
 import AdminTelecallers from "./pages/admin/admintelecallers";
 import AdminReports from "./pages/admin/adminreports";
@@ -47,9 +48,7 @@ import TelecallerFollowups from "./pages/telecaller/telecallerfollowups";
 import TelecallerPerformance from "./pages/telecaller/telecallerperformance";
 import CustomerLayout from "./pages/customer/customerlayout";
 import CustomerHome from "./pages/customer/customerhome";
-import CustomerProducts from "./pages/customer/customerproducts";
-import CustomerEnquiries from "./pages/customer/customerenquiries";
-import CustomerQuote from "./pages/customer/customerquote";
+import CustomerOrders from "./pages/customer/customerorders";
 import CustomerProfile from "./pages/customer/customerprofile";
 
 const queryClient = new QueryClient();
@@ -103,6 +102,7 @@ const App = () => {
               <Route path="/admin" element={<ProtectedRoute allowedRoles={["admin"]}><AdminLayout /></ProtectedRoute>}>
                 <Route index element={<AdminDashboard />} />
                 <Route path="leads" element={<AdminLeads />} />
+                <Route path="orders" element={<AdminOrders />} />
                 <Route path="products" element={<AdminProducts />} />
                 <Route path="telecallers" element={<AdminTelecallers />} />
                 <Route path="reports" element={<AdminReports />} />
@@ -129,9 +129,7 @@ const App = () => {
               {/* Customer Panel */}
               <Route path="/customer" element={<ProtectedRoute allowedRoles={["customer"]}><CustomerLayout /></ProtectedRoute>}>
                 <Route index element={<CustomerHome />} />
-                <Route path="products" element={<CustomerProducts />} />
-                <Route path="enquiries" element={<CustomerEnquiries />} />
-                <Route path="quote" element={<CustomerQuote />} />
+                <Route path="orders" element={<CustomerOrders />} />
                 <Route path="profile" element={<CustomerProfile />} />
               </Route>
 

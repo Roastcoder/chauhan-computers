@@ -4,11 +4,9 @@ import { MobileBottomNav } from "@/components/MobileBottomNav";
 import { Home, Package, FileText, Calculator, UserCircle } from "lucide-react";
 
 const customerNav = [
-  { icon: Home, label: "Home", path: "/customer" },
-  { icon: Package, label: "Products", path: "/customer/products" },
-  { icon: FileText, label: "Enquiries", path: "/customer/enquiries" },
-  { icon: Calculator, label: "Get Quote", path: "/customer/quote" },
-  { icon: UserCircle, label: "Profile", path: "/customer/profile" },
+  { icon: Home, label: "Dashboard", path: "/customer" },
+  { icon: Package, label: "My Orders", path: "/customer/orders" },
+  { icon: UserCircle, label: "My Profile", path: "/customer/profile" },
 ];
 
 export default function CustomerLayout() {

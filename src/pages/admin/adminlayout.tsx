@@ -6,6 +6,7 @@ import { LayoutDashboard, Users, Package, PhoneCall, BarChart3, Settings, ImageI
 const adminNav = [
   { icon: LayoutDashboard, label: "Dashboard", path: "/admin" },
   { icon: Users, label: "Leads", path: "/admin/leads" },
+  { icon: Package, label: "Orders", path: "/admin/orders" },
   { icon: Package, label: "Products", path: "/admin/products" },
   { icon: FolderOpen, label: "Categories", path: "/admin/categories" },
   { icon: ImageIcon, label: "Banners", path: "/admin/banners" },
