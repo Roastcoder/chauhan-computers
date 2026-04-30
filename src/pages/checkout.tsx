@@ -101,10 +101,17 @@ export default function Checkout() {
         theme: {
           color: "#0f172a", // Primary color (slate-900)
         },
+        modal: {
+          ondismiss: function() {
+            setLoading(false);
+            toast.info("Payment cancelled");
+          }
+        }
       };
 
       const rzp = new (window as any).Razorpay(options);
       rzp.on("payment.failed", function (response: any) {
+        setLoading(false);
         toast.error(`Payment failed: ${response.error.description}`);
       });
       rzp.open();
