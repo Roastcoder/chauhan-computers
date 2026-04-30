@@ -171,27 +171,32 @@ export default function Index() {
       </section>
 
       {/* Shop by Brand */}
-      <section className="py-8 sm:py-10 border-b border-border" style={{ background: "linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 40%, #2a2200 70%, #1a1500 100%)" }}>
+      <section className="py-12 sm:py-16 bg-gradient-to-b from-white to-muted/20 border-b border-border">
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6">
-          <h2 className="text-lg sm:text-2xl font-bold text-white mb-5">Shop by Brand</h2>
+          <div className="flex flex-col items-center text-center mb-10">
+            <h2 className="text-2xl sm:text-4xl font-extrabold text-foreground tracking-tight mb-3">Shop by Category</h2>
+            <div className="w-20 h-1.5 bg-primary rounded-full" />
+          </div>
+          
           {/* Desktop: Grid */}
-          <div className="hidden md:grid grid-cols-7 gap-4">
+          <div className="hidden md:grid grid-cols-7 gap-5">
             {categories.map((cat, i) => (
               <motion.div key={cat.slug} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }} transition={{ delay: i * 0.03 }}>
+                viewport={{ once: true }} transition={{ delay: i * 0.05 }}>
                 <Link to={`/category/${cat.slug}`}
-                  className="flex flex-col items-center gap-3 p-4 rounded-xl border border-yellow-900/40 hover:border-yellow-500/60 bg-white/5 hover:bg-white/10 hover:shadow-[0_0_20px_rgba(212,175,55,0.15)] transition-all group h-full">
-                  <div className="w-24 h-24 rounded-xl overflow-hidden bg-white/10 flex items-center justify-center mb-1">
-                    <img src={cat.image} alt={cat.name} className="w-20 h-20 object-contain group-hover:scale-110 transition-transform" loading="lazy" />
+                  className="flex flex-col items-center gap-4 p-5 rounded-2xl border border-border/50 bg-white hover:border-primary/30 hover:shadow-xl hover:shadow-primary/5 transition-all group h-full">
+                  <div className="w-24 h-24 rounded-2xl overflow-hidden bg-muted/30 flex items-center justify-center p-4 group-hover:bg-primary/5 transition-colors">
+                    <img src={cat.image} alt={cat.name} className="w-full h-full object-contain group-hover:scale-110 transition-transform" loading="lazy" />
                   </div>
                   <div className="text-center">
-                    <span className="text-sm font-bold text-white block leading-tight">{cat.name}</span>
-                    <span className="text-[11px] text-yellow-400/70 block mt-1 leading-tight">{cat.subtitle}</span>
+                    <span className="text-sm font-bold text-foreground block group-hover:text-primary transition-colors">{cat.name}</span>
+                    <span className="text-[11px] text-muted-foreground block mt-1 font-medium">{cat.subtitle}</span>
                   </div>
                 </Link>
               </motion.div>
             ))}
           </div>
+          
           {/* Mobile: Horizontal Scroll */}
           <div className="md:hidden relative">
             <style dangerouslySetInnerHTML={{
@@ -199,19 +204,19 @@ export default function Index() {
               .no-scrollbar::-webkit-scrollbar { display: none; }
               .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
             ` }} />
-            <div className="flex gap-3 overflow-x-auto snap-x snap-mandatory no-scrollbar pb-2">
+            <div className="flex gap-4 overflow-x-auto snap-x snap-mandatory no-scrollbar pb-4 px-1">
               {categories.map((cat, i) => (
                 <motion.div key={cat.slug} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }} transition={{ delay: i * 0.03 }}
-                  className="flex-none w-[140px] snap-start">
+                  viewport={{ once: true }} transition={{ delay: i * 0.05 }}
+                  className="flex-none w-[150px] snap-start">
                   <Link to={`/category/${cat.slug}`}
-                    className="flex flex-col items-center gap-2 p-3 rounded-xl border border-yellow-900/40 hover:border-yellow-500/60 bg-white/5 hover:bg-white/10 hover:shadow-[0_0_20px_rgba(212,175,55,0.15)] transition-all group h-full">
-                    <div className="w-16 h-16 rounded-xl overflow-hidden bg-white/10 flex items-center justify-center mb-1">
-                      <img src={cat.image} alt={cat.name} className="w-12 h-12 object-contain group-hover:scale-110 transition-transform" loading="lazy" />
+                    className="flex flex-col items-center gap-3 p-4 rounded-2xl border border-border/50 bg-white shadow-sm h-full">
+                    <div className="w-20 h-20 rounded-2xl overflow-hidden bg-muted/30 flex items-center justify-center p-3">
+                      <img src={cat.image} alt={cat.name} className="w-full h-full object-contain" loading="lazy" />
                     </div>
                     <div className="text-center">
-                      <span className="text-[11px] font-bold text-white block leading-tight">{cat.name}</span>
-                      <span className="text-[9px] text-yellow-400/70 block mt-1 leading-tight">{cat.subtitle}</span>
+                      <span className="text-xs font-bold text-foreground block leading-tight">{cat.name}</span>
+                      <span className="text-[10px] text-muted-foreground block mt-1 font-medium leading-tight">{cat.subtitle}</span>
                     </div>
                   </Link>
                 </motion.div>

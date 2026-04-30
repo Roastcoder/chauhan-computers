@@ -52,6 +52,8 @@ export default function Checkout() {
         amount: total,
         currency: "INR",
         receipt: `rcpt_${Date.now()}`,
+        shipping_address: `${address.street}, ${address.city}, ${address.state} - ${address.pincode}`,
+        customer_phone: address.phone,
         items: items.map(i => ({
           product_id: i.product.id,
           price: i.product.price,
