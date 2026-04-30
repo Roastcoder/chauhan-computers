@@ -72,46 +72,46 @@ export default function ProductDetail() {
 
   return (
     <div className="min-h-screen bg-[#F8F9FA]">
-      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 py-6 md:py-12">
+      <div className="max-w-[1200px] mx-auto px-4 sm:px-6 py-4 md:py-8">
         {/* Breadcrumbs */}
-        <div className="flex items-center gap-2 text-xs md:text-sm text-muted-foreground mb-6 md:mb-10 overflow-hidden whitespace-nowrap pb-2">
+        <div className="flex items-center gap-2 text-[10px] md:text-xs text-muted-foreground mb-4 md:mb-6 overflow-hidden whitespace-nowrap pb-1">
           <Link to="/" className="hover:text-primary transition-colors shrink-0">Home</Link>
-          <ChevronRight className="w-3.5 h-3.5 shrink-0" />
+          <ChevronRight className="w-3 h-3 shrink-0" />
           <Link to={`/category/${product.category}`} className="hover:text-primary transition-colors capitalize shrink-0">{product.category.replace(/-/g, ' ')}</Link>
-          <ChevronRight className="w-3.5 h-3.5 shrink-0" />
+          <ChevronRight className="w-3 h-3 shrink-0" />
           <span className="text-foreground font-medium truncate">{product.name}</span>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10">
           {/* Left Column: Image Gallery */}
-          <div className="lg:col-span-7 flex flex-col gap-4 md:gap-6">
+          <div className="lg:col-span-6 flex flex-col gap-3 md:gap-4">
             <motion.div
-              initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, ease: [0.23, 1, 0.32, 1] }}
-              className="bg-white rounded-[2.5rem] p-6 md:p-12 flex items-center justify-center aspect-square md:aspect-[4/3] lg:aspect-square overflow-hidden shadow-sm border border-slate-100"
+              initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, ease: [0.23, 1, 0.32, 1] }}
+              className="bg-white rounded-[2rem] p-4 md:p-8 flex items-center justify-center aspect-square overflow-hidden shadow-sm border border-slate-100"
             >
               <AnimatePresence mode="wait">
                 <motion.img
                   key={activeImage}
                   src={activeImage}
                   alt={product.name}
-                  initial={{ opacity: 0, scale: 0.98 }}
+                  initial={{ opacity: 0, scale: 0.99 }}
                   animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.98 }}
-                  transition={{ duration: 0.3 }}
-                  className="w-full h-full object-contain drop-shadow-xl"
+                  exit={{ opacity: 0, scale: 0.99 }}
+                  transition={{ duration: 0.2 }}
+                  className="w-full h-full object-contain drop-shadow-lg max-h-[400px]"
                 />
               </AnimatePresence>
             </motion.div>
 
             {allImages.length > 1 && (
-              <div className="flex gap-3 overflow-x-auto pb-4 no-scrollbar">
+              <div className="flex gap-2 overflow-x-auto pb-2 no-scrollbar">
                 {allImages.map((img, idx) => (
                   <button
                     key={idx}
                     onClick={() => setActiveImage(img)}
-                    className={`relative w-20 h-20 md:w-24 md:h-24 rounded-2xl overflow-hidden border-2 transition-all shrink-0 bg-white p-2 ${
-                      activeImage === img ? "border-primary ring-4 ring-primary/10 shadow-lg" : "border-transparent hover:border-slate-200"
+                    className={`relative w-16 h-16 md:w-20 md:h-20 rounded-xl overflow-hidden border-2 transition-all shrink-0 bg-white p-1.5 ${
+                      activeImage === img ? "border-primary ring-2 ring-primary/10 shadow-md" : "border-transparent hover:border-slate-200"
                     }`}
                   >
                     <img src={img} alt={`${product.name} ${idx + 1}`} className="w-full h-full object-contain" />
@@ -123,10 +123,10 @@ export default function ProductDetail() {
 
           {/* Right Column: Content */}
           <motion.div 
-            initial={{ opacity: 0, y: 20 }} 
+            initial={{ opacity: 0, y: 10 }} 
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.1, ease: [0.23, 1, 0.32, 1] }}
-            className="lg:col-span-5 space-y-6 md:space-y-8"
+            transition={{ duration: 0.5, delay: 0.1, ease: [0.23, 1, 0.32, 1] }}
+            className="lg:col-span-6 space-y-4 md:space-y-6"
           >
             <div>
               <div className="flex flex-wrap gap-2 mb-4">
