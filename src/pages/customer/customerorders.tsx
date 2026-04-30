@@ -185,7 +185,11 @@ export default function CustomerOrders() {
                       <div>
                         <div className="flex items-center gap-3 mb-1">
                           <h4 className="text-base font-bold text-foreground tracking-tight">#{order.receipt.split('_')[1]}</h4>
-                          <span className={`text-[10px] font-black uppercase tracking-widest px-2.5 py-1 rounded-full ${order.status === 'paid' ? 'bg-emerald-500/10 text-emerald-500' : 'bg-amber-500/10 text-amber-500'}`}>
+                          <span className={`text-[10px] font-black uppercase tracking-widest px-2.5 py-1 rounded-full ${
+                            order.status === 'paid' ? 'bg-emerald-500/10 text-emerald-500' : 
+                            (order.status === 'cancelled' || order.status === 'failed') ? 'bg-rose-500/10 text-rose-500' :
+                            'bg-amber-500/10 text-amber-500'
+                          }`}>
                             {order.status}
                           </span>
                         </div>
@@ -218,14 +222,20 @@ export default function CustomerOrders() {
                 <div className="relative z-10">
                   <div className="flex items-center justify-between mb-8">
                     <h3 className="text-xl font-black text-foreground tracking-tight">Order Insight</h3>
-                    <button 
-                      onClick={() => generateInvoice(orderDetails)}
-                      disabled={detailsLoading || !orderDetails}
-                      className="p-3 bg-primary text-primary-foreground rounded-2xl hover:scale-105 transition-transform disabled:opacity-50 shadow-lg shadow-primary/20"
-                      title="Download Tax Invoice"
-                    >
-                      <Download className="w-5 h-5" />
-                    </button>
+                    {orderDetails?.status === 'paid' ? (
+                      <button 
+                        onClick={() => generateInvoice(orderDetails)}
+                        disabled={detailsLoading || !orderDetails}
+                        className="p-3 bg-primary text-primary-foreground rounded-2xl hover:scale-105 transition-transform disabled:opacity-50 shadow-lg shadow-primary/20"
+                        title="Download Tax Invoice"
+                      >
+                        <Download className="w-5 h-5" />
+                      </button>
+                    ) : (
+                      <div className="px-3 py-1.5 bg-muted rounded-xl text-[10px] font-bold text-muted-foreground uppercase tracking-widest border border-border/50">
+                        Invoice Unavailable
+                      </div>
+                    )}
                   </div>
 
                   {detailsLoading ? (
@@ -255,14 +265,16 @@ export default function CustomerOrders() {
                           <span className="text-xs font-bold text-muted-foreground">Order Total</span>
                           <span className="text-xl font-black text-primary tracking-tight">₹{orderDetails.amount.toLocaleString()}</span>
                         </div>
-                        <div className="bg-muted/30 rounded-2xl p-4 border border-border/30">
+                        <div className={`${orderDetails.status === 'paid' ? 'bg-emerald-500/5 border-emerald-500/20' : (orderDetails.status === 'cancelled' || orderDetails.status === 'failed') ? 'bg-rose-500/5 border-rose-500/20' : 'bg-muted/30 border-border/30'} rounded-2xl p-4 border`}>
                           <div className="flex items-center gap-2 mb-2">
-                            <ShieldCheck className="w-4 h-4 text-emerald-500" />
-                            <span className="text-[10px] font-black uppercase tracking-widest text-foreground">Payment Secured</span>
+                            <ShieldCheck className={`w-4 h-4 ${orderDetails.status === 'paid' ? 'text-emerald-500' : (orderDetails.status === 'cancelled' || orderDetails.status === 'failed') ? 'text-rose-500' : 'text-amber-500'}`} />
+                            <span className="text-[10px] font-black uppercase tracking-widest text-foreground">
+                              {orderDetails.status === 'paid' ? 'Payment Verified' : (orderDetails.status === 'cancelled' || orderDetails.status === 'failed') ? 'Transaction Unsuccessful' : 'Payment Pending'}
+                            </span>
                           </div>
                           <p className="text-[10px] font-medium text-muted-foreground leading-relaxed">
-                            Transactional ID: <span className="text-foreground">{orderDetails.razorpay_payment_id || "Processing"}</span><br/>
-                            Payment Status: <span className="text-emerald-500 font-bold uppercase">{orderDetails.status}</span>
+                            Transactional ID: <span className="text-foreground">{orderDetails.razorpay_payment_id || "None"}</span><br/>
+                            Status: <span className={`${orderDetails.status === 'paid' ? 'text-emerald-500' : (orderDetails.status === 'cancelled' || orderDetails.status === 'failed') ? 'text-rose-500' : 'text-amber-500'} font-bold uppercase`}>{orderDetails.status}</span>
                           </p>
                         </div>
                       </div>

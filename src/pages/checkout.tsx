@@ -120,17 +120,31 @@ export default function Checkout() {
           color: "#0f172a", // Primary color (slate-900)
         },
         modal: {
-          ondismiss: function () {
+          ondismiss: async function () {
             setLoading(false);
             toast.info("Payment cancelled");
+            try {
+              if (orderData.id) {
+                await api.post(`/orders/${orderData.id}/cancel`, {});
+              }
+            } catch (err) {
+              console.error("Error cancelling order:", err);
+            }
           }
         }
       };
 
       const rzp = new (window as any).Razorpay(options);
-      rzp.on("payment.failed", function (response: any) {
+      rzp.on("payment.failed", async function (response: any) {
         setLoading(false);
         toast.error(`Payment failed: ${response.error.description}`);
+        try {
+          if (orderData.id) {
+            await api.post(`/orders/${orderData.id}/cancel`, { status: 'failed' });
+          }
+        } catch (err) {
+          console.error("Error marking as failed:", err);
+        }
       });
       rzp.open();
     } catch (error: any) {
