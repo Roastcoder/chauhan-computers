@@ -114,7 +114,7 @@ export default function ProductDetail() {
                       activeImage === img ? "border-primary ring-2 ring-primary/10 shadow-md" : "border-transparent hover:border-slate-200"
                     }`}
                   >
-                    <img src={img} alt={`${product.name} ${idx + 1}`} className="w-full h-full object-contain" />
+                    <img src={img} alt={`${product.name} ${idx + 1}`} className="w-full h-full object-contain" loading="lazy" />
                   </button>
                 ))}
               </div>

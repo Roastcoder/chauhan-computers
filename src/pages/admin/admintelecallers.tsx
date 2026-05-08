@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { api } from "@/integrations/supabase/client";
-import { Plus } from "lucide-react";
+import { Plus, ChevronUp } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { toast } from "sonner";
 
 export default function AdminTelecallers() {
   const queryClient = useQueryClient();
-  const [showAddModal, setShowAddModal] = useState(false);
+  const [showForm, setShowForm] = useState(false);
 
   const { data: telecallers = [] } = useQuery({
     queryKey: ["admin-telecallers"],
@@ -38,10 +38,24 @@ export default function AdminTelecallers() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold text-foreground">Telecallers</h1>
-        <button onClick={() => setShowAddModal(true)} className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-xl text-xs font-semibold">
+        <button onClick={() => { setShowForm(true); window.scrollTo({ top: 0, behavior: "smooth" }); }} className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-xl text-xs font-semibold">
           <Plus className="w-3.5 h-3.5" /> Add Telecaller
         </button>
       </div>
+
+      {/* Inline Form */}
+      <AnimatePresence>
+        {showForm && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            className="overflow-hidden"
+          >
+            <AddTelecallerInlineForm onClose={() => setShowForm(false)} />
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       <div className="bg-card border border-border rounded-xl overflow-hidden">
         <table className="w-full text-sm">
@@ -77,15 +91,11 @@ export default function AdminTelecallers() {
           </tbody>
         </table>
       </div>
-
-      <AnimatePresence>
-        {showAddModal && <AddTelecallerModal onClose={() => setShowAddModal(false)} />}
-      </AnimatePresence>
     </div>
   );
 }
 
-function AddTelecallerModal({ onClose }: { onClose: () => void }) {
+function AddTelecallerInlineForm({ onClose }: { onClose: () => void }) {
   const queryClient = useQueryClient();
   const [form, setForm] = useState({ name: "", email: "", phone: "", password: "" });
 
@@ -96,22 +106,25 @@ function AddTelecallerModal({ onClose }: { onClose: () => void }) {
   });
 
   return (
-    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-6" onClick={onClose}>
-      <motion.div initial={{ scale: 0.95 }} animate={{ scale: 1 }} exit={{ scale: 0.95 }} className="bg-card border border-border rounded-2xl p-6 w-full max-w-md" onClick={e => e.stopPropagation()}>
-        <h2 className="text-lg font-bold text-foreground mb-4">Add Telecaller</h2>
-        <div className="space-y-3">
-          <input value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value }))} placeholder="Full Name" className="w-full px-4 py-2.5 bg-background rounded-xl text-sm text-foreground border border-border outline-none" />
-          <input value={form.email} onChange={e => setForm(f => ({ ...f, email: e.target.value }))} placeholder="Email" type="email" className="w-full px-4 py-2.5 bg-background rounded-xl text-sm text-foreground border border-border outline-none" />
-          <input value={form.phone} onChange={e => setForm(f => ({ ...f, phone: e.target.value }))} placeholder="Phone" className="w-full px-4 py-2.5 bg-background rounded-xl text-sm text-foreground border border-border outline-none" />
-          <input value={form.password} onChange={e => setForm(f => ({ ...f, password: e.target.value }))} placeholder="Password" type="password" className="w-full px-4 py-2.5 bg-background rounded-xl text-sm text-foreground border border-border outline-none" />
-        </div>
-        <div className="flex gap-3 mt-4">
-          <button onClick={onClose} className="flex-1 py-2.5 bg-background text-foreground rounded-xl text-sm">Cancel</button>
-          <button onClick={() => mutation.mutate()} disabled={mutation.isPending || !form.name || !form.email || !form.password} className="flex-1 py-2.5 bg-primary text-primary-foreground rounded-xl text-sm font-semibold disabled:opacity-50">
-            {mutation.isPending ? "Creating..." : "Create"}
-          </button>
-        </div>
-      </motion.div>
-    </motion.div>
+    <div className="bg-card border border-primary/20 rounded-2xl p-6 shadow-lg shadow-primary/5">
+      <div className="flex items-center justify-between mb-5">
+        <h2 className="text-lg font-bold text-foreground">Add Telecaller</h2>
+        <button onClick={onClose} className="p-1.5 rounded-lg hover:bg-muted text-muted-foreground hover:text-foreground transition-colors">
+          <ChevronUp className="w-5 h-5" />
+        </button>
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+        <input value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value }))} placeholder="Full Name" className="w-full px-4 py-2.5 bg-background rounded-xl text-sm text-foreground border border-border outline-none focus:border-primary/40 transition-colors" />
+        <input value={form.email} onChange={e => setForm(f => ({ ...f, email: e.target.value }))} placeholder="Email" type="email" className="w-full px-4 py-2.5 bg-background rounded-xl text-sm text-foreground border border-border outline-none focus:border-primary/40 transition-colors" />
+        <input value={form.phone} onChange={e => setForm(f => ({ ...f, phone: e.target.value }))} placeholder="Phone" className="w-full px-4 py-2.5 bg-background rounded-xl text-sm text-foreground border border-border outline-none focus:border-primary/40 transition-colors" />
+        <input value={form.password} onChange={e => setForm(f => ({ ...f, password: e.target.value }))} placeholder="Password" type="password" className="w-full px-4 py-2.5 bg-background rounded-xl text-sm text-foreground border border-border outline-none focus:border-primary/40 transition-colors" />
+      </div>
+      <div className="flex gap-3 mt-4">
+        <button onClick={onClose} className="flex-1 py-2.5 bg-background text-foreground rounded-xl text-sm border border-border hover:bg-muted transition-colors">Cancel</button>
+        <button onClick={() => mutation.mutate()} disabled={mutation.isPending || !form.name || !form.email || !form.password} className="flex-1 py-2.5 bg-primary text-primary-foreground rounded-xl text-sm font-semibold disabled:opacity-50 hover:opacity-90 transition-opacity">
+          {mutation.isPending ? "Creating..." : "Create"}
+        </button>
+      </div>
+    </div>
   );
 }

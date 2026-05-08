@@ -33,7 +33,7 @@ export default function CustomerHome() {
   });
 
   const activeEnquiries = (enquiries as any[]).filter(e => !["converted", "not_interested"].includes(e.status)).length;
-  const orderCount = (orders as any[]).length;
+  const orderCount = (orders as any[]).filter(o => o.status === "paid" || o.status === "delivered").length;
   const points = (loyaltyPoints as any)?.points || 0;
 
   return (

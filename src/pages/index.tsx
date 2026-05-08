@@ -229,22 +229,39 @@ export default function Index() {
       </section>
 
 
-      {/* Best Sellers */}
+      {/* Latest Products */}
       <section className="py-8 sm:py-10 bg-background">
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6">
           <div className="flex items-center justify-between mb-5">
-            <h2 className="text-lg sm:text-2xl font-bold text-foreground">Best Sellers</h2>
-            <Link to="/category/hp-laptop" className="text-primary text-xs sm:text-sm font-medium hover:underline">View All →</Link>
+            <h2 className="text-lg sm:text-2xl font-bold text-foreground">Latest Products</h2>
+            <Link to="/category/dell-laptop" className="text-primary text-xs sm:text-sm font-medium hover:underline">View All →</Link>
           </div>
-          {isLoading ? <ProductGridSkeleton /> : (
+          {isLoading ? <ProductGridSkeleton count={8} /> : (
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
-              {bestSellers.slice(0, 4).map((product, i) => (
+              {products.slice(0, 8).map((product, i) => (
                 <ProductCard key={product.id} product={product} index={i} />
               ))}
             </div>
           )}
         </div>
       </section>
+
+      {/* Best Sellers */}
+      {bestSellers.length > 0 && (
+        <section className="py-8 sm:py-10 bg-muted/20">
+          <div className="max-w-[1400px] mx-auto px-4 sm:px-6">
+            <div className="flex items-center justify-between mb-5">
+              <h2 className="text-lg sm:text-2xl font-bold text-foreground">Best Sellers</h2>
+              <Link to="/category/hp-laptop" className="text-primary text-xs sm:text-sm font-medium hover:underline">View All →</Link>
+            </div>
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+              {bestSellers.slice(0, 4).map((product, i) => (
+                <ProductCard key={product.id} product={product} index={i} />
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
       {promos.length > 0 && <PromoBannerCard {...promos[0]} />}
       

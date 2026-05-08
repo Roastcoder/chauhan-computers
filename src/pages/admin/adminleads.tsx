@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { api } from "@/integrations/supabase/client";
-import { Plus, Upload, Search, Eye, Trash2 } from "lucide-react";
+import { Plus, Upload, Search, Eye, Trash2, ChevronUp, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { toast } from "sonner";
 
@@ -13,9 +13,9 @@ export default function AdminLeads() {
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
   const [sourceFilter, setSourceFilter] = useState("all");
-  const [showAddModal, setShowAddModal] = useState(false);
-  const [showDetailModal, setShowDetailModal] = useState<any>(null);
-  const [showCsvModal, setShowCsvModal] = useState(false);
+  const [showAddForm, setShowAddForm] = useState(false);
+  const [showDetailLead, setShowDetailLead] = useState<any>(null);
+  const [showCsvForm, setShowCsvForm] = useState(false);
 
   const { data: leads = [], isLoading } = useQuery({
     queryKey: ["admin-leads-list"],
@@ -28,15 +28,15 @@ export default function AdminLeads() {
   });
 
   const { data: remarks = [] } = useQuery({
-    queryKey: ["lead-remarks", showDetailModal?.id],
-    enabled: !!showDetailModal,
-    queryFn: () => api.get(`/remarks?lead_id=${showDetailModal!.id}`),
+    queryKey: ["lead-remarks", showDetailLead?.id],
+    enabled: !!showDetailLead,
+    queryFn: () => api.get(`/remarks?lead_id=${showDetailLead!.id}`),
   });
 
   const { data: callHistory = [] } = useQuery({
-    queryKey: ["lead-calls", showDetailModal?.id],
-    enabled: !!showDetailModal,
-    queryFn: () => api.get(`/calls?lead_id=${showDetailModal!.id}`),
+    queryKey: ["lead-calls", showDetailLead?.id],
+    enabled: !!showDetailLead,
+    queryFn: () => api.get(`/calls?lead_id=${showDetailLead!.id}`),
   });
 
   const assignMutation = useMutation({
@@ -68,14 +68,41 @@ export default function AdminLeads() {
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold text-foreground">Leads Management</h1>
         <div className="flex gap-2">
-          <button onClick={() => setShowCsvModal(true)} className="flex items-center gap-2 px-4 py-2 bg-background text-foreground rounded-xl text-xs font-semibold hover:bg-muted transition-colors">
+          <button onClick={() => { setShowCsvForm(true); setShowAddForm(false); setShowDetailLead(null); window.scrollTo({ top: 0, behavior: "smooth" }); }} className="flex items-center gap-2 px-4 py-2 bg-background text-foreground rounded-xl text-xs font-semibold hover:bg-muted transition-colors">
             <Upload className="w-3.5 h-3.5" /> CSV Upload
           </button>
-          <button onClick={() => setShowAddModal(true)} className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-xl text-xs font-semibold hover:opacity-90 transition-opacity">
+          <button onClick={() => { setShowAddForm(true); setShowCsvForm(false); setShowDetailLead(null); window.scrollTo({ top: 0, behavior: "smooth" }); }} className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-xl text-xs font-semibold hover:opacity-90 transition-opacity">
             <Plus className="w-3.5 h-3.5" /> Add Lead
           </button>
         </div>
       </div>
+
+      {/* Inline Add Lead Form */}
+      <AnimatePresence>
+        {showAddForm && (
+          <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }} className="overflow-hidden">
+            <AddLeadInlineForm onClose={() => setShowAddForm(false)} />
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Inline CSV Upload Form */}
+      <AnimatePresence>
+        {showCsvForm && (
+          <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }} className="overflow-hidden">
+            <CsvUploadInlineForm onClose={() => setShowCsvForm(false)} />
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Inline Lead Detail Panel */}
+      <AnimatePresence>
+        {showDetailLead && (
+          <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }} className="overflow-hidden">
+            <LeadDetailInlinePanel lead={showDetailLead} remarks={remarks} callHistory={callHistory} onClose={() => setShowDetailLead(null)} />
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       <div className="flex flex-wrap gap-3">
         <div className="relative flex-1 min-w-[200px]">
@@ -111,7 +138,7 @@ export default function AdminLeads() {
               {isLoading && <tr><td colSpan={8} className="px-4 py-8 text-center text-muted-foreground">Loading...</td></tr>}
               {!isLoading && filtered.length === 0 && <tr><td colSpan={8} className="px-4 py-8 text-center text-muted-foreground">No leads found</td></tr>}
               {filtered.map((lead: any) => (
-                <tr key={lead.id} className="border-b border-border/50 hover:bg-muted/50 transition-colors">
+                <tr key={lead.id} className={`border-b border-border/50 hover:bg-muted/50 transition-colors ${showDetailLead?.id === lead.id ? "bg-primary/5" : ""}`}>
                   <td className="px-4 py-3 font-medium text-foreground">{lead.name}</td>
                   <td className="px-4 py-3 text-muted-foreground">{lead.phone}</td>
                   <td className="px-4 py-3"><span className="text-[10px] font-semibold px-2 py-1 rounded-full bg-primary/10 text-primary uppercase">{lead.source}</span></td>
@@ -130,7 +157,7 @@ export default function AdminLeads() {
                   <td className="px-4 py-3 text-xs text-muted-foreground">{new Date(lead.created_at).toLocaleDateString()}</td>
                   <td className="px-4 py-3">
                     <div className="flex items-center gap-2">
-                      <button onClick={() => setShowDetailModal(lead)} className="text-primary hover:text-primary/80 transition-colors">
+                      <button onClick={() => { setShowDetailLead(showDetailLead?.id === lead.id ? null : lead); setShowAddForm(false); setShowCsvForm(false); window.scrollTo({ top: 0, behavior: "smooth" }); }} className={`transition-colors ${showDetailLead?.id === lead.id ? "text-primary" : "text-muted-foreground hover:text-primary"}`}>
                         <Eye className="w-4 h-4" />
                       </button>
                       <button onClick={() => { if (confirm('Delete this lead?')) deleteMutation.mutate(lead.id); }} className="text-destructive hover:text-destructive/80 transition-colors">
@@ -144,21 +171,11 @@ export default function AdminLeads() {
           </table>
         </div>
       </div>
-
-      <AnimatePresence>
-        {showAddModal && <AddLeadModal onClose={() => setShowAddModal(false)} />}
-      </AnimatePresence>
-      <AnimatePresence>
-        {showCsvModal && <CsvUploadModal onClose={() => setShowCsvModal(false)} />}
-      </AnimatePresence>
-      <AnimatePresence>
-        {showDetailModal && <LeadDetailModal lead={showDetailModal} remarks={remarks} callHistory={callHistory} onClose={() => setShowDetailModal(null)} />}
-      </AnimatePresence>
     </div>
   );
 }
 
-function AddLeadModal({ onClose }: { onClose: () => void }) {
+function AddLeadInlineForm({ onClose }: { onClose: () => void }) {
   const queryClient = useQueryClient();
   const [form, setForm] = useState({ name: "", phone: "", email: "", product_interest: "", source: "manual", notes: "" });
 
@@ -169,29 +186,34 @@ function AddLeadModal({ onClose }: { onClose: () => void }) {
   });
 
   return (
-    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-6" onClick={onClose}>
-      <motion.div initial={{ scale: 0.95 }} animate={{ scale: 1 }} exit={{ scale: 0.95 }} className="bg-card border border-border rounded-2xl p-6 w-full max-w-md" onClick={e => e.stopPropagation()}>
-        <h2 className="text-lg font-bold text-foreground mb-4">Add New Lead</h2>
-        <div className="space-y-3">
-          <input value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value }))} placeholder="Name *" className="w-full px-4 py-2.5 bg-background rounded-xl text-sm text-foreground border border-border outline-none" />
-          <input value={form.phone} onChange={e => setForm(f => ({ ...f, phone: e.target.value }))} placeholder="Phone *" className="w-full px-4 py-2.5 bg-background rounded-xl text-sm text-foreground border border-border outline-none" />
-          <input value={form.email} onChange={e => setForm(f => ({ ...f, email: e.target.value }))} placeholder="Email" className="w-full px-4 py-2.5 bg-background rounded-xl text-sm text-foreground border border-border outline-none" />
-          <input value={form.product_interest} onChange={e => setForm(f => ({ ...f, product_interest: e.target.value }))} placeholder="Product Interest" className="w-full px-4 py-2.5 bg-background rounded-xl text-sm text-foreground border border-border outline-none" />
-          <select value={form.source} onChange={e => setForm(f => ({ ...f, source: e.target.value }))} className="w-full px-4 py-2.5 bg-background rounded-xl text-sm text-foreground border border-border outline-none">
-            {["meta", "google", "manual", "website", "whatsapp"].map(s => <option key={s} value={s}>{s}</option>)}
-          </select>
-          <textarea value={form.notes} onChange={e => setForm(f => ({ ...f, notes: e.target.value }))} placeholder="Notes" rows={3} className="w-full px-4 py-2.5 bg-background rounded-xl text-sm text-foreground border border-border outline-none resize-none" />
+    <div className="bg-card border border-primary/20 rounded-2xl p-6 shadow-lg shadow-primary/5">
+      <div className="flex items-center justify-between mb-5">
+        <h2 className="text-lg font-bold text-foreground">Add New Lead</h2>
+        <button onClick={onClose} className="p-1.5 rounded-lg hover:bg-muted text-muted-foreground hover:text-foreground transition-colors">
+          <ChevronUp className="w-5 h-5" />
+        </button>
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+        <input value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value }))} placeholder="Name *" className="w-full px-4 py-2.5 bg-background rounded-xl text-sm text-foreground border border-border outline-none focus:border-primary/40 transition-colors" />
+        <input value={form.phone} onChange={e => setForm(f => ({ ...f, phone: e.target.value }))} placeholder="Phone *" className="w-full px-4 py-2.5 bg-background rounded-xl text-sm text-foreground border border-border outline-none focus:border-primary/40 transition-colors" />
+        <input value={form.email} onChange={e => setForm(f => ({ ...f, email: e.target.value }))} placeholder="Email" className="w-full px-4 py-2.5 bg-background rounded-xl text-sm text-foreground border border-border outline-none focus:border-primary/40 transition-colors" />
+        <input value={form.product_interest} onChange={e => setForm(f => ({ ...f, product_interest: e.target.value }))} placeholder="Product Interest" className="w-full px-4 py-2.5 bg-background rounded-xl text-sm text-foreground border border-border outline-none focus:border-primary/40 transition-colors" />
+        <select value={form.source} onChange={e => setForm(f => ({ ...f, source: e.target.value }))} className="w-full px-4 py-2.5 bg-background rounded-xl text-sm text-foreground border border-border outline-none">
+          {["meta", "google", "manual", "website", "whatsapp"].map(s => <option key={s} value={s}>{s}</option>)}
+        </select>
+        <div className="md:col-span-2">
+          <textarea value={form.notes} onChange={e => setForm(f => ({ ...f, notes: e.target.value }))} placeholder="Notes" rows={3} className="w-full px-4 py-2.5 bg-background rounded-xl text-sm text-foreground border border-border outline-none resize-none focus:border-primary/40 transition-colors" />
         </div>
-        <div className="flex gap-3 mt-4">
-          <button onClick={onClose} className="flex-1 py-2.5 bg-background text-foreground rounded-xl text-sm font-medium">Cancel</button>
-          <button onClick={() => mutation.mutate()} disabled={!form.name || !form.phone} className="flex-1 py-2.5 bg-primary text-primary-foreground rounded-xl text-sm font-semibold disabled:opacity-50">Save Lead</button>
-        </div>
-      </motion.div>
-    </motion.div>
+      </div>
+      <div className="flex gap-3 mt-4">
+        <button onClick={onClose} className="flex-1 py-2.5 bg-background text-foreground rounded-xl text-sm font-medium border border-border hover:bg-muted transition-colors">Cancel</button>
+        <button onClick={() => mutation.mutate()} disabled={!form.name || !form.phone} className="flex-1 py-2.5 bg-primary text-primary-foreground rounded-xl text-sm font-semibold disabled:opacity-50 hover:opacity-90 transition-opacity">Save Lead</button>
+      </div>
+    </div>
   );
 }
 
-function CsvUploadModal({ onClose }: { onClose: () => void }) {
+function CsvUploadInlineForm({ onClose }: { onClose: () => void }) {
   const queryClient = useQueryClient();
   const [rows, setRows] = useState<any[]>([]);
   const [headers, setHeaders] = useState<string[]>([]);
@@ -224,63 +246,74 @@ function CsvUploadModal({ onClose }: { onClose: () => void }) {
   };
 
   return (
-    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-6" onClick={onClose}>
-      <motion.div initial={{ scale: 0.95 }} animate={{ scale: 1 }} exit={{ scale: 0.95 }} className="bg-card border border-border rounded-2xl p-6 w-full max-w-lg" onClick={e => e.stopPropagation()}>
-        <h2 className="text-lg font-bold text-foreground mb-4">CSV Upload</h2>
-        <input type="file" accept=".csv" onChange={handleFile} className="text-sm text-foreground mb-4" />
-        {rows.length > 0 && (
-          <>
-            <p className="text-xs text-muted-foreground mb-2">{rows.length} rows found. Columns: {headers.join(", ")}</p>
-            <div className="max-h-40 overflow-y-auto bg-background rounded-xl p-3 mb-4">
-              {rows.slice(0, 5).map((r, i) => <p key={i} className="text-xs text-foreground truncate">{JSON.stringify(r)}</p>)}
-            </div>
-            <button onClick={handleImport} className="w-full py-2.5 bg-primary text-primary-foreground rounded-xl text-sm font-semibold">Import {rows.length} Leads</button>
-          </>
-        )}
-        <button onClick={onClose} className="w-full mt-2 py-2.5 bg-background text-foreground rounded-xl text-sm">Cancel</button>
-      </motion.div>
-    </motion.div>
+    <div className="bg-card border border-primary/20 rounded-2xl p-6 shadow-lg shadow-primary/5">
+      <div className="flex items-center justify-between mb-5">
+        <h2 className="text-lg font-bold text-foreground">CSV Upload</h2>
+        <button onClick={onClose} className="p-1.5 rounded-lg hover:bg-muted text-muted-foreground hover:text-foreground transition-colors">
+          <ChevronUp className="w-5 h-5" />
+        </button>
+      </div>
+      <input type="file" accept=".csv" onChange={handleFile} className="text-sm text-foreground mb-4 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-primary/10 file:text-primary hover:file:bg-primary/20" />
+      {rows.length > 0 && (
+        <>
+          <p className="text-xs text-muted-foreground mb-2">{rows.length} rows found. Columns: {headers.join(", ")}</p>
+          <div className="max-h-40 overflow-y-auto bg-background rounded-xl p-3 mb-4 border border-border">
+            {rows.slice(0, 5).map((r, i) => <p key={i} className="text-xs text-foreground truncate">{JSON.stringify(r)}</p>)}
+          </div>
+          <button onClick={handleImport} className="w-full py-2.5 bg-primary text-primary-foreground rounded-xl text-sm font-semibold hover:opacity-90 transition-opacity">Import {rows.length} Leads</button>
+        </>
+      )}
+      <button onClick={onClose} className="w-full mt-2 py-2.5 bg-background text-foreground rounded-xl text-sm border border-border hover:bg-muted transition-colors">Cancel</button>
+    </div>
   );
 }
 
-function LeadDetailModal({ lead, remarks, callHistory, onClose }: { lead: any; remarks: any[]; callHistory: any[]; onClose: () => void }) {
+function LeadDetailInlinePanel({ lead, remarks, callHistory, onClose }: { lead: any; remarks: any[]; callHistory: any[]; onClose: () => void }) {
   return (
-    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-6" onClick={onClose}>
-      <motion.div initial={{ scale: 0.95 }} animate={{ scale: 1 }} exit={{ scale: 0.95 }} className="bg-card border border-border rounded-2xl p-6 w-full max-w-lg max-h-[80vh] overflow-y-auto" onClick={e => e.stopPropagation()}>
-        <h2 className="text-lg font-bold text-foreground mb-4">{lead.name}</h2>
-        <div className="grid grid-cols-2 gap-3 mb-6">
-          <div><p className="text-[10px] text-muted-foreground">Phone</p><p className="text-sm text-foreground">{lead.phone}</p></div>
-          <div><p className="text-[10px] text-muted-foreground">Email</p><p className="text-sm text-foreground">{lead.email || "—"}</p></div>
-          <div><p className="text-[10px] text-muted-foreground">Source</p><p className="text-sm text-primary uppercase font-semibold">{lead.source}</p></div>
-          <div><p className="text-[10px] text-muted-foreground">Status</p><p className="text-sm text-foreground capitalize">{lead.status.replace("_", " ")}</p></div>
-          <div><p className="text-[10px] text-muted-foreground">Product</p><p className="text-sm text-foreground">{lead.product_interest || "—"}</p></div>
-          <div><p className="text-[10px] text-muted-foreground">Created</p><p className="text-sm text-foreground">{new Date(lead.created_at).toLocaleDateString()}</p></div>
-        </div>
-        <h3 className="text-sm font-semibold text-foreground mb-2">Call History</h3>
-        <div className="space-y-2 mb-4">
-          {callHistory.length === 0 && <p className="text-xs text-muted-foreground">No calls recorded</p>}
-          {callHistory.map((c: any) => (
-            <div key={c.id} className="bg-background rounded-lg p-3">
-              <div className="flex justify-between">
-                <span className="text-xs font-semibold text-foreground capitalize">{c.outcome.replace("_", " ")}</span>
-                <span className="text-[10px] text-muted-foreground">{new Date(c.created_at).toLocaleString()}</span>
+    <div className="bg-card border border-primary/20 rounded-2xl p-6 shadow-lg shadow-primary/5">
+      <div className="flex items-center justify-between mb-5">
+        <h2 className="text-lg font-bold text-foreground">{lead.name}</h2>
+        <button onClick={onClose} className="p-1.5 rounded-lg hover:bg-muted text-muted-foreground hover:text-foreground transition-colors">
+          <X className="w-5 h-5" />
+        </button>
+      </div>
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6">
+        <div><p className="text-[10px] text-muted-foreground mb-1">Phone</p><p className="text-sm text-foreground font-medium">{lead.phone}</p></div>
+        <div><p className="text-[10px] text-muted-foreground mb-1">Email</p><p className="text-sm text-foreground">{lead.email || "—"}</p></div>
+        <div><p className="text-[10px] text-muted-foreground mb-1">Source</p><p className="text-sm text-primary uppercase font-semibold">{lead.source}</p></div>
+        <div><p className="text-[10px] text-muted-foreground mb-1">Status</p><p className="text-sm text-foreground capitalize">{lead.status.replace("_", " ")}</p></div>
+        <div><p className="text-[10px] text-muted-foreground mb-1">Product</p><p className="text-sm text-foreground">{lead.product_interest || "—"}</p></div>
+        <div><p className="text-[10px] text-muted-foreground mb-1">Created</p><p className="text-sm text-foreground">{new Date(lead.created_at).toLocaleDateString()}</p></div>
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div>
+          <h3 className="text-sm font-semibold text-foreground mb-3">Call History</h3>
+          <div className="space-y-2 max-h-60 overflow-y-auto">
+            {callHistory.length === 0 && <p className="text-xs text-muted-foreground">No calls recorded</p>}
+            {callHistory.map((c: any) => (
+              <div key={c.id} className="bg-background rounded-lg p-3 border border-border/50">
+                <div className="flex justify-between">
+                  <span className="text-xs font-semibold text-foreground capitalize">{c.outcome.replace("_", " ")}</span>
+                  <span className="text-[10px] text-muted-foreground">{new Date(c.created_at).toLocaleString()}</span>
+                </div>
+                {c.remarks && <p className="text-xs text-muted-foreground mt-1">{c.remarks}</p>}
               </div>
-              {c.remarks && <p className="text-xs text-muted-foreground mt-1">{c.remarks}</p>}
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
-        <h3 className="text-sm font-semibold text-foreground mb-2">Remarks Timeline</h3>
-        <div className="space-y-2 mb-4">
-          {remarks.length === 0 && <p className="text-xs text-muted-foreground">No remarks</p>}
-          {remarks.map((r: any) => (
-            <div key={r.id} className="bg-background rounded-lg p-3">
-              <p className="text-xs text-foreground">{r.remark}</p>
-              <p className="text-[10px] text-muted-foreground mt-1">{new Date(r.created_at).toLocaleString()}</p>
-            </div>
-          ))}
+        <div>
+          <h3 className="text-sm font-semibold text-foreground mb-3">Remarks Timeline</h3>
+          <div className="space-y-2 max-h-60 overflow-y-auto">
+            {remarks.length === 0 && <p className="text-xs text-muted-foreground">No remarks</p>}
+            {remarks.map((r: any) => (
+              <div key={r.id} className="bg-background rounded-lg p-3 border border-border/50">
+                <p className="text-xs text-foreground">{r.remark}</p>
+                <p className="text-[10px] text-muted-foreground mt-1">{new Date(r.created_at).toLocaleString()}</p>
+              </div>
+            ))}
+          </div>
         </div>
-        <button onClick={onClose} className="w-full py-2.5 bg-background text-foreground rounded-xl text-sm">Close</button>
-      </motion.div>
-    </motion.div>
+      </div>
+    </div>
   );
 }

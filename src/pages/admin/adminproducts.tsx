@@ -1,7 +1,7 @@
 import { useState, useRef } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { api } from "@/integrations/supabase/client";
-import { Plus, Pencil, Trash2, Upload, X, Image, Search, Eye, EyeOff, AlertTriangle } from "lucide-react";
+import { Plus, Pencil, Trash2, Upload, X, Image, Search, Eye, EyeOff, AlertTriangle, ChevronUp } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { toast } from "sonner";
 import { accessorySubtypes } from "@/lib/data";
@@ -19,7 +19,7 @@ const CATEGORIES = [
 
 export default function AdminProducts() {
   const queryClient = useQueryClient();
-  const [showModal, setShowModal] = useState(false);
+  const [showForm, setShowForm] = useState(false);
   const [editProduct, setEditProduct] = useState<any>(null);
   const [search, setSearch] = useState("");
   const [catFilter, setCatFilter] = useState("all");
@@ -62,14 +62,45 @@ export default function AdminProducts() {
 
   const catLabel = (cat: string) => CATEGORIES.find(c => c.value === cat)?.label ?? cat;
 
+  const openNewForm = () => {
+    setEditProduct(null);
+    setShowForm(true);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const openEditForm = (product: any) => {
+    setEditProduct(product);
+    setShowForm(true);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const closeForm = () => {
+    setShowForm(false);
+    setEditProduct(null);
+  };
+
   return (
     <div className="space-y-5">
       <div className="flex items-center justify-between">
         <h1 className="text-xl font-bold text-foreground">Products</h1>
-        <button onClick={() => { setEditProduct(null); setShowModal(true); }} className="flex items-center gap-2 px-3 py-1.5 bg-primary text-primary-foreground rounded-lg text-[11px] font-bold">
+        <button onClick={openNewForm} className="flex items-center gap-2 px-3 py-1.5 bg-primary text-primary-foreground rounded-lg text-[11px] font-bold">
           <Plus className="w-3 h-3" /> Add Product
         </button>
       </div>
+
+      {/* Inline Form */}
+      <AnimatePresence>
+        {showForm && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            className="overflow-hidden"
+          >
+            <ProductInlineForm product={editProduct} onClose={closeForm} />
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {(lowStockCount > 0 || outOfStockCount > 0) && (
         <div className="flex flex-wrap gap-2">
@@ -108,18 +139,14 @@ export default function AdminProducts() {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {isLoading && <p className="text-muted-foreground col-span-3">Loading...</p>}
         {filtered.map((product: any) => (
-          <ProductCardInline key={product.id} product={product} lowStockThreshold={lowStockThreshold} toggleActive={toggleActive} deleteMutation={deleteMutation} setEditProduct={setEditProduct} setShowModal={setShowModal} catLabel={catLabel} />
+          <ProductCardInline key={product.id} product={product} lowStockThreshold={lowStockThreshold} toggleActive={toggleActive} deleteMutation={deleteMutation} onEdit={openEditForm} catLabel={catLabel} />
         ))}
       </div>
-
-      <AnimatePresence>
-        {showModal && <ProductModal product={editProduct} onClose={() => setShowModal(false)} />}
-      </AnimatePresence>
     </div>
   );
 }
 
-function ProductCardInline({ product, lowStockThreshold, toggleActive, deleteMutation, setEditProduct, setShowModal, catLabel }: any) {
+function ProductCardInline({ product, lowStockThreshold, toggleActive, deleteMutation, onEdit, catLabel }: any) {
   const queryClient = useQueryClient();
   const [isEditingPrice, setIsEditingPrice] = useState(false);
   const [isEditingStock, setIsEditingStock] = useState(false);
@@ -222,7 +249,7 @@ function ProductCardInline({ product, lowStockThreshold, toggleActive, deleteMut
         </div>
 
         <div className="flex gap-2">
-          <button onClick={() => { setEditProduct(product); setShowModal(true); }} className="flex-1 flex items-center justify-center gap-1 py-2 bg-background rounded-lg text-xs text-foreground hover:bg-muted transition-colors">
+          <button onClick={() => onEdit(product)} className="flex-1 flex items-center justify-center gap-1 py-2 bg-background rounded-lg text-xs text-foreground hover:bg-muted transition-colors">
             <Pencil className="w-3 h-3" /> Edit
           </button>
           <button onClick={() => toggleActive.mutate({ id: product.id, is_active: product.is_active })} className={`flex items-center justify-center gap-1 py-2 px-3 rounded-lg text-xs transition-colors ${product.is_active ? "bg-primary/10 text-primary hover:bg-primary/20" : "bg-muted text-muted-foreground hover:bg-muted/80"}`}>
@@ -237,7 +264,7 @@ function ProductCardInline({ product, lowStockThreshold, toggleActive, deleteMut
   );
 }
 
-function ProductModal({ product, onClose }: { product: any; onClose: () => void }) {
+function ProductInlineForm({ product, onClose }: { product: any; onClose: () => void }) {
   const queryClient = useQueryClient();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [uploading, setUploading] = useState(false);
@@ -283,11 +310,16 @@ function ProductModal({ product, onClose }: { product: any; onClose: () => void 
   });
 
   return (
-    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-6" onClick={onClose}>
-      <motion.div initial={{ scale: 0.95 }} animate={{ scale: 1 }} exit={{ scale: 0.95 }} className="bg-card border border-border rounded-2xl p-6 w-full max-w-lg max-h-[90vh] overflow-y-auto" onClick={e => e.stopPropagation()}>
-        <h2 className="text-lg font-bold text-foreground mb-4">{product ? "Edit Product" : "Add Product"}</h2>
-        <div className="space-y-3">
-          <input value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value }))} placeholder="Product Name *" className="w-full px-4 py-2.5 bg-background rounded-xl text-sm text-foreground border border-border outline-none" />
+    <div className="bg-card border border-primary/20 rounded-2xl p-6 shadow-lg shadow-primary/5">
+      <div className="flex items-center justify-between mb-5">
+        <h2 className="text-lg font-bold text-foreground">{product ? "Edit Product" : "Add Product"}</h2>
+        <button onClick={onClose} className="p-1.5 rounded-lg hover:bg-muted text-muted-foreground hover:text-foreground transition-colors">
+          <ChevronUp className="w-5 h-5" />
+        </button>
+      </div>
+      <div className="space-y-3">
+        <input value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value }))} placeholder="Product Name *" className="w-full px-4 py-2.5 bg-background rounded-xl text-sm text-foreground border border-border outline-none focus:border-primary/40 transition-colors" />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           <select value={form.category} onChange={e => setForm(f => ({ ...f, category: e.target.value }))} className="w-full px-4 py-2.5 bg-background rounded-xl text-sm text-foreground border border-border outline-none">
             <option value="dell-laptop">Dell Laptop</option>
             <option value="hp-laptop">HP Laptop</option>
@@ -302,46 +334,56 @@ function ProductModal({ product, onClose }: { product: any; onClose: () => void 
             </optgroup>
           </select>
           <input value={form.brand} onChange={e => setForm(f => ({ ...f, brand: e.target.value }))} placeholder="Brand" className="w-full px-4 py-2.5 bg-background rounded-xl text-sm text-foreground border border-border outline-none" />
-          <div className="grid grid-cols-2 gap-3">
-            <input type="text" value={form.price} onChange={e => setForm(f => ({ ...f, price: e.target.value }))} placeholder="Price (₹)" className="w-full px-4 py-2.5 bg-background rounded-xl text-sm text-foreground border border-border outline-none" />
-            <input type="text" value={form.original_price} onChange={e => setForm(f => ({ ...f, original_price: e.target.value }))} placeholder="Original Price (₹)" className="w-full px-4 py-2.5 bg-background rounded-xl text-sm text-foreground border border-border outline-none" />
-          </div>
-          <div className="grid grid-cols-2 gap-3">
-            <input type="number" value={form.stock_quantity} onChange={e => setForm(f => ({ ...f, stock_quantity: Number(e.target.value) }))} placeholder="Stock Qty" className="w-full px-4 py-2.5 bg-background rounded-xl text-sm text-foreground border border-border outline-none" />
-            <input value={form.badge} onChange={e => setForm(f => ({ ...f, badge: e.target.value }))} placeholder="Badge (e.g. Popular, New)" className="w-full px-4 py-2.5 bg-background rounded-xl text-sm text-foreground border border-border outline-none" />
-          </div>
-          <textarea value={form.description} onChange={e => setForm(f => ({ ...f, description: e.target.value }))} placeholder="Description" rows={3} className="w-full px-4 py-2.5 bg-background rounded-xl text-sm text-foreground border border-border outline-none resize-none" />
-          <label className="flex items-center gap-2 text-sm text-foreground cursor-pointer">
-            <input type="checkbox" checked={form.is_active} onChange={e => setForm(f => ({ ...f, is_active: e.target.checked }))} className="rounded" />
-            Active (visible on website)
-          </label>
-          <div>
-            <label className="text-xs font-medium text-muted-foreground mb-2 block">Product Images</label>
-            <div className="flex flex-wrap gap-2">
-              {imageUrls.map((url, i) => (
-                <div key={i} className="relative w-20 h-20 rounded-lg overflow-hidden border border-border group">
-                  <img src={url} alt="" className="w-full h-full object-cover" />
-                  <button type="button" onClick={() => setImageUrls(prev => prev.filter((_, j) => j !== i))} className="absolute top-0.5 right-0.5 w-5 h-5 bg-destructive text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                    <X className="w-3 h-3" />
-                  </button>
-                </div>
-              ))}
-              <button type="button" onClick={() => fileInputRef.current?.click()} disabled={uploading} className="w-20 h-20 rounded-lg border-2 border-dashed border-border hover:border-primary/40 flex flex-col items-center justify-center gap-1 text-muted-foreground hover:text-primary transition-colors bg-muted/20">
-                <Upload className="w-4 h-4" />
-                <span className="text-[10px] font-semibold">{uploading ? "..." : "Upload"}</span>
-              </button>
-            </div>
-            <p className="text-[10px] text-muted-foreground mt-2 italic">Images are uploaded directly to the server</p>
-            <input ref={fileInputRef} type="file" accept="image/*" multiple onChange={handleImageUpload} className="hidden" />
-          </div>
         </div>
-        <div className="flex gap-3 mt-4">
-          <button onClick={onClose} className="flex-1 py-2.5 bg-background text-foreground rounded-xl text-sm border border-border">Cancel</button>
-          <button onClick={() => mutation.mutate()} disabled={!form.name || mutation.isPending} className="flex-1 py-2.5 bg-primary text-primary-foreground rounded-xl text-sm font-semibold disabled:opacity-50">
-            {mutation.isPending ? "Saving..." : "Save"}
-          </button>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+          <input type="text" value={form.price} onChange={e => setForm(f => ({ ...f, price: e.target.value }))} placeholder="Price (₹)" className="w-full px-4 py-2.5 bg-background rounded-xl text-sm text-foreground border border-border outline-none" />
+          <input type="text" value={form.original_price} onChange={e => setForm(f => ({ ...f, original_price: e.target.value }))} placeholder="Original Price (₹)" className="w-full px-4 py-2.5 bg-background rounded-xl text-sm text-foreground border border-border outline-none" />
+          <input type="number" value={form.stock_quantity} onChange={e => setForm(f => ({ ...f, stock_quantity: Number(e.target.value) }))} placeholder="Stock Qty" className="w-full px-4 py-2.5 bg-background rounded-xl text-sm text-foreground border border-border outline-none" />
+          <select 
+            value={form.badge} 
+            onChange={e => setForm(f => ({ ...f, badge: e.target.value }))} 
+            className="w-full px-4 py-2.5 bg-background rounded-xl text-sm text-foreground border border-border outline-none focus:border-primary/40 transition-colors"
+          >
+            <option value="">No Badge</option>
+            <option value="Popular">Popular</option>
+            <option value="New Arrival">New Arrival</option>
+            <option value="Best Seller">Best Seller</option>
+            <option value="Limited Offer">Limited Offer</option>
+            <option value="Trending">Trending</option>
+            <option value="Refurbished">Refurbished</option>
+          </select>
         </div>
-      </motion.div>
-    </motion.div>
+        <textarea value={form.description} onChange={e => setForm(f => ({ ...f, description: e.target.value }))} placeholder="Description" rows={3} className="w-full px-4 py-2.5 bg-background rounded-xl text-sm text-foreground border border-border outline-none resize-none" />
+        <label className="flex items-center gap-2 text-sm text-foreground cursor-pointer">
+          <input type="checkbox" checked={form.is_active} onChange={e => setForm(f => ({ ...f, is_active: e.target.checked }))} className="rounded" />
+          Active (visible on website)
+        </label>
+        <div>
+          <label className="text-xs font-medium text-muted-foreground mb-2 block">Product Images</label>
+          <div className="flex flex-wrap gap-2">
+            {imageUrls.map((url, i) => (
+              <div key={i} className="relative w-20 h-20 rounded-lg overflow-hidden border border-border group">
+                <img src={url} alt="" className="w-full h-full object-cover" />
+                <button type="button" onClick={() => setImageUrls(prev => prev.filter((_, j) => j !== i))} className="absolute top-0.5 right-0.5 w-5 h-5 bg-destructive text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                  <X className="w-3 h-3" />
+                </button>
+              </div>
+            ))}
+            <button type="button" onClick={() => fileInputRef.current?.click()} disabled={uploading} className="w-20 h-20 rounded-lg border-2 border-dashed border-border hover:border-primary/40 flex flex-col items-center justify-center gap-1 text-muted-foreground hover:text-primary transition-colors bg-muted/20">
+              <Upload className="w-4 h-4" />
+              <span className="text-[10px] font-semibold">{uploading ? "..." : "Upload"}</span>
+            </button>
+          </div>
+          <p className="text-[10px] text-muted-foreground mt-2 italic">Images are uploaded directly to the server</p>
+          <input ref={fileInputRef} type="file" accept="image/*" multiple onChange={handleImageUpload} className="hidden" />
+        </div>
+      </div>
+      <div className="flex gap-3 mt-5">
+        <button onClick={onClose} className="flex-1 py-2.5 bg-background text-foreground rounded-xl text-sm border border-border hover:bg-muted transition-colors">Cancel</button>
+        <button onClick={() => mutation.mutate()} disabled={!form.name || mutation.isPending} className="flex-1 py-2.5 bg-primary text-primary-foreground rounded-xl text-sm font-semibold disabled:opacity-50 hover:opacity-90 transition-opacity">
+          {mutation.isPending ? "Saving..." : "Save"}
+        </button>
+      </div>
+    </div>
   );
 }

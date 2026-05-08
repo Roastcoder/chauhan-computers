@@ -6,17 +6,17 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { 
   Plus, Search, Edit2, Trash2, Globe, Lock, Loader2, 
-  LayoutList, FileText, Image as ImageIcon, User, Tag, Calendar
+  LayoutList, FileText, Image as ImageIcon, User, Tag, Calendar, ChevronUp
 } from "lucide-react";
 import { toast } from "sonner";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { motion, AnimatePresence } from "framer-motion";
 
 export default function AdminBlogs() {
   const { data: blogs = [], isLoading, refetch } = useAdminBlogs();
   const [search, setSearch] = useState("");
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [showForm, setShowForm] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [editingBlog, setEditingBlog] = useState<any>(null);
 
@@ -43,6 +43,7 @@ export default function AdminBlogs() {
       status: "published"
     });
     setEditingBlog(null);
+    setShowForm(false);
   };
 
   const handleEdit = (blog: any) => {
@@ -55,7 +56,8 @@ export default function AdminBlogs() {
       author: blog.author,
       status: blog.status
     });
-    setIsDialogOpen(true);
+    setShowForm(true);
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const handleDelete = async (id: string) => {
@@ -80,7 +82,6 @@ export default function AdminBlogs() {
         await api.post("/blogs", formData);
         toast.success("Blog created successfully");
       }
-      setIsDialogOpen(false);
       resetForm();
       refetch();
     } catch (err) {
@@ -98,104 +99,117 @@ export default function AdminBlogs() {
           <p className="text-muted-foreground">Create and manage your technical articles and news.</p>
         </div>
         
-        <Dialog open={isDialogOpen} onOpenChange={(open) => {
-          setIsDialogOpen(open);
-          if (!open) resetForm();
-        }}>
-          <DialogTrigger asChild>
-            <Button className="rounded-xl h-11 px-6 shadow-lg shadow-primary/10">
-              <Plus className="w-4 h-4 mr-2" /> New Blog Post
-            </Button>
-          </DialogTrigger>
-          <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto rounded-[2rem]">
-            <DialogHeader>
-              <DialogTitle className="text-xl font-bold">{editingBlog ? "Edit Blog Post" : "Create New Blog Post"}</DialogTitle>
-            </DialogHeader>
-            <form onSubmit={handleSubmit} className="space-y-5 py-4">
-              <div className="space-y-2">
-                <label className="text-xs font-bold uppercase tracking-wider text-muted-foreground ml-1">Title</label>
-                <div className="relative">
-                  <LayoutList className="absolute left-3 top-3 w-4 h-4 text-muted-foreground" />
-                  <Input 
-                    required 
-                    placeholder="Enter blog title..." 
-                    className="pl-10 h-11 rounded-xl bg-slate-50 border-transparent focus:bg-white focus:ring-2 focus:ring-primary/20 transition-all"
-                    value={formData.title}
-                    onChange={e => setFormData({...formData, title: e.target.value})}
-                  />
-                </div>
-              </div>
+        <Button onClick={() => { resetForm(); setShowForm(true); window.scrollTo({ top: 0, behavior: "smooth" }); }} className="rounded-xl h-11 px-6 shadow-lg shadow-primary/10">
+          <Plus className="w-4 h-4 mr-2" /> New Blog Post
+        </Button>
+      </div>
 
-              <div className="grid grid-cols-2 gap-4">
+      {/* Inline Form */}
+      <AnimatePresence>
+        {showForm && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            className="overflow-hidden"
+          >
+            <div className="bg-card border border-primary/20 rounded-2xl p-6 shadow-lg shadow-primary/5">
+              <div className="flex items-center justify-between mb-5">
+                <h2 className="text-xl font-bold">{editingBlog ? "Edit Blog Post" : "Create New Blog Post"}</h2>
+                <button onClick={resetForm} className="p-1.5 rounded-lg hover:bg-muted text-muted-foreground hover:text-foreground transition-colors">
+                  <ChevronUp className="w-5 h-5" />
+                </button>
+              </div>
+              <form onSubmit={handleSubmit} className="space-y-5">
                 <div className="space-y-2">
-                  <label className="text-xs font-bold uppercase tracking-wider text-muted-foreground ml-1">Status</label>
-                  <select 
-                    className="w-full h-11 rounded-xl bg-slate-50 border-transparent focus:bg-white focus:ring-2 focus:ring-primary/20 transition-all px-4 text-sm"
-                    value={formData.status}
-                    onChange={e => setFormData({...formData, status: e.target.value})}
-                  >
-                    <option value="published">Published</option>
-                    <option value="draft">Draft</option>
-                  </select>
-                </div>
-                <div className="space-y-2">
-                  <label className="text-xs font-bold uppercase tracking-wider text-muted-foreground ml-1">Author</label>
+                  <label className="text-xs font-bold uppercase tracking-wider text-muted-foreground ml-1">Title</label>
                   <div className="relative">
-                    <User className="absolute left-3 top-3 w-4 h-4 text-muted-foreground" />
+                    <LayoutList className="absolute left-3 top-3 w-4 h-4 text-muted-foreground" />
                     <Input 
-                      placeholder="Admin Name" 
-                      className="pl-10 h-11 rounded-xl bg-slate-50 border-transparent focus:bg-white focus:ring-2 focus:ring-primary/20 transition-all"
-                      value={formData.author}
-                      onChange={e => setFormData({...formData, author: e.target.value})}
+                      required 
+                      placeholder="Enter blog title..." 
+                      className="pl-10 h-11 rounded-xl bg-background border-border focus:ring-2 focus:ring-primary/20 transition-all"
+                      value={formData.title}
+                      onChange={e => setFormData({...formData, title: e.target.value})}
                     />
                   </div>
                 </div>
-              </div>
 
-              <div className="space-y-2">
-                <label className="text-xs font-bold uppercase tracking-wider text-muted-foreground ml-1">Featured Image URL</label>
-                <div className="relative">
-                  <ImageIcon className="absolute left-3 top-3 w-4 h-4 text-muted-foreground" />
-                  <Input 
-                    placeholder="https://..." 
-                    className="pl-10 h-11 rounded-xl bg-slate-50 border-transparent focus:bg-white focus:ring-2 focus:ring-primary/20 transition-all"
-                    value={formData.featured_image}
-                    onChange={e => setFormData({...formData, featured_image: e.target.value})}
-                  />
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <label className="text-xs font-bold uppercase tracking-wider text-muted-foreground ml-1">Status</label>
+                    <select 
+                      className="w-full h-11 rounded-xl bg-background border border-border focus:ring-2 focus:ring-primary/20 transition-all px-4 text-sm outline-none"
+                      value={formData.status}
+                      onChange={e => setFormData({...formData, status: e.target.value})}
+                    >
+                      <option value="published">Published</option>
+                      <option value="draft">Draft</option>
+                    </select>
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-xs font-bold uppercase tracking-wider text-muted-foreground ml-1">Author</label>
+                    <div className="relative">
+                      <User className="absolute left-3 top-3 w-4 h-4 text-muted-foreground" />
+                      <Input 
+                        placeholder="Admin Name" 
+                        className="pl-10 h-11 rounded-xl bg-background border-border focus:ring-2 focus:ring-primary/20 transition-all"
+                        value={formData.author}
+                        onChange={e => setFormData({...formData, author: e.target.value})}
+                      />
+                    </div>
+                  </div>
                 </div>
-              </div>
 
-              <div className="space-y-2">
-                <label className="text-xs font-bold uppercase tracking-wider text-muted-foreground ml-1">Short Excerpt</label>
-                <div className="relative">
-                  <FileText className="absolute left-3 top-3 w-4 h-4 text-muted-foreground" />
+                <div className="space-y-2">
+                  <label className="text-xs font-bold uppercase tracking-wider text-muted-foreground ml-1">Featured Image URL</label>
+                  <div className="relative">
+                    <ImageIcon className="absolute left-3 top-3 w-4 h-4 text-muted-foreground" />
+                    <Input 
+                      placeholder="https://..." 
+                      className="pl-10 h-11 rounded-xl bg-background border-border focus:ring-2 focus:ring-primary/20 transition-all"
+                      value={formData.featured_image}
+                      onChange={e => setFormData({...formData, featured_image: e.target.value})}
+                    />
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-xs font-bold uppercase tracking-wider text-muted-foreground ml-1">Short Excerpt</label>
+                  <div className="relative">
+                    <FileText className="absolute left-3 top-3 w-4 h-4 text-muted-foreground" />
+                    <Textarea 
+                      placeholder="Brief summary for list view..." 
+                      className="pl-10 min-h-[80px] rounded-xl bg-background border-border focus:ring-2 focus:ring-primary/20 transition-all"
+                      value={formData.excerpt}
+                      onChange={e => setFormData({...formData, excerpt: e.target.value})}
+                    />
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-xs font-bold uppercase tracking-wider text-muted-foreground ml-1">Content (HTML allowed)</label>
                   <Textarea 
-                    placeholder="Brief summary for list view..." 
-                    className="pl-10 min-h-[80px] rounded-xl bg-slate-50 border-transparent focus:bg-white focus:ring-2 focus:ring-primary/20 transition-all"
-                    value={formData.excerpt}
-                    onChange={e => setFormData({...formData, excerpt: e.target.value})}
+                    required 
+                    placeholder="Full blog content..." 
+                    className="min-h-[250px] rounded-xl bg-background border-border focus:ring-2 focus:ring-primary/20 transition-all"
+                    value={formData.content}
+                    onChange={e => setFormData({...formData, content: e.target.value})}
                   />
                 </div>
-              </div>
 
-              <div className="space-y-2">
-                <label className="text-xs font-bold uppercase tracking-wider text-muted-foreground ml-1">Content (HTML allowed)</label>
-                <Textarea 
-                  required 
-                  placeholder="Full blog content..." 
-                  className="min-h-[250px] rounded-xl bg-slate-50 border-transparent focus:bg-white focus:ring-2 focus:ring-primary/20 transition-all"
-                  value={formData.content}
-                  onChange={e => setFormData({...formData, content: e.target.value})}
-                />
-              </div>
-
-              <Button type="submit" disabled={isSaving} className="w-full h-12 rounded-xl text-md font-bold shadow-xl shadow-primary/20">
-                {isSaving ? <Loader2 className="w-5 h-5 animate-spin mr-2" /> : editingBlog ? "Update Post" : "Create Post"}
-              </Button>
-            </form>
-          </DialogContent>
-        </Dialog>
-      </div>
+                <div className="flex gap-3">
+                  <button type="button" onClick={resetForm} className="flex-1 py-3 bg-background text-foreground rounded-xl text-sm border border-border hover:bg-muted transition-colors">Cancel</button>
+                  <Button type="submit" disabled={isSaving} className="flex-1 h-12 rounded-xl text-md font-bold shadow-xl shadow-primary/20">
+                    {isSaving ? <Loader2 className="w-5 h-5 animate-spin mr-2" /> : null}
+                    {editingBlog ? "Update Post" : "Create Post"}
+                  </Button>
+                </div>
+              </form>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       <Card className="p-4 border-none shadow-sm bg-slate-50/50">
         <div className="relative">

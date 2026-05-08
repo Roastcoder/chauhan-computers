@@ -6,11 +6,7 @@ import { useAuth } from "@/lib/auth";
 import loginHero from "@/assets/login-hero.jpg";
 import logoIcon from "@/assets/logo-cc.png";
 
-const DEMO_ACCOUNTS = [
-  { label: "Admin", email: "admin@chauhaan.com", password: "admin123" },
-  { label: "Telecaller", email: "telecaller@chauhaan.com", password: "tele123" },
-  { label: "Customer", email: "customer@chauhaan.com", password: "cust123" },
-];
+
 
 export default function Login() {
   const { signIn, signUp, user, role, loading } = useAuth();
@@ -71,13 +67,7 @@ export default function Login() {
     setSubmitting(false);
   };
 
-  const fillDemo = (demo: typeof DEMO_ACCOUNTS[0]) => {
-    setEmail(demo.email);
-    setPassword(demo.password);
-    setError("");
-    setSuccess("");
-    setMode("login");
-  };
+
 
   const switchMode = (m: "login" | "signup") => {
     setMode(m);
@@ -206,26 +196,7 @@ export default function Login() {
                     <p className="text-sm font-medium text-slate-500 mt-2">Secure access to your enterprise dashboard</p>
                   </div>
 
-                  {/* Demo Account Pills */}
-                  <div className="mb-8">
-                    <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-3 px-1">Quick Access</p>
-                    <div className="flex flex-wrap gap-2">
-                      {DEMO_ACCOUNTS.map((demo) => (
-                        <button
-                          key={demo.label}
-                          type="button"
-                          onClick={() => fillDemo(demo)}
-                          className={`px-4 py-2 rounded-xl text-xs font-bold border transition-all ${
-                            email === demo.email
-                              ? "bg-gradient-to-r from-primary to-blue-600 text-white border-transparent shadow-lg shadow-primary/20"
-                              : "bg-white border-slate-200 text-slate-600 hover:border-primary/30"
-                          }`}
-                        >
-                          {demo.label}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
+
 
                   <form onSubmit={handleLogin} className="space-y-5">
                     <div className="space-y-1.5">
